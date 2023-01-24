@@ -1,0 +1,134 @@
+{% include 'tubby-cares-commitment-heading' %}
+
+<div class="container contain-width-80">
+	<div class="row row-lg text-center">
+		{% if section.settings.image != blank %}
+			<img src="{{ section.settings.image | img_url: '1040x' }}" alt="{% if section.settings.image.alt != '' %}{{ section.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}" class="margin-top margin-bottom">
+		{% endif %}
+		{% if section.settings.intro != '' %}
+			<div class="text-extra-large margin-top margin-bottom">
+				{{ section.settings.intro }}
+			</div>	
+		{% endif %}
+	</div>
+</div>	
+
+<div class="row row-lg padding inline">
+		{% for block in section.blocks %}
+			<div class="s6 sm_s12 lg_s12 block padding-left padding-right">
+				{% if block.settings.image != blank %}
+					<div class="image centered padding">
+						<img src="{{ block.settings.image | img_url: '600x' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+					</div>	
+				{% endif %}
+				<div class="sustainability-content">
+					{% if block.settings.title != blank %}
+						<p>{{ block.settings.title }}</p>
+					{% endif %}
+					{% if block.settings.text != blank %}
+						<p>{{ block.settings.text }}</p>
+					{% endif %}
+				</div>	
+			</div>	
+		{% endfor %}
+	</div>
+
+<style>
+	.commitment-2 {
+		padding-bottom: 40px;
+		background: {{ section.settings.bg_color }};
+        color: #222222;
+	}
+	.sustainability-content {
+  text-align: left;
+  font-size:18px;
+  }
+  p {
+  font-size:20px;
+  color: black;
+  }
+</style>	
+
+{% schema %}
+{
+  "name": "Commitment 2",
+	"class": "commitment-2",
+  "settings": [
+		{
+	    "type": "image_picker",
+	    "id": "icon",
+	    "label": "Heading icon"
+	  },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+			"info": "Displays above heading"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+		{
+	    "type": "image_picker",
+	    "id": "divider",
+	    "label": "Divider image"
+	  },
+		{
+	    "type": "image_picker",
+	    "id": "image",
+	    "label": "Main image"
+	  },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro text"
+    },
+		{
+	    "type": "image_picker",
+	    "id": "accent_image",
+	    "label": "Accent image"
+	  },
+		{
+		   "type": "header",
+		   "content": "Colors"
+		},
+		{
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section background color",
+      "default": "#ffffff"
+    },
+		{
+      "type": "color",
+      "id": "color",
+      "label": "Heading color",
+      "default": "#000000"
+    }
+  ],
+	"blocks": [
+		{
+      "type": "text",
+      "name": "Content Block",
+      "settings": [
+				{
+        	"type": "text",
+        	"id": "title",
+        	"label": "Title"
+       	},
+				{
+				   "type": "textarea",
+				   "id": "text",
+				   "label": "Text"
+				},
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+			]
+		}	
+	]
+}
+{% endschema %}

@@ -1,0 +1,5 @@
+{% assign bubble_total = product.selected_or_first_available_variant.price | times: 5 | divided_by: 100 %}
+
+<div class="bubbles-prompt">
+	<span class="bold"><strong>You'll earn <span class="num-bubbles">{{ bubble_total }}</span> Bubbles with this purchase.</strong></span>{% if customer %}<span class="signup"><a href="https://tubbytodd.com/account/" target="_blank" title="View your bubbles"> View your bubbles</a></span>{% else %}<span class="signup"><a href="https://tubbytodd.com/account/register" target="_blank" title="Sign up for Club Tub"> Sign up for Club Tub</a></span>{% endif %}
+</div>

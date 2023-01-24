@@ -1,0 +1,184 @@
+{% if section.settings.title != blank or section.settings.content != blank or section.settings.cta != blank %}
+<section class="simple-image-text-module container-wrap" id="text-module-{{ section.id }}" data-section-type="rich-text">
+	<div class="container pad-sm">
+		<div class="row row--split row-lg">
+			{% if section.settings.title != blank or section.settings.content != blank %}
+				<div class="rich-content {% if cta == blank %}no-button{% endif %} align--center lg_align--{{ section.settings.heading_align }}">
+					<div class="max-width">
+						{% if section.settings.title != blank %}
+							<h2 class="size--{{ section.settings.heading_size }} text-extra-bold">{{ section.settings.title }}</h2>
+						{% endif %}
+						{% if section.settings.content != blank %}
+							<p class="size--small">{{ section.settings.content }}</p>
+						{% endif %}
+						{% if section.settings.signature_image %}
+							<div class="text-center mini-margin">
+								{{ section.settings.signature_image | img_url: '225x' | img_tag }}
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			{% endif %}
+          
+          {% if section.settings.show_video %}
+				<div class="video">
+					{% if section.settings.image_link %}<a href="{{ section.settings.image_link }}">{% endif %}
+						{{ section.settings.video }}
+					{% if section.settings.image_link %}</a>{% endif %}
+				</div>	
+			{% else %}
+				{% if section.settings.image != blank %}
+					<div class="image">
+						{% if section.settings.image_link %}<a href="{{ section.settings.image_link }}">{% endif %}
+							{{ section.settings.image | img_url: '500x' | img_tag: section.settings.image.alt }}
+						{% if section.settings.image_link %}</a>{% endif %}
+					</div>
+				{% endif %}
+			{% endif %}
+		</div>
+
+		{% if section.settings.cta != blank %}
+			<div class="row row-lg">
+				<div class="button-wrap">
+					<a href="{{ section.settings.link }}" class="button" title="{{ section.settings.cta }}">{{ section.settings.cta }}</a>
+				</div>
+			</div>
+		{% endif %}
+	</div>
+</section>
+{% endif %}
+
+{% if section.settings.bg_color != blank %}
+	<style>
+		.template-full-index #shopify-section-{{ section.id }}.simple-image-with-text:before {
+			background: {{ section.settings.bg_color }} !important;
+		}
+	</style>
+{% else %}	
+	<style>
+		.template-full-index #shopify-section-{{ section.id }}.simple-image-with-text:before {
+			background: #ffffff;
+		}
+	</style>
+{% endif %}
+
+<style>
+	.template-full-index #shopify-section-{{ section.id }}.simple-image-with-text:before {
+		content: '';
+		display: block;
+		position: absolute;
+		top: 20px;
+		left: 0;
+		width: 100%;
+		height: 40vh;
+	}
+	
+	.template-full-index #shopify-section-{{ section.id }}.simple-image-with-text {
+		position: relative;
+	}
+	
+	@media only screen and (min-width: 1800px) {
+		.template-full-index #shopify-section-{{ section.id }}.simple-image-with-text:before {
+			height: 25vh;
+		}
+	}
+</style>
+
+{% comment %} Schema {% endcomment %}
+{% schema %}
+	{
+		"name": "Simple image with text",
+		"class": "simple-image-with-text",
+		"settings": [
+			{
+				"type": "header",
+				"content": "Content"
+			},
+			{
+				"type": "image_picker",
+				"id": "image",
+				"label": "Image"
+			},
+			{
+			   "type": "checkbox",
+			   "id": "show_video",
+			   "label": "Use video instead of image?"
+			},
+			{
+			   "type": "html",
+			   "id": "video",
+			   "label": "Video embed code"
+			},
+			{
+				"type": "url",
+				"id": "image_link",
+				"label": "Image/video link"
+			},
+			{
+				"type": "text",
+				"id": "title",
+				"label": "Heading",
+				"default":"Describe your products or brand in detail here"
+			},
+			{
+				"type": "richtext",
+				"id": "content",
+				"label": "Text",
+				"default":"<p>Modular is a powerful Shopify theme that will set you apart from the rest. It features ample space to showcase your imagery with Mosaic, Gallery, and Slideshow sections.</p>"
+			},
+			{
+				"type": "image_picker",
+				"id": "signature_image",
+				"label": "Signature image"
+			},
+			{
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background color"
+      },
+			{
+				"type": "text",
+				"id": "cta",
+				"label": "Button label"
+			}, 
+			{
+				"type": "url",
+				"id": "link",
+				"label": "Button link"
+			},
+			{
+				"type": "header",
+				"content": "Typography"
+			},
+			{
+				"type": "select",
+				"id": "heading_size",
+				"label": "Heading size",
+				"default": "small",
+				"options": [
+					{ "label": "Small", "value": "small" },
+					{ "label": "Normal", "value": "normal" },
+					{ "label": "Large", "value": "large" },
+					{ "label": "Extra large", "value": "xlarge" }
+				]
+			},
+			{
+				"type": "select",
+				"id": "heading_align",
+				"label": "Heading alignment",
+				"default": "left",
+				"options": [
+					{ "label": "Left", "value": "left" },
+					{ "label": "Center", "value": "center" },
+					{ "label": "Right", "value": "right" }
+				]
+			}
+		],
+		"presets": [
+			{
+				"category": "Image",
+				"name": "Simple image with text"
+			} 
+		]
+	}
+{% endschema %}

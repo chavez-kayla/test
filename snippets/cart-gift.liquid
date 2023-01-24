@@ -1,0 +1,125 @@
+{% assign id = settings.cart_gift_product | plus: 0 %}
+{% assign free_gift_threshold = settings.cart_gift_threshold | remove: '$' | remove: '.00' | times: 100 %}
+
+{% assign free_gifts_in_cart = 0 %}
+{% for item in cart.items %}
+  {% if item.variant.id == id and item.properties != empty %}
+		{% for p in item.properties %}
+			{% if p.first == "_Sale" and p.last == "GWP" %}
+				{% assign free_gifts_in_cart = item.quantity %}
+				{% assign freeProductPrice = item.original_price %}
+			{% endif %}
+		{% endfor %}
+  {% endif %}
+{% endfor %}
+
+{% assign subtotal_price = cart.original_total_price %}
+{% if free_gifts_in_cart > 0 %}
+	{% assign subtotal_price = subtotal_price | minus: freeProductPrice %}
+{% endif %}
+
+<script>
+	Shopify.Cart = Shopify.Cart || {};
+
+	Shopify.Cart.FreeGift = {};
+
+	Shopify.Cart.FreeGift.set = function() {
+		var data = {
+		  quantity: 1,
+		  id: {{ id }},
+		  properties: {
+		    '_Sale': 'GWP'
+		  }
+		}
+		jQuery.post('/cart/add.js', data, Shopify.Cart.FreeGift.setAttribute, 'json');
+	}
+
+	Shopify.Cart.FreeGift.remove = function() {
+	  jQuery.ajax({
+	    type: 'POST',
+	    url: '/cart/update.js',
+	    data: { updates: { {{ id }}: 0 }, attributes: { 'free-gift': '' } }, 
+	    dataType: 'json',
+	    success: function() { location.href = '/cart'; }
+	  });
+	}
+
+	Shopify.Cart.FreeGift.setAttribute = function() {
+	  jQuery.ajax({
+	    type: 'POST',
+	    url: '/cart/update.js',
+	    data: { attributes: { 'free-gift': true } }, 
+	    dataType: 'json',
+	    success: function() {
+				createCookie('freeGiftAdded', true, 1);
+				location.href = '/cart';
+			}
+	  });
+	}
+</script>
+
+{% if subtotal_price >= free_gift_threshold and settings.cart_gift_product_label != blank %}
+	<div id="free" style="clear: left;" class="clearfix rte">
+	  <p>
+	    <input type="hidden" name="attributes[free-gift]" value="" />
+	    <input id="free-gift" type="checkbox" name="attributes[free-gift]" value="yes"{% if cart.attributes.free-gift %} checked="checked"{% endif %} />
+	    <label for="free-gift" class="order-notes__label">
+				{% assign threshold_money = free_gift_threshold | money | remove: '.00' %}
+				{{ settings.cart_gift_product_label | replace: '[money]', threshold_money }}
+			</label>
+			{%- if is_mixed_cart and settings.cart_gift_subscribe_note != blank -%}
+				<br /><span class="order-notes__label text-light">{{ settings.cart_gift_subscribe_note }}</span>
+			{%- endif -%}
+	  </p>
+	</div>
+
+	<script>
+	// If we have nothing but free-gift items in the cart.
+	{% if cart.items.size == 1 and free_gifts_in_cart > 0 %}
+		jQuery(function() {
+		  Shopify.Cart.FreeGift.remove();
+		});
+	// If the free-gift item has not been automatically added, add it
+	{% elsif cart.items.size >= 1 and free_gifts_in_cart == 0 %}
+		jQuery(function() {
+			if( readCookie('freeGiftAdded') == null ) {
+			  Shopify.Cart.FreeGift.set();
+			}
+		});
+	// If we have more than one free-gift item in the cart.
+	{% elsif free_gifts_in_cart > 1 %}
+		jQuery(function() {
+		  //Shopify.Cart.FreeGift.set();
+		});
+	{% endif %}
+	// If we have a free-gift item in the cart but our free-gift cart attribute has not been set.
+	{% if free_gifts_in_cart > 0 and cart.attributes.free-gift == blank  %}
+		jQuery(function() {
+		  Shopify.Cart.FreeGift.setAttribute();
+		});
+	// If we have no free-gift item in the cart but our free-gift cart attribute has been set.
+	{% elsif free_gifts_in_cart == 0 and cart.attributes.free-gift != blank  %}
+		jQuery(function() {
+		  Shopify.Cart.FreeGift.set();
+		});
+	{% endif %}
+
+	// When the free-gift checkbox is checked or unchecked.
+	jQuery(function() {
+	  jQuery('[name="attributes\[free-gift\]"]').change(function() {
+	    if (jQuery(this).is(':checked')) {
+	      Shopify.Cart.FreeGift.set();    
+	    }
+	    else {
+	      Shopify.Cart.FreeGift.remove();
+	    }
+	  });
+	});
+	</script>
+{% elsif subtotal_price < free_gift_threshold and free_gifts_in_cart > 0 %}
+	<script>
+		jQuery(function() {
+		  Shopify.Cart.FreeGift.remove();
+		});
+	</script>
+{% endif %}

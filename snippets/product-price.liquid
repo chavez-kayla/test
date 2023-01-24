@@ -1,0 +1,9 @@
+{% unless product.metafields.custom_fields["hide_pricing"] == 1 %}
+	<div class="product-price" data-price="{{ product.price }}">
+		<div class="sale" {% unless on_sale %}style="display: none;"{% endunless %}>
+			<span><span class="clipped">Price Reduced From: </span><s class="product-compare-price">{{ product.compare_at_price | money_without_trailing_zeros }}</s>&nbsp;</span>
+			<span class="product-sale-price" itemprop="price">{{ product.price | money_without_trailing_zeros }}</span>
+		</div>
+		<div class="product-normal-price" itemprop="price" {% if on_sale %}style="display: none;"{% endif %}>{{ product.price | money_without_trailing_zeros }}</div>
+	</div>
+{% endunless %}

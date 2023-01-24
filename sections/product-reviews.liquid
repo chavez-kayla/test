@@ -1,0 +1,210 @@
+{% if section.settings.show_reviews or section.settings.show_featured_reviews %}
+	<div id="reviews" class="product-reviews--container pad-sm" {{ block.shopify_attributes }}>
+		<div class="container">
+			{% if section.settings.title %}
+				{% unless section.settings.use_default_featured_reviews == false and product.metafields.custom_fields["featured_review_1"] == blank %}
+					<h2 class="size--large text-center margin-bottom">{{ section.settings.title }}</h2>
+				{% endunless %}
+			{% endif %}
+			{% if section.settings.show_disclaimer %}
+				<div class="row row-sm">
+					<p class="text-small italic">{{ section.settings.disclaimer }}</p>
+				</div>	
+			{% endif %}
+			{% if section.settings.show_featured_reviews %}
+			
+				{% if product.metafields.custom_fields["featured_review_1_image"] != blank %}
+					{% assign featured_review_1_image = product.metafields.custom_fields["featured_review_1_image"] %}
+				{% elsif section.settings.use_default_featured_reviews %}
+					{% assign featured_review_1_image = section.settings.default_featured_review_1_image | img_url: '600x' %}
+				{% endif %}
+				{% if product.metafields.custom_fields["featured_review_1"] != blank %}
+					{% assign featured_review_1 = product.metafields.custom_fields["featured_review_1"] | strip  %}
+					{% assign size = featured_review_1 | size | minus: 4 %}
+					{% assign featured_review_1 = featured_review_1 | slice: 0, size | replace_first: '<p>', '<p>"' | append: '"</p>' %}
+				{% elsif section.settings.use_default_featured_reviews %}
+					{% assign featured_review_1 = section.settings.default_featured_review_1 | strip | prepend: '<p>"' | append: '"</p>' %}
+				{% endif %}
+				{% if product.metafields.custom_fields["featured_review_1_author"] != blank %}
+					{% assign featured_review_1_author = product.metafields.custom_fields["featured_review_1_author"] %}
+				{% elsif section.settings.use_default_featured_reviews %}
+					{% assign featured_review_1_author = section.settings.default_featured_review_1_author %}
+				{% endif %}
+				
+				{% if product.metafields.custom_fields["featured_review_2_image"] != blank %}
+					{% assign featured_review_2_image = product.metafields.custom_fields["featured_review_2_image"] %}
+				{% elsif section.settings.use_default_featured_reviews %}
+					{% assign featured_review_2_image = section.settings.default_featured_review_2_image | img_url: '600x' %}
+				{% endif %}
+				{% if product.metafields.custom_fields["featured_review_2"] != blank %}
+					{% assign featured_review_2 = product.metafields.custom_fields["featured_review_2"] | strip  %}
+					{% assign size = featured_review_2 | size | minus: 4 %}
+					{% assign featured_review_2 = featured_review_2 | slice: 0, size | replace_first: '<p>', '<p>"' | append: '"</p>' %}
+				{% elsif section.settings.use_default_featured_reviews %}
+					{% assign featured_review_2 = section.settings.default_featured_review_2 | strip | prepend: '<p>"' | append: '"</p>' %}
+				{% endif %}
+				{% if product.metafields.custom_fields["featured_review_2_author"] != blank %}
+					{% assign featured_review_2_author = product.metafields.custom_fields["featured_review_2_author"] %}
+				{% elsif section.settings.use_default_featured_reviews %}
+					{% assign featured_review_2_author = section.settings.default_featured_review_2_author %}
+				{% endif %}
+			
+				{% if featured_review_1 != blank or featured_review_2 != blank  %}
+					<div class="featured_reviews section-margin-bottom row inline row-lg">
+						{% if featured_review_1 != blank %}
+							<div class="block s1 med_s12 padding no-padding-bottom">
+								{% if featured_review_1_image != blank %}
+									<div class="image s1 med_s25 float-left">
+										<img src="{{ featured_review_1_image }}" alt="Testimonial from {{ featured_review_1_author | escape }}">
+									</div>
+								{% endif %}
+								{% assign size = featured_review_1 | size | minus: 4 %}
+								<div class="mini-margin-top">{{ featured_review_1 }}</div>
+								{% if featured_review_1_author != blank %}<p>— {{ featured_review_1_author }}</p>{% endif %}
+							</div>
+						{% endif %}
+						{% if featured_review_2 != blank %}
+							<div class="block s1 med_s12 padding no-padding-bottom">
+								{% if featured_review_2_image != blank %}
+									<div class="image s1 med_s25 float-left">
+										<img src="{{ featured_review_2_image }}" alt="Testimonial from {{ featured_review_2_author | escape }}">
+									</div>
+								{% endif %}
+								{% assign size = featured_review_2 | size | minus: 4 %}
+								<div class="mini-margin-top">{{ featured_review_2 }}</div>
+								{% if featured_review_2_author != blank %}<p>— {{ featured_review_2_author }}</p>{% endif %}
+							</div>
+						{% endif %}
+					</div>
+				{% endif %}
+			{% endif %}
+			
+			{% if section.settings.show_reviews %}
+				<div class="row row-lg">
+					{% if section.settings.source == "loox" %}
+					
+						{% if product.metafields.loox.num_reviews %}
+							<script id="looxSchemaJson" type="application/ld+json">
+							{
+								"@context": "http://schema.org",
+								"@type": "Product",
+								"@id": {{ canonical_url | json }},
+								"aggregateRating": {
+									"@type": "AggregateRating",
+									"ratingValue": "{{ product.metafields.loox.avg_rating }}",
+									"reviewCount": "{{ product.metafields.loox.num_reviews }}"
+								},
+								"name": {{ product.title | json }}
+							}
+							</script>
+						{% endif %}
+						
+						<div id="looxReviews" data-product-id="{{product.id}}" class="loox-reviews-default">{{ product.metafields.loox.reviews }}</div>
+					{% else %}
+						<div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
+					{% endif %}
+				</div>
+			{% endif %}
+			
+		</div>
+	</div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Product reviews",
+    "settings": [
+			{
+	      "type": "text",
+	      "id": "title",
+	      "label": "Heading",
+	      "default":"Reviews"
+	    },
+			{
+	      "type": "header",
+	      "content": "Featured Reviews"
+	    },
+	    {
+	      "type": "checkbox",
+	      "id": "show_featured_reviews",
+	      "label": "Show featured reviews",
+	      "default": true,
+				"info": "Featured reviews will pull from product custom fields, or use the default reviews chosen here if no custom fields are found"
+	    },
+	    {
+	      "type": "checkbox",
+	      "id": "use_default_featured_reviews",
+	      "label": "Use default featured reviews",
+	      "default": true
+	    },
+			{
+				"type": "checkbox",
+				"id": "show_disclaimer",
+				"label": "Show disclaimer",
+				"default": true
+			},
+			{
+				"type": "textarea",
+				"id": "disclaimer",
+				"label": "Disclaimer"
+			},
+			{
+	      "type": "image_picker",
+	      "id": "default_featured_review_1_image",
+	      "label": "Default Featured Review 1 Image"
+	    },
+			{
+	      "type": "textarea",
+	      "id": "default_featured_review_1",
+	      "label": "Default Featured Review 1"
+	    },
+			{
+	      "type": "text",
+	      "id": "default_featured_review_1_author",
+	      "label": "Default Featured Review 1 Author"
+	    },
+			{
+	      "type": "image_picker",
+	      "id": "default_featured_review_2_image",
+	      "label": "Default Featured Review 2 Image"
+	    },
+			{
+	      "type": "textarea",
+	      "id": "default_featured_review_2",
+	      "label": "Default Featured Review 2"
+	    },
+			{
+	      "type": "text",
+	      "id": "default_featured_review_2_author",
+	      "label": "Default Featured Review 2 Author"
+	    },
+			{
+	      "type": "header",
+	      "content": "Reviews"
+	    },
+	    {
+	      "type": "checkbox",
+	      "id": "show_reviews",
+	      "label": "Show reviews",
+	      "default": true,
+				"info": "Reviews will pull from the source chosen below"
+	    },
+			{
+				"type": "select",
+				"id": "source",
+				"label": "Reviews Source",
+				"options": [
+					{
+						"value": "shopify",
+						"label": "Shopify"
+					},
+					{
+						"value": "loox",
+						"label": "Loox"
+					}
+				],
+				"default": "shopify"
+			}
+		]
+  }
+{% endschema %}

@@ -1,0 +1,43 @@
+<section class="page-title text-center container-wrap">
+  <div class="container">
+    <div class="row row-sm inline u-center">
+      <h1>{{ section.settings.title }}</h1>
+			<h2 class="h1">{{ section.settings.subtitle }}</h2>
+    </div>
+  </div>
+</section>
+
+{% if section.settings.featured_image %}
+	<div class="container-wrap">
+	  <div class="container">
+	    <div class="row row-sm u-center">
+				<div class="featured_image margin">
+					{{ section.settings.featured_image | img_url: '500x' | img_tag }}
+				</div>				
+	    </div>
+	  </div>
+	</div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "404 page",
+  "settings": [
+		{
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+		{
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading"
+    },
+    {
+      "type": "image_picker",
+      "id": "featured_image",
+      "label": "Featured Image"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,129 @@
+{% include 'tubby-cares-commitment-heading' %}
+
+<div class="container contain-width-80">
+	<div class="row row-lg text-center">
+		{% if section.settings.product_cert != blank %}
+			<img src="{{ section.settings.product_cert | img_url: '300x' }}" alt="{% if section.settings.product_cert.alt != '' %}{{ section.settings.product_cert.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}" style="max-width: 150px;" class="mini-margin-top mini-margin-bottom">
+		{% endif %}
+		{% if section.settings.intro != '' %}
+			<div class="text-extra-large margin-top margin-bottom">
+				{{ section.settings.intro }}
+			</div>	
+		{% endif %}
+		{% if section.settings.highlighted_text != '' %}
+			<div class="text-extra-large bold padding-top">
+				{{ section.settings.highlighted_text }}
+			</div>	
+		{% endif %}
+	</div>
+</div>	
+
+<div class="simple-image-text-module container-wrap featured-product" data-section-type="rich-text">
+	<div class="container">
+		<div class="row row--split row-lg">
+			<div class="rich-content no-button align--left lg_align--left padding">
+				<div class="max-width">	
+					<h2 class="size--xlarge text-bold">{{ section.settings.half_title }}</h2>
+					<div class="size--xlarge">
+						{{ section.settings.half_text | newline_to_br }}
+					</div>
+				</div>
+			</div>
+			<div class="image no-padding-left">
+				<a href="{{ section.settings.half_image | img_url: '1024x' }}" class="collection-image-lightbox">
+					<img src="{{ section.settings.half_image | img_url: '1024x' }}" alt="{% if section.settings.half_image.alt != '' %}{{ section.settings.half_image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+	
+<style>
+	.commitment-1 {
+		margin-top: 50px;
+		padding-bottom: 40px;
+		background: {{ section.settings.bg_color }};
+	}
+</style>		
+	
+
+{% schema %}
+{
+  "name": "Commitment 1",
+	"class": "commitment-1",
+  "settings": [
+		{
+	    "type": "image_picker",
+	    "id": "icon",
+	    "label": "Heading icon"
+	  },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+			"info": "Displays above heading"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+		{
+	    "type": "image_picker",
+	    "id": "divider",
+	    "label": "Divider image"
+	  },
+		{
+	    "type": "image_picker",
+	    "id": "product_cert",
+	    "label": "Product certifications image"
+	  },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro text"
+    },
+    {
+      "type": "textarea",
+      "id": "highlighted_text",
+      "label": "Highlighted text",
+			"info": "Displays large and bold"
+    },
+		{
+		   "type": "header",
+		   "content": "Text and Image"
+		},
+		{
+    	"type": "text",
+    	"id": "half_title",
+    	"label": "Title"
+   	},
+		{
+		   "type": "richtext",
+		   "id": "half_text",
+		   "label": "Text"
+		},
+		{
+	    "type": "image_picker",
+	    "id": "half_image",
+	    "label": "Image"
+	  },
+		{
+		   "type": "header",
+		   "content": "Colors"
+		},
+		{
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section background color",
+      "default": "#ffffff"
+    },
+		{
+      "type": "color",
+      "id": "color",
+      "label": "Heading color",
+      "default": "#000000"
+    }
+  ]
+}
+{% endschema %}

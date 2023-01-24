@@ -1,0 +1,25 @@
+{% if collection.metafields.custom_fields["read_more_collection_content"] != blank %}
+{% assign data_attr = shop.metafields._cf_collections["read_more_collection_content"].data_attr %}
+<div class="cf-widget-read-more-collection-content cf-widget__accordion cf-auto-init" {{ data_attr }}>
+  <div class="cf-widget-items-wrapper">
+    {% for item in collection.metafields.custom_fields["read_more_collection_content"] %}
+    <div class="cf-widget-item" data-index="{{ forloop.index0 }}">
+      <div class="cf-accordion-title">
+        {{ item.title }}
+      </div>
+      <div class="inner">
+        <div class="inner-padding">
+          
+            {% if item.body != blank %}
+            <div class="cf-widget-field cf-widget-field__body cf-widget-field--html">
+              {{ item.body }}
+            </div>
+            {% endif %}
+          
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}

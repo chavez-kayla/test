@@ -1,0 +1,520 @@
+<div class="custom-fields-section">
+  
+    {% if resource_type == "collections" %}
+    <div class="custom-fields-section__collections">
+      {% for block in blocks %}
+      {% if block.type contains "cf_" %}
+      <div class="custom-fields-section__item custom-fields-section__item--{{ block.type }} custom-fields-section__item--{{ block.type }}--{{ block.settings.key }}" {{ block.shopify_attributes }}>
+        {% case block.settings.key %}
+        
+          {% when "add_image" %}
+            {% render "custom_fields.collections.add_image" %}
+        
+          {% when "featured_banner_width" %}
+            {% render "custom_fields.collections.featured_banner_width" %}
+        
+          {% when "featured_content" %}
+            {% render "custom_fields.collections.featured_content" %}
+        
+          {% when "featured_content_band_height" %}
+            {% render "custom_fields.collections.featured_content_band_height" %}
+        
+          {% when "featured_content_bg_color" %}
+            {% render "custom_fields.collections.featured_content_bg_color" %}
+        
+          {% when "featured_content_image" %}
+            {% render "custom_fields.collections.featured_content_image" %}
+        
+          {% when "featured_content_text" %}
+            {% render "custom_fields.collections.featured_content_text" %}
+        
+          {% when "featured_content_text_color" %}
+            {% render "custom_fields.collections.featured_content_text_color" %}
+        
+          {% when "featured_content_title" %}
+            {% render "custom_fields.collections.featured_content_title" %}
+        
+          {% when "featured_content_title_color" %}
+            {% render "custom_fields.collections.featured_content_title_color" %}
+        
+          {% when "featured_content_type" %}
+            {% render "custom_fields.collections.featured_content_type" %}
+        
+          {% when "featured_content_video" %}
+            {% render "custom_fields.collections.featured_content_video" %}
+        
+          {% when "featured_footer_banner" %}
+            {% render "custom_fields.collections.featured_footer_banner" %}
+        
+          {% when "featured_footer_banner_text" %}
+            {% render "custom_fields.collections.featured_footer_banner_text" %}
+        
+          {% when "featured_image_banner" %}
+            {% render "custom_fields.collections.featured_image_banner" %}
+        
+          {% when "featured_image_banner_mobile" %}
+            {% render "custom_fields.collections.featured_image_banner_mobile" %}
+        
+          {% when "featured_product" %}
+            {% render "custom_fields.collections.featured_product" %}
+        
+          {% when "featured_product_above" %}
+            {% render "custom_fields.collections.featured_product_above" %}
+        
+          {% when "featured_product_bg_color" %}
+            {% render "custom_fields.collections.featured_product_bg_color" %}
+        
+          {% when "featured_product_image" %}
+            {% render "custom_fields.collections.featured_product_image" %}
+        
+          {% when "featured_product_tagline" %}
+            {% render "custom_fields.collections.featured_product_tagline" %}
+        
+          {% when "featured_product_text" %}
+            {% render "custom_fields.collections.featured_product_text" %}
+        
+          {% when "featured_product_text_color" %}
+            {% render "custom_fields.collections.featured_product_text_color" %}
+        
+          {% when "featured_product_title" %}
+            {% render "custom_fields.collections.featured_product_title" %}
+        
+          {% when "featured_product_title_color" %}
+            {% render "custom_fields.collections.featured_product_title_color" %}
+        
+          {% when "featured_video_banner" %}
+            {% render "custom_fields.collections.featured_video_banner" %}
+        
+          {% when "main_title_color" %}
+            {% render "custom_fields.collections.main_title_color" %}
+        
+          {% when "password" %}
+            {% render "custom_fields.collections.password" %}
+        
+          {% when "privacy" %}
+            {% render "custom_fields.collections.privacy" %}
+        
+          {% when "privacy_description" %}
+            {% render "custom_fields.collections.privacy_description" %}
+        
+          {% when "private" %}
+            {% render "custom_fields.collections.private" %}
+        
+          {% when "read_more_collection_content" %}
+            {% render "custom_fields.collections.read_more_collection_content" %}
+        
+          {% when "sku_restrictions" %}
+            {% render "custom_fields.collections.sku_restrictions" %}
+        
+          {% when "subtitle" %}
+            {% render "custom_fields.collections.subtitle" %}
+        
+          {% when "subtitle_above" %}
+            {% render "custom_fields.collections.subtitle_above" %}
+        
+          {% when "title_background_color" %}
+            {% render "custom_fields.collections.title_background_color" %}
+        
+          {% when "title_divider" %}
+            {% render "custom_fields.collections.title_divider" %}
+        
+          {% when "url" %}
+            {% render "custom_fields.collections.url" %}
+        
+        {% endcase %}
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+  
+    {% if resource_type == "pages" %}
+    <div class="custom-fields-section__pages">
+      {% for block in blocks %}
+      {% if block.type contains "cf_" %}
+      <div class="custom-fields-section__item custom-fields-section__item--{{ block.type }} custom-fields-section__item--{{ block.type }}--{{ block.settings.key }}" {{ block.shopify_attributes }}>
+        {% case block.settings.key %}
+        
+          {% when "embe" %}
+            {% render "custom_fields.pages.embe" %}
+        
+          {% when "featured_banner_width" %}
+            {% render "custom_fields.pages.featured_banner_width" %}
+        
+          {% when "featured_contact_form" %}
+            {% render "custom_fields.pages.featured_contact_form" %}
+        
+          {% when "featured_contact_page" %}
+            {% render "custom_fields.pages.featured_contact_page" %}
+        
+          {% when "featured_contact_page_banner" %}
+            {% render "custom_fields.pages.featured_contact_page_banner" %}
+        
+          {% when "featured_content_2_bg_col" %}
+            {% render "custom_fields.pages.featured_content_2_bg_col" %}
+        
+          {% when "featured_content_2_bg_color" %}
+            {% render "custom_fields.pages.featured_content_2_bg_color" %}
+        
+          {% when "featured_content_2_image" %}
+            {% render "custom_fields.pages.featured_content_2_image" %}
+        
+          {% when "featured_content_2_outro" %}
+            {% render "custom_fields.pages.featured_content_2_outro" %}
+        
+          {% when "featured_content_2_outro_img" %}
+            {% render "custom_fields.pages.featured_content_2_outro_img" %}
+        
+          {% when "featured_content_2_text" %}
+            {% render "custom_fields.pages.featured_content_2_text" %}
+        
+          {% when "featured_content_2_text_color" %}
+            {% render "custom_fields.pages.featured_content_2_text_color" %}
+        
+          {% when "featured_content_2_title" %}
+            {% render "custom_fields.pages.featured_content_2_title" %}
+        
+          {% when "featured_content_2_type" %}
+            {% render "custom_fields.pages.featured_content_2_type" %}
+        
+          {% when "featured_content_band_height" %}
+            {% render "custom_fields.pages.featured_content_band_height" %}
+        
+          {% when "featured_content_bg_color" %}
+            {% render "custom_fields.pages.featured_content_bg_color" %}
+        
+          {% when "featured_content_bg_color_1" %}
+            {% render "custom_fields.pages.featured_content_bg_color_1" %}
+        
+          {% when "featured_content_bg_color_2" %}
+            {% render "custom_fields.pages.featured_content_bg_color_2" %}
+        
+          {% when "featured_content_image" %}
+            {% render "custom_fields.pages.featured_content_image" %}
+        
+          {% when "featured_content_image_1" %}
+            {% render "custom_fields.pages.featured_content_image_1" %}
+        
+          {% when "featured_content_image_2" %}
+            {% render "custom_fields.pages.featured_content_image_2" %}
+        
+          {% when "featured_content_page" %}
+            {% render "custom_fields.pages.featured_content_page" %}
+        
+          {% when "featured_content_subtitle" %}
+            {% render "custom_fields.pages.featured_content_subtitle" %}
+        
+          {% when "featured_content_text" %}
+            {% render "custom_fields.pages.featured_content_text" %}
+        
+          {% when "featured_content_text_1" %}
+            {% render "custom_fields.pages.featured_content_text_1" %}
+        
+          {% when "featured_content_text_2" %}
+            {% render "custom_fields.pages.featured_content_text_2" %}
+        
+          {% when "featured_content_text_color" %}
+            {% render "custom_fields.pages.featured_content_text_color" %}
+        
+          {% when "featured_content_text_color_1" %}
+            {% render "custom_fields.pages.featured_content_text_color_1" %}
+        
+          {% when "featured_content_text_color_2" %}
+            {% render "custom_fields.pages.featured_content_text_color_2" %}
+        
+          {% when "featured_content_title" %}
+            {% render "custom_fields.pages.featured_content_title" %}
+        
+          {% when "featured_content_title_1" %}
+            {% render "custom_fields.pages.featured_content_title_1" %}
+        
+          {% when "featured_content_title_2" %}
+            {% render "custom_fields.pages.featured_content_title_2" %}
+        
+          {% when "featured_content_title_2_color" %}
+            {% render "custom_fields.pages.featured_content_title_2_color" %}
+        
+          {% when "featured_content_title_color" %}
+            {% render "custom_fields.pages.featured_content_title_color" %}
+        
+          {% when "featured_content_type" %}
+            {% render "custom_fields.pages.featured_content_type" %}
+        
+          {% when "featured_content_video" %}
+            {% render "custom_fields.pages.featured_content_video" %}
+        
+          {% when "featured_content_video_2" %}
+            {% render "custom_fields.pages.featured_content_video_2" %}
+        
+          {% when "featured_footer_banner" %}
+            {% render "custom_fields.pages.featured_footer_banner" %}
+        
+          {% when "featured_footer_banner_text" %}
+            {% render "custom_fields.pages.featured_footer_banner_text" %}
+        
+          {% when "featured_image_banner" %}
+            {% render "custom_fields.pages.featured_image_banner" %}
+        
+          {% when "featured_image_banner_mobile" %}
+            {% render "custom_fields.pages.featured_image_banner_mobile" %}
+        
+          {% when "featured_text_bar_accent_image" %}
+            {% render "custom_fields.pages.featured_text_bar_accent_image" %}
+        
+          {% when "featured_text_bar_bg_color" %}
+            {% render "custom_fields.pages.featured_text_bar_bg_color" %}
+        
+          {% when "featured_text_bar_body" %}
+            {% render "custom_fields.pages.featured_text_bar_body" %}
+        
+          {% when "featured_text_bar_text_color" %}
+            {% render "custom_fields.pages.featured_text_bar_text_color" %}
+        
+          {% when "featured_text_bar_title" %}
+            {% render "custom_fields.pages.featured_text_bar_title" %}
+        
+          {% when "featured_video_banner" %}
+            {% render "custom_fields.pages.featured_video_banner" %}
+        
+          {% when "feature_landing_page_text" %}
+            {% render "custom_fields.pages.feature_landing_page_text" %}
+        
+          {% when "main_title_color" %}
+            {% render "custom_fields.pages.main_title_color" %}
+        
+          {% when "masonry_items" %}
+            {% render "custom_fields.pages.masonry_items" %}
+        
+          {% when "masonry_items_title" %}
+            {% render "custom_fields.pages.masonry_items_title" %}
+        
+          {% when "page_rows" %}
+            {% render "custom_fields.pages.page_rows" %}
+        
+          {% when "password" %}
+            {% render "custom_fields.pages.password" %}
+        
+          {% when "privacy" %}
+            {% render "custom_fields.pages.privacy" %}
+        
+          {% when "privacy_description" %}
+            {% render "custom_fields.pages.privacy_description" %}
+        
+          {% when "private" %}
+            {% render "custom_fields.pages.private" %}
+        
+          {% when "title_background_color" %}
+            {% render "custom_fields.pages.title_background_color" %}
+        
+          {% when "title_divider" %}
+            {% render "custom_fields.pages.title_divider" %}
+        
+        {% endcase %}
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+  
+    {% if resource_type == "products" %}
+    <div class="custom-fields-section__products">
+      {% for block in blocks %}
+      {% if block.type contains "cf_" %}
+      <div class="custom-fields-section__item custom-fields-section__item--{{ block.type }} custom-fields-section__item--{{ block.type }}--{{ block.settings.key }}" {{ block.shopify_attributes }}>
+        {% case block.settings.key %}
+        
+          {% when "faqs" %}
+            {% render "custom_fields.products.faqs" %}
+        
+          {% when "featured_content_1_image" %}
+            {% render "custom_fields.products.featured_content_1_image" %}
+        
+          {% when "featured_content_1_image_hover" %}
+            {% render "custom_fields.products.featured_content_1_image_hover" %}
+        
+          {% when "featured_content_1_text" %}
+            {% render "custom_fields.products.featured_content_1_text" %}
+        
+          {% when "featured_content_1_title" %}
+            {% render "custom_fields.products.featured_content_1_title" %}
+        
+          {% when "featured_content_2_bg_color" %}
+            {% render "custom_fields.products.featured_content_2_bg_color" %}
+        
+          {% when "featured_content_2_image" %}
+            {% render "custom_fields.products.featured_content_2_image" %}
+        
+          {% when "featured_content_2_image_hover" %}
+            {% render "custom_fields.products.featured_content_2_image_hover" %}
+        
+          {% when "featured_content_2_text" %}
+            {% render "custom_fields.products.featured_content_2_text" %}
+        
+          {% when "featured_content_2_title" %}
+            {% render "custom_fields.products.featured_content_2_title" %}
+        
+          {% when "featured_content_bg_color" %}
+            {% render "custom_fields.products.featured_content_bg_color" %}
+        
+          {% when "featured_content_color" %}
+            {% render "custom_fields.products.featured_content_color" %}
+        
+          {% when "featured_footer_banner_alt" %}
+            {% render "custom_fields.products.featured_footer_banner_alt" %}
+        
+          {% when "featured_footer_banner_link" %}
+            {% render "custom_fields.products.featured_footer_banner_link" %}
+        
+          {% when "featured_footer_banner_mobile" %}
+            {% render "custom_fields.products.featured_footer_banner_mobile" %}
+        
+          {% when "featured_footer_image_banner" %}
+            {% render "custom_fields.products.featured_footer_image_banner" %}
+        
+          {% when "featured_image_banner" %}
+            {% render "custom_fields.products.featured_image_banner" %}
+        
+          {% when "featured_image_banner_alt" %}
+            {% render "custom_fields.products.featured_image_banner_alt" %}
+        
+          {% when "featured_image_banner_group" %}
+            {% render "custom_fields.products.featured_image_banner_group" %}
+        
+          {% when "featured_image_banner_link" %}
+            {% render "custom_fields.products.featured_image_banner_link" %}
+        
+          {% when "featured_image_banner_mobile" %}
+            {% render "custom_fields.products.featured_image_banner_mobile" %}
+        
+          {% when "featured_reviews" %}
+            {% render "custom_fields.products.featured_reviews" %}
+        
+          {% when "featured_review_1" %}
+            {% render "custom_fields.products.featured_review_1" %}
+        
+          {% when "featured_review_1_author" %}
+            {% render "custom_fields.products.featured_review_1_author" %}
+        
+          {% when "featured_review_1_image" %}
+            {% render "custom_fields.products.featured_review_1_image" %}
+        
+          {% when "featured_review_2" %}
+            {% render "custom_fields.products.featured_review_2" %}
+        
+          {% when "featured_review_2_author" %}
+            {% render "custom_fields.products.featured_review_2_author" %}
+        
+          {% when "featured_review_2_image" %}
+            {% render "custom_fields.products.featured_review_2_image" %}
+        
+          {% when "featured_video" %}
+            {% render "custom_fields.products.featured_video" %}
+        
+          {% when "fragrance_family" %}
+            {% render "custom_fields.products.fragrance_family" %}
+        
+          {% when "hide_guarantee" %}
+            {% render "custom_fields.products.hide_guarantee" %}
+        
+          {% when "hide_ingredients" %}
+            {% render "custom_fields.products.hide_ingredients" %}
+        
+          {% when "hide_pricing" %}
+            {% render "custom_fields.products.hide_pricing" %}
+        
+          {% when "hide_promise_box" %}
+            {% render "custom_fields.products.hide_promise_box" %}
+        
+          {% when "hide_quantity" %}
+            {% render "custom_fields.products.hide_quantity" %}
+        
+          {% when "ingredients" %}
+            {% render "custom_fields.products.ingredients" %}
+        
+          {% when "key_notes" %}
+            {% render "custom_fields.products.key_notes" %}
+        
+          {% when "scent_type" %}
+            {% render "custom_fields.products.scent_type" %}
+        
+          {% when "show-hide" %}
+            {% render "custom_fields.products.show-hide" %}
+        
+          {% when "subtitle" %}
+            {% render "custom_fields.products.subtitle" %}
+        
+          {% when "uses" %}
+            {% render "custom_fields.products.uses" %}
+        
+          {% when "whats_included" %}
+            {% render "custom_fields.products.whats_included" %}
+        
+          {% when "whats_included_accent_image" %}
+            {% render "custom_fields.products.whats_included_accent_image" %}
+        
+          {% when "whats_included_bg_color" %}
+            {% render "custom_fields.products.whats_included_bg_color" %}
+        
+          {% when "whats_included_color" %}
+            {% render "custom_fields.products.whats_included_color" %}
+        
+          {% when "whats_included_image" %}
+            {% render "custom_fields.products.whats_included_image" %}
+        
+          {% when "whats_included_items" %}
+            {% render "custom_fields.products.whats_included_items" %}
+        
+          {% when "whats_included_items_title" %}
+            {% render "custom_fields.products.whats_included_items_title" %}
+        
+          {% when "whats_included_text" %}
+            {% render "custom_fields.products.whats_included_text" %}
+        
+          {% when "whats_included_title" %}
+            {% render "custom_fields.products.whats_included_title" %}
+        
+        {% endcase %}
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+  
+    {% if resource_type == "shop" %}
+    <div class="custom-fields-section__shop">
+      {% for block in blocks %}
+      {% if block.type contains "cf_" %}
+      <div class="custom-fields-section__item custom-fields-section__item--{{ block.type }} custom-fields-section__item--{{ block.type }}--{{ block.settings.key }}" {{ block.shopify_attributes }}>
+        {% case block.settings.key %}
+        
+          {% when "fragrance_swatches" %}
+            {% render "custom_fields.shop.fragrance_swatches" %}
+        
+          {% when "ingredients" %}
+            {% render "custom_fields.shop.ingredients" %}
+        
+        {% endcase %}
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+  
+    {% if resource_type == "customers" %}
+    <div class="custom-fields-section__customers">
+      {% for block in blocks %}
+      {% if block.type contains "cf_" %}
+      <div class="custom-fields-section__item custom-fields-section__item--{{ block.type }} custom-fields-section__item--{{ block.type }}--{{ block.settings.key }}" {{ block.shopify_attributes }}>
+        {% case block.settings.key %}
+        
+          {% when "influencer_level" %}
+            {% render "custom_fields.customers.influencer_level" %}
+        
+        {% endcase %}
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+  
+</div>

@@ -1,0 +1,8 @@
+{% if collection.metafields.custom_fields["featured_content_video"] != blank %}
+  <div class="custom-field custom-field__featured-content-video custom-field__type--embed">
+    <h3 class="custom-field--title">Featured Content Video</h3>
+    <div class="custom-field--value">
+      {{ collection.metafields.custom_fields["featured_content_video"] }}
+    </div>
+  </div>
+{% endif %}

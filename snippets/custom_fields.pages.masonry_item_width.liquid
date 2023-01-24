@@ -1,0 +1,13 @@
+{% comment %}
+  DO NOT MODIFY THIS FILE DIRECTLY. THIS FILE WILL BE OVERWRITTEN.
+  YOU CAN MODIFY THE LIQUID CODE FOR THIS CUSTOM FIELD HERE:
+  https://customfields.bonify.io/dashboard/tubby-todd-bath-co.myshopify.com/pages/configure/241150/edit
+{% endcomment %}
+{% if page.metafields.custom_fields["masonry_item_width"] != blank %}
+  <div class="custom-field custom-field__masonry-item-width custom-field__type--text-list">
+    <h3 class="custom-field--title">Width</h3>
+    <div class="custom-field--value">  
+      {{ page.metafields.custom_fields["masonry_item_width"] }}
+    </div>
+  </div>
+{% endif %}

@@ -1,0 +1,22 @@
+{% for product_option in product.options_with_values %}
+	{% for value in product_option.values %}
+		{% if value == "Custom Amount" or value == "Other" %}
+			{% assign contains_other = true %}
+			{% assign other_value = value %}
+			{% assign other_option_index = "option" | append: product_option.position %}
+		{% endif %}
+	{% endfor %}
+{% endfor %}
+{% if contains_other %}
+	{% for v in product.variants %}
+		{% if v[other_option_index] == other_value %}
+			{% assign other_v_id = v.id %}
+		{% endif %}
+	{% endfor %}
+	{% if other_v_id %}
+		<div class="lip-wrapper variant-hide variant-show-{{ other_v_id }}">
+			<label for="other" class="short">{{ other_value }}</label>
+			<input type="text" id="other" name="properties[{{other_value}}]" placeholder="e.g. $100" />
+		</div>
+	{% endif %}
+{% endif %}

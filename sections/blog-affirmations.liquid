@@ -1,0 +1,79 @@
+{% if section.settings.show_affirmations %}
+	<div id="affirmations" class="row mini-padding extra-margin-top" style="background-color: {{ section.settings.bg_color }};">
+		<div class="inner_container text-center">
+			{% for block in section.blocks %}
+				<div class="affirmation affirmation-{{ forloop.index }}{% if forloop.index == 1 %} active{% endif %}"{% if forloop.index > 1 %} style="display:none;"{% endif %}>
+					<h4 class="text-extra-large text-white bold">
+						{% assign words = block.settings.title | split: ' ' %}
+						{% for word in words %}
+							<span class="word word-{{forloop.index}}">{{word}}</span>
+						{% endfor %}
+					</h4>
+				</div>
+			{% endfor %}
+		</div>	
+	</div>	
+{% endif %}
+
+<script>
+	jQuery(document).ready(function() {
+		animateWord(1);
+	});
+
+	function animateWord(index = 1) {
+		jQuery('#affirmations .affirmation.active .word-' + index).css("color", "black");
+		if( jQuery('#affirmations .affirmation.active .word-' + (index+1)).length ) {
+			setTimeout(animateWord, 500, index+1);
+		} else {
+			setTimeout(nextPhrase, 2000);
+		}
+	}
+	
+	function nextPhrase() {
+		jQuery('#affirmations .affirmation.active').fadeOut(400, function() {
+			jQuery('#affirmations .affirmation .word').css("color", "white");
+			jQuery(this).removeClass('active');
+			if( jQuery(this).next('.affirmation').length ) {
+				jQuery(this).next('.affirmation').addClass('active');
+				jQuery(this).next('.affirmation').fadeIn();
+			} else {
+				jQuery('#affirmations .affirmation').first().addClass('active');
+				jQuery('#affirmations .affirmation').first().fadeIn();
+			}
+			setTimeout(animateWord, 500, 1);
+		});
+	}
+</script>
+
+{% schema %}
+  {
+    "name": "Affirmations",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_affirmations",
+        "label": "Show affirmations?",
+        "default": false
+      },
+			{
+			  "type": "color",
+			  "id": "bg_color",
+			  "label": "Background color",
+			  "default": "#fd587c"
+			}
+		],
+		"blocks": [
+	    {
+	      "type": "text",
+	      "name": "Affirmation",
+	      "settings": [
+					{
+	        	"type": "text",
+	        	"id": "title",
+	        	"label": "Affirmation"
+	       	}
+	      ]
+	    }
+		]
+	}	
+{% endschema %}

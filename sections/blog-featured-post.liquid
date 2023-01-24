@@ -1,0 +1,108 @@
+{% comment %} Settings {% endcomment %}
+{% assign showFeatured = section.settings.show_featured_post %}
+
+<div id="blog-template" data-section-id="{{ section.id }}" data-section-type="blog-template" class="blogModule container-wrap margin-top" data-featured="{{ showFeatured }}">
+	
+	<!-- start featured article -->
+	<div class="container-wrap blog-listing">
+    {% if showFeatured %}
+      <div class="blogModule-posts">
+				{% assign article = '' %}
+				{% if section.settings.featured_article != blank %}
+					{% assign article = section.settings.featured_article %}
+				{% else %}
+					{% assign article = blog.articles[0] %}
+				{% endif %}
+        <div class="article article--featured {% if article.image == blank %}article--no-image{% else %}article--has-image{% endif %} is-loading" style="background: {{ section.settings.featured_article_bg_color }};">
+          {% unless article.image == blank %}
+            <div class="article-image-container">
+              <div class="article-image lazyload fade-in" data-bgset="{% include 'bgset', image: article.image %}" data-sizes="auto" data-parent-fit="cover">
+                <a href="{{ article.url }}" title="{{ article.title }}"></a>
+              </div>
+              <noscript>
+                <div class="article-image no-js-image" style="background-image:url('{{ article.image | img_url: '1024x' }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;" title="{{article.title}}">
+                  <a href="{{ article.url }}" title="{{ article.title }}"></a>
+                </div>
+              </noscript>
+              {{ article_meta }}
+            </div>
+          {% endunless %}
+
+          <div class="article-content">
+						
+						{% if section.settings.subtitle != '' %}<a href="{{ article.url }}"><h3 class="category">{{ section.settings.subtitle }}</h3></a>{% endif %}
+		
+            <h2 class="title js-title">
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </h2>
+
+            <div class="article__excerpt js-article__excerpt">
+              <p>{{article.excerpt_or_content | strip_html | strip }}</p>
+            </div>
+						
+            {% if section.settings.date %}
+              <h3>{{ article.published_at | time_tag: format: 'date' }}</h3>
+            {% endif %}
+						
+						<a href="{{ article.url }}" title="{{ article.title }}" class="read-more">READ MORE</a>
+          </div>
+					{% if section.settings.featured_article_accent_image != blank %}
+						<div class="accent-image bottom-right">
+							<img src="{{ section.settings.featured_article_accent_image | img_url: '500x' }}" alt="{% if section.settings.featured_article_accent_image.alt != '' %}{{ section.settings.featured_article_accent_image.alt }}{% else %}Tubby Todd Mama Blog{% endif %}">
+						</div>	
+					{% endif %}
+        </div>
+      </div>
+    {% endif %}
+	</div>	
+	<!-- end featured article -->
+
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Featured post",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Featured Post"
+      },
+			{
+			  "type": "article",
+			  "id": "featured_article",
+			  "label": "Featured article",
+				"info": "If none is specified, featured post will default to most recent post"
+			},
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Subtitle",
+        "info": "Will display above post title if set"
+      },
+      {
+        "type": "color",
+        "id": "featured_article_bg_color",
+        "label": "Featured article background color",
+        "default": "#fbf8f3"
+      },
+			{
+			  "type": "image_picker",
+			  "id": "featured_article_accent_image",
+			  "label": "Featured article accent image"
+			},
+      {
+        "type": "checkbox",
+        "id": "show_featured_post",
+        "label": "Show featured post",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "date",
+        "label": "Show date",
+        "default": true
+      }
+    ]
+  }
+{% endschema %}

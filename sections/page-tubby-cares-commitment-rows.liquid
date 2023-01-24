@@ -1,0 +1,134 @@
+{% include 'tubby-cares-commitment-heading' %}
+
+{% for block in section.blocks %}
+	<div class="simple-image-text-module container-wrap featured-product" data-section-type="rich-text">
+		<div class="container">
+			<div class="row row--split row-med padding" style="background-color: {{ block.settings.bg_color }};">
+				{% if block.settings.image_location == 'left' %}
+					<div class="image no-padding-right">
+						<a href="{{ block.settings.image | img_url: '1024x' }}" class="collection-image-lightbox">
+							<img src="{{ block.settings.image | img_url: '1024x' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}" class="row--split-feat-image">
+						</a>
+					</div>
+				{% endif %}
+				<div class="rich-content no-button align--left lg_align--left padding">
+					<div class="max-width">
+						{% if block.settings.title != blank %}
+							<h2 class="size--xlarge text-bold">{{ block.settings.title }}</h2>
+						{% endif %}
+						<div class="extra-large">
+							<p>{{ block.settings.text | newline_to_br }}</p>
+						</div>
+					</div>
+				</div>
+				{% if block.settings.image_location == 'right' %}
+					<div class="image no-padding-left">
+						<a href="{{ block.settings.image | img_url: '1024x' }}" class="collection-image-lightbox">
+							<img src="{{ block.settings.image | img_url: '1024x' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+						</a>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endfor %}
+
+
+<style>
+	.commitment-3 {
+		padding-bottom: 40px;
+		background: {{ section.settings.bg_color }};
+	}
+</style>	
+
+{% schema %}
+{
+  "name": "Commitment 3",
+	"class": "commitment-3",
+  "settings": [
+		{
+	    "type": "image_picker",
+	    "id": "icon",
+	    "label": "Heading icon"
+	  },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+			"info": "Displays above heading"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+		{
+	    "type": "image_picker",
+	    "id": "divider",
+	    "label": "Divider image"
+	  },
+		{
+		   "type": "header",
+		   "content": "Colors"
+		},
+		{
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section background color",
+      "default": "#ffffff"
+    },
+		{
+      "type": "color",
+      "id": "color",
+      "label": "Heading color",
+      "default": "#000000"
+    }
+  ],
+	"blocks": [
+		{
+      "type": "text",
+      "name": "Content Block",
+      "settings": [
+				{
+        	"type": "text",
+        	"id": "title",
+        	"label": "Title"
+       	},
+				{
+				   "type": "richtext",
+				   "id": "text",
+				   "label": "Text"
+				},
+				{
+			    "type": "image_picker",
+			    "id": "image",
+			    "label": "Image"
+			  },
+				{
+				   "type":      "color",
+				   "id":        "bg_color",
+				   "label":     "Background color",
+				   "default":   "#f4d2b9"
+				},
+				{
+				   "type": "select",
+				   "id": "image_location",
+				   "label": "Image location",
+				   "options": [
+				     {
+				       "value": "left",
+				       "label": "Left"
+				     },
+				     {
+				       "value": "right",
+				       "label": "Right"
+				     }
+				   ],
+				   "default": "left",
+				   "info": "Default location is left"
+				}
+			]
+		}	
+	]
+}
+{% endschema %}

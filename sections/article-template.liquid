@@ -1,0 +1,366 @@
+{% paginate article.comments by 4 %}
+
+{% comment %}
+When a comment has just been submitted, its not shown right away. Shopify needs to wait until it knows for sure that it is not spam to publish it.
+We can still show right away *to its author* the comment he just submitted — although that comment may not have been published yet.
+When a comment is submitted, the browser is redirected to a page that includes the new comment id in its URL. Example: http://shopname.myshopify.com/blogs/news/2022072-my-post?comment=3721372
+When a comment ID is specified in an article URL, that comment is accessible in the
+template through a Liquid object called comment. That comment is a full-fledged comment variable that has all the regular comment properties:
+http://docs.shopify.com/themes/liquid-variables/comment. Note that comment.created_at will only be defined if the comment did not have any blank field — was posted without error.
+{% endcomment %}
+
+{% assign number_of_comments = article.comments_count %}
+
+{% comment %}If a comment was just submitted, and it has no blank fields.{% endcomment %}
+{% if comment and comment.created_at %}
+  {% assign number_of_comments = article.comments_count | plus: 1 %}
+{% endif %}
+
+{% assign accent_line = section.settings.accent_line %}
+{% assign accent_line_color = section.settings.accent_line_color %}
+
+{%- if accent_line_color != blank -%}
+<style>
+  .article-footer .accent-line--straight { background-color: {{ accent_line_color }}; }
+  .article-footer .accent-line--curved svg path { fill: {{ accent_line_color }}; }
+</style>
+{%- endif -%}
+
+{% assign subtitle = '' %}
+{% for tag in article.tags %}
+ {% if tag contains 'Subtitle:' %}
+ 	{% assign subtitle = tag | remove: 'Subtitle:' %}
+ {% endif %}
+{% endfor %}
+
+<section class="page-title container-wrap">
+	{% if section.settings.logo != blank %}
+		<div class="blog-logo text-center">
+			<a href="https://tubbytodd.com/blogs/tubby-blog/"><img src="{{ section.settings.logo | img_url: '500x' }}" alt="{% if section.settings.logo.alt != '' %}{{ section.settings.logo.alt }}{% else %}Tubby Todd Bath Co.{% endif %}"></a>
+		</div>
+	{% endif %}
+	<div class="blog-nav" style="background: {{ section.settings.nav_bg_color }};">
+		<ul>
+			{% assign category_handle = '' %}
+			{% assign category_title = '' %}
+			{% assign has_back_link = false %}
+			{% for block in section.blocks %}
+				{% assign category_handle = block.settings.category_tag | handleize %}
+				{% assign category_title = block.settings.category_tag %}
+				{% for tag in article.tags %}
+			   {% assign tag_handle = tag | handleize %}
+				 {% if tag_handle == category_handle %}
+				 	{% break %}
+				 {% endif %}
+				{% endfor %}
+				{% if tag_handle == category_handle %} 
+					{% assign has_back_link = true %}
+					{% capture backlink %}
+						<a href="https://tubbytodd.com/blogs/tubby-blog/tagged/{{ category_handle }}">Back to {{ block.settings.title }}</a>
+					{% endcapture %}
+				{% endif %}
+				<li{% if tag_handle == category_handle %} class="active"{% endif %}><a href="https://tubbytodd.com/blogs/tubby-blog/tagged/{{ category_handle }}" style="color: {{ section.settings.nav_text_color }};">{{ block.settings.title }}</a></li>
+			{% endfor %}
+		</ul>	
+	</div>
+  <div class="container title-container">
+    <div class="row row-sm inline">
+      <p class="details text-center">
+				{% if subtitle != '' %}
+					<span class="post-date">{{ subtitle }}</span>
+				{% else %}
+      		<span class="post-date">{{ article.published_at | date: '%B %d, %Y' }}</span>
+				{% endif %}
+      </p>
+      <h1 class="article-title text-center semi-bold">{{ article.title }}</h1>
+    </div>
+  </div>
+</section>
+<div class="article-content container-wrap extra-margin-top">
+	<div class="left-side">		
+	  <div class="container text-content">
+	    <div class="row contain-width-80 p rte">
+	      {% if article.image %}
+	        <div class="article-image lazyload fade-in" data-bgset="{% include 'bgset', image: article.image %}" data-sizes="auto" data-parent-fit="cover"></div>
+	        <noscript>
+	          <div class="article-image no-js-image" style="background-image: url({{ article.image | img_url: '1024x' }}); background-size: cover; background-position: center center; background-repeat: no-repeat;"></div>
+	        </noscript>
+	      {% endif %}
+	      {{ article.content }}
+	    </div>
+	  </div>
+    {% if settings.share_on_facebook or settings.share_on_twitter or settings.share_on_googleplus %}
+    	<p class="share text-center">{% include 'site-shareLinksBlog' %}</p>
+    {% endif %}		
+	</div>
+	<div class="right-side">
+		<h3 class="upcase normal text-brown">Popular Posts</h3>
+		{% if section.settings.featured_article_1 != blank %}
+			{% assign article_1 = section.settings.featured_article_1 %}
+			<div class="related-post">
+				<a href="{{ article_1.url }}">
+					<img src="{{ article_1.image | img_url: '500x' }}" alt="{% if article_1.image.alt != '' %}{{ article_1.image.alt }}{% else %}{{ article_1.title }}{% endif %}">
+					<div class="content">
+						{% if section.settings.article_subtitle_1 != '' %}<p class="semi-bold upcase text-brown subtitle">{{ section.settings.article_subtitle_1 }}</p>{% endif %}
+						<p class="text-black semi-bold">{{ article_1.title }}</p>
+					</div>
+				</a>
+			</div>	
+		{% endif %}		
+		{% if section.settings.featured_article_2 != blank %}
+			{% assign article_2 = section.settings.featured_article_2 %}
+			<div class="related-post">
+				<a href="{{ article_2.url }}">
+					<img src="{{ article_2.image | img_url: '500x' }}" alt="{% if article_2.image.alt != '' %}{{ article_2.image.alt }}{% else %}{{ article_1.title }}{% endif %}">
+					<div class="content">
+						{% if section.settings.article_subtitle_2 != '' %}<p class="semi-bold upcase text-brown subtitle">{{ section.settings.article_subtitle_2 }}</p>{% endif %}
+						<p class="text-black semi-bold">{{ article_2.title }}</p>
+					</div>
+				</a>
+			</div>	
+		{% endif %}
+		{% if section.settings.featured_article_3 != blank %}
+			{% assign article_3 = section.settings.featured_article_3 %}
+			<div class="related-post">
+				<a href="{{ article_3.url }}">
+					<img src="{{ article_3.image | img_url: '500x' }}" alt="{% if article_3.image.alt != '' %}{{ article_3.image.alt }}{% else %}{{ article_1.title }}{% endif %}">
+					<div class="content">
+						{% if section.settings.article_subtitle_3 != '' %}<p class="semi-bold upcase text-brown subtitle">{{ section.settings.article_subtitle_3 }}</p>{% endif %}
+						<p class="text-black semi-bold">{{ article_3.title }}</p>
+					</div>
+				</a>
+			</div>	
+		{% endif %}
+	</div>							
+</div>
+						
+<div class="article-footer container">
+  <div class="row row-sm">
+    {% include 'accent-line' %}
+    
+	  <div class="article-comments container">
+	    <div class="row">
+	      {% if blog.comments_enabled? %}
+	      <h4 class="meta-comments">{{ 'blog.article.comment_count' | t: count: article.comments_count }}</h4>
+	      {% endif %}
+	      {% include 'blog-comments' %}
+	    </div>
+	  </div>
+		
+    {% if article.tags.size > 0 %}
+      <p class="tags">
+        {{ 'blog.article.tags_label' | t }}:
+        {% for tag in article.tags %}
+        <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>{% unless forloop.last %}, {% endunless %}
+        {% endfor %}
+      </p>
+    {% endif %}
+    {% if blog.next_article or blog.previous_article %}
+      <p class="prev-next"> 
+        {% if blog.previous_article %}
+          <span class="__prev">{{ 'blog.article.previous_post' | t | link_to: blog.previous_article }}</span>
+        {% endif %}
+        {% if blog.next_article %}
+          <span class="__next">{{ 'blog.article.next_post' | t | link_to: blog.next_article }}</span>
+        {% endif %}
+      </p>
+    {% endif %}
+		
+		<p class="blog-index-link text-center">
+			{% if has_back_link == true %}
+				{{ backlink }}
+			{% else %}
+				<a href="{{ blog.url }}">Back to blog</a>
+			{% endif %}
+		</p>
+  </div>
+	{% if section.settings.show_related %}	
+		{% assign related_1 = section.settings.related_article_1 %}
+		{% assign related_2 = section.settings.related_article_2 %}
+<div class="related-posts extra-margin-top">
+	<div class="article-featured-split row contain-width-80 inline">
+	
+		<div class="block s1 med_s12 lg_s12 padding"><!-- Article 1 -->
+			<div class="inner">
+				<h2 class="text-brown upcase VAGRoundedNext-Medium text-half-spaced underlined margin-bottom"><span>{{ section.settings.related_subtitle_1 }}</span></h2>
+				<div class="feat-row">
+			 		<a href="{{ related_1.url }}" aria-label="{{ related_1.title | escape }}">			
+						<div class="img-wrapper" style="padding-top: 100%; background-image: url('{{ related_1.image | img_url: '800x' }}'); background-size: cover;">
+					</div>
+					</a>
+					<a href="{{ related_1.url }}"><p class="h3 extra-margin-top color-black">{{ related_1.title }}</p></a>
+					<p class="excerpt">{{ related_1.excerpt }}</p>
+					<a href="{{ related_1.url }}" aria-label="Read More {{ related_1.title | escape }}" class="read-more upcase">Read more</a>
+				</div>
+			</div>
+		</div><!-- Article 1 -->
+		
+		<div class="block s1 med_s12 lg_s12 padding"><!-- Article 2 -->
+			<div class="inner">
+				<h2 class="text-brown upcase VAGRoundedNext-Medium text-half-spaced underlined margin-bottom"><span>{{ section.settings.related_subtitle_2 }}</span></h2>
+				<div class="feat-row">
+			 		<a href="{{ related_2.url }}" aria-label="{{ related_2.title | escape }}">			
+						<div class="img-wrapper" style="padding-top: 100%; background-image: url('{{ related_2.image | img_url: '800x' }}'); background-size: cover;"></div>
+					</a>
+					<a href="{{ related_2.url }}"><p class="h3 extra-margin-top color-black">{{ related_2.title }}</p></a>
+					<p class="excerpt">{{ related_2.excerpt }}</p>
+					<a href="{{ related_2.url }}" aria-label="Read More {{ related_2.title | escape }}" class="read-more upcase">Read more</a>
+				</div>
+			</div>
+		</div><!-- Article 2 -->
+	
+	</div>
+</div>
+	{% endif %}
+</div>
+{% if section.settings.footer_logo != blank %}
+	<div class="blog-footer text-center">
+		<img src="{{ section.settings.footer_logo | img_url: '500x' }}" alt="{% if section.settings.footer_logo.alt != '' %}{{ section.settings.footer_logo.alt }}{% else %}Tubby Todd Bath Co.{% endif %}">
+	</div>	
+{% endif %}
+<div class="scroll-to-top">
+	<img src="{{ 'scroll-icon.png' | file_url }}" alt="Scroll to top" class="top-scroll">
+</div>	
+
+
+{% endpaginate %}
+
+{% include 'blog-scripts' %}
+
+{% schema %}
+  {
+    "name": "Article pages",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Header"
+      },
+			{
+			  "type": "image_picker",
+			  "id": "logo",
+			  "label": "Logo"
+			},
+      {
+        "type": "color",
+        "id": "nav_bg_color",
+        "label": "Navigation bar background",
+        "default": "#fbf8f3"
+      },
+      {
+        "type": "color",
+        "id": "nav_text_color",
+        "label": "Navigation text",
+        "default": "#ffffff"
+      },
+      {
+        "type": "header",
+        "content": "Sidebar"
+      },
+			{
+			  "type": "article",
+			  "id": "featured_article_1",
+			  "label": "Featured article 1"
+			},
+			{
+			  "type": "text",
+			  "id": "article_subtitle_1",
+			  "label": "Featured article 1 subtitle"
+			},
+			{
+			  "type": "article",
+			  "id": "featured_article_2",
+			  "label": "Featured article 2"
+			},
+			{
+			  "type": "text",
+			  "id": "article_subtitle_2",
+			  "label": "Featured article 2 subtitle"
+			},
+			{
+			  "type": "article",
+			  "id": "featured_article_3",
+			  "label": "Featured article 3"
+			},
+			{
+			  "type": "text",
+			  "id": "article_subtitle_3",
+			  "label": "Featured article 3 subtitle"
+			},
+      {
+        "type": "header",
+        "content": "Footer"
+      },
+			{
+			  "type": "image_picker",
+			  "id": "footer_logo",
+			  "label": "Footer logo"
+			},
+			{
+			  "type": "checkbox",
+			  "id": "show_related",
+			  "label": "Show related posts?",
+			  "default": false
+			},
+			{
+			  "type": "article",
+			  "id": "related_article_1",
+			  "label": "Related article 1"
+			},
+			{
+			  "type": "text",
+			  "id": "related_subtitle_1",
+			  "label": "Related article 1 subtitle"
+			},
+			{
+			  "type": "article",
+			  "id": "related_article_2",
+			  "label": "Related article 2"
+			},
+			{
+			  "type": "text",
+			  "id": "related_subtitle_2",
+			  "label": "Related article 2 subtitle"
+			},
+      {
+        "type": "header",
+        "content": "Accents"
+      },
+      {
+        "type": "select",
+        "id": "accent_line",
+        "label": "Accent line",
+        "default": "curved",
+        "options": [
+          { "label": "Curved", "value": "curved" },
+          { "label": "Straight", "value": "straight" },
+          { "label": "None", "value": "none" }
+        ]
+      },
+      {
+        "type": "color",
+        "id": "accent_line_color",
+        "label": "Color",
+        "default": "#333"
+      }
+    ],
+		"blocks": [
+	    {
+	      "type": "text",
+	      "name": "Navigation items",
+	      "settings": [
+					{
+	        	"type": "text",
+	        	"id": "category_tag",
+	        	"label": "Category tag",
+						"info": "Value must exactly match tag"
+	       	},
+					{
+	        	"type": "text",
+	        	"id": "title",
+	        	"label": "Title"
+	       	}
+	      ]
+	    }
+		]
+  }
+{% endschema %}

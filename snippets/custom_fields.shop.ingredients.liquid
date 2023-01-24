@@ -1,0 +1,26 @@
+{% if shop.metafields.custom_fields["ingredients"] != blank %}
+  <div class="custom-field custom-field__ingredients custom-field__type--field-collection">
+    <h3 class="custom-field--title">Ingredients</h3>
+    <div class="custom-field--value">
+      {% assign separator = "|###|" %}
+      {% assign ingredient_name_array = shop.metafields.custom_fields["ingredient_name"] | split: separator %}
+      {% assign ingredient_description_array = shop.metafields.custom_fields["ingredient_description"] | split: separator %}
+      {% assign ingredient_products_array = shop.metafields.custom_fields["ingredient_products"] | split: separator %}
+      {% assign fc_keys = shop.metafields.custom_fields["ingredients"] | split: "," %}
+      {% for i in fc_keys %}
+        {% assign index = i | plus: 0 %}
+        <div class="fc-item fc-item--ingredient fc-index--{{ index }}">
+          <div class="fc-field field__ingredient-name">
+            {{ ingredient_name_array[index] }}
+          </div>
+          <div class="fc-field field__ingredient-description">
+            {{ ingredient_description_array[index] }}
+          </div>
+          <div class="fc-field field__ingredient-products">
+            {{ ingredient_products_array[index] }}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}

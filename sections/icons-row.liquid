@@ -1,0 +1,166 @@
+{% comment %}  
+Icons row
+{% endcomment %}
+
+{% assign background = section.settings.color_icons_bg %}
+{% assign color = section.settings.color_icons_text %}
+
+{% if section.blocks.size > 0 %}
+<div data-section-id="{{ section.id }}" data-section-type="icons-row">
+  <div class="icons-row--background pad-sm" style="color: {{ color }}; background-color: {{ background }};">
+    <div class="container">
+			{% if section.settings.title != blank %}
+				<div class="row row-lg">
+					<h2 class="size--xlarge text-center">{{ section.settings.title }}</h2>
+					{% if section.settings.subtitle != blank %}
+						<p class="text-center">{{ section.settings.subtitle }}</p>
+					{% endif %}
+				</div>
+			{% endif %}
+      <div class="row row-lg">
+        <div class="icons-row-wrapper">
+          {% for block in section.blocks %}
+            {% assign title = block.settings.title %}
+            {% assign content = block.settings.content %}
+						{% assign outro_sentence = block.settings.outro_sentence %}
+						{% assign outro_link = block.settings.outro_link %}
+            {% assign icon_words = block.settings.icon | split: ' ' %}
+            {%- capture icon -%}{%- for word in icon_words -%}{%- unless forloop.index == 1 -%}-{%- endunless -%}{{ word | lowercase | capitalize }}{%- endfor -%}{%- endcapture -%}
+
+            <div class="icons-row__item">
+							
+							{% if icon != blank or block.settings.image %}
+								<div class="icon_wrapper margin-bottom">
+	              	{% if block.settings.icon_type == "iconsmind" and icon != blank %}
+		              	<span class="icons-row__icon iconsmind-{{ icon }}"></span>
+									{% elsif block.settings.icon_type == "custom" and block.settings.image %}
+										{{ block.settings.image | img_url: '120x' | img_tag: block.settings.image.alt }}
+		              {% endif %}
+								</div>
+							{% endif %}
+
+              {% if title != blank %}
+              	<h3 class="icons-row__title size--large">{{ title }}</h3>
+              {% endif %}
+
+              {% if content != blank %}
+								<div class="contain-width-80 margin-auto">
+              		<p class="icons-row__content">{{ content }}</p>
+									{% if outro_sentence != '' %}
+										{% if outro_link != '' %}<a href="{{ outro_link }}" title="{{ title }}" class="text-black f-underline">{% endif %}
+										<p class="icons-row__content margin-top">{{ outro_sentence }}</p>
+										{% if outro_link != '' %}</a>{% endif %}
+									{% endif %}
+								</div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Icons row",
+  "max_blocks": 6,
+  "class": "icons-row",
+  "settings": [
+		{
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+		{
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading"
+    },
+    {
+      "type": "color",
+      "id": "color_icons_bg",
+      "label": "Background color",
+      "default": "#fafafa"
+    },
+    {
+      "type": "color",
+      "id": "color_icons_text",
+      "label": "Text color",
+      "default": "#333"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Item",
+      "settings": [
+				{
+					"type": "select",
+					"id": "icon_type",
+					"label": "Icon type",
+					"default": "iconsmind",
+					"options": [
+						{ "label": "Theme Icon", "value": "iconsmind" },
+						{ "label": "Custom Icon", "value": "custom" }
+					]
+				},
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Theme icon name",
+          "default": "Shop",
+          "info": "[Click here](https://iconsmind.com/view_icons/) to view the list of available icons. Example: Shop"
+        },
+				{
+					"type": "image_picker",
+					"id": "image",
+					"label": "Custom icon image"
+				},
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature"
+        },
+        {
+          "type": "textarea",
+          "id": "content",
+          "label": "Content",
+          "default": "Modular is a powerful Shopify theme that will set you apart from the rest with Mosaic, Gallery, and Slideshow sections."
+        },
+        {
+          "type": "text",
+          "id": "outro_sentence",
+          "label": "Outro sentence",
+          "info": "Will display under content"
+        },
+        {
+          "type": "url",
+          "id": "outro_link",
+          "label": "Link",
+					"info": "Will apply to outro sentence"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Icons row",
+      "category": "Text",
+      "blocks": [
+        {
+          "type": "text"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

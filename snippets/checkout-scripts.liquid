@@ -1,0 +1,13 @@
+<script>
+	$(document).ready(function() {
+		/* Hide discount script amounts if discount is for a Custom Amount property */
+		if ( $('.reduction-code__text').length ) {
+			$('.reduction-code__text').each(function() {
+				if( $(this).text().toUpperCase().includes("CUSTOM") ) {
+					$(this).closest('.reduction-code').hide();
+					$(this).closest('tr.product').find('.product__price .order-summary__small-text').hide();
+				}
+			});
+		}
+	});
+</script>

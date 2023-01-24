@@ -1,0 +1,99 @@
+{% comment %} Settings {% endcomment %}
+<section data-section-type="featured-blog" class=" container-wrap style-default" style="background: {{ section.settings.featured_article_bg_color }}; ">
+  <div class="simple-image-text-module container-wrap featured-product" data-section-type="rich-text">
+	<div class="container">
+		<div class="row row--split">
+			<div class="image no-padding-left">
+				<img style="display: block;" src="{{ section.settings.image | img_url: '1024x' }}" alt="{% if section.settings.image.alt != '' %}{{ section.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}" />
+			</div>
+          <div class="rich-content no-button align--left lg_align--left"">
+				<div class="max-width padding-top">	
+					<h2 class="title js-title" style="color: {{ section.settings.heading_color }};">{{ section.settings.title }}</h2>
+                  {% if section.settings.accent-image-1 != blank %}
+						<img src="{{ section.settings.accent-image-1 | img_url:'500x' }}" class="accent-image-1" alt="{% if section.settings.accent-image-1.alt != '' %}{{ section.settings.accent-image-1.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+					{% endif %}
+                  <div class="max-width">
+						<h2 class="size--xlarge text-extra-bold">{{ section.settings.highlight_title }}</h2>				
+						<div class="text-normal">{{ section.settings.highlight_text }}</div>
+						<a href="{{ section.settings.highlight_link }}" class="button button--primary inline margin-top" style="color: {{ section.settings.color }}; background-color:{{ section.settings.button_color }}; border-color:{{ section.settings.button_border_color }}">{{ section.settings.highlight_link_text }}</a>
+					</div>
+             
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+</section>
+<style>
+  .simple-image-text-module .rich-content .max-width{
+    text-align:center;
+  }
+</style>
+
+{% comment %} Schema {% endcomment %}
+{% schema %}
+	{
+		"name": "Featured Post",
+		"settings": [ {
+			"type": "header",
+			"content": "Content"
+		},  
+          {
+            "type": "image_picker",
+			"id": "image",
+			"label": "Featured Image"
+          },
+           {
+            "type": "text",
+            "id": "title",
+            "label": "Heading"
+          },
+        	{
+    	"type": "text",
+    	"id": "highlight_link_text",
+    	"label": "Highlight button text"
+   	},
+		{
+    	"type": "url",
+    	"id": "highlight_link",
+    	"label": "Highlight button link"
+   	},
+          {
+	    "type": "image_picker",
+	    "id": "highlight_image",
+	    "label": "Highlight box image"
+	  },
+		{
+		  "type": "color",
+		  "id": "color",
+		  "label": "Title color"
+		},
+          {
+		  "type": "color",
+		  "id": "button_color",
+		  "label": "Button color"
+		},
+          {
+		  "type": "color",
+		  "id": "button_border_color",
+		  "label": "Button Border color"
+		},
+      {
+        "type": "color",
+        "id": "featured_article_bg_color",
+        "label": "Featured article background color",
+        "default": "#fbf8f3"
+      },
+			{
+			  "type": "image_picker",
+			  "id": "accent-image",
+			  "label": "Featured article accent image"
+			} ],
+      "presets":[
+        {
+      "name": "Featured Blog Post"
+    }
+      ]
+	}
+{% endschema %}

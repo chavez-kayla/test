@@ -1,0 +1,11 @@
+{% unless order or checkout %}
+{% comment %}
+    PLACE ANY SCRIPTS THAT SHOULD APPEAR ~ONLY~ ON THE STOREFRONT
+{% endcomment %}
+<script>
+console.log("STOREFRONT SCRIPTS");
+{% if first_time_accessed %}
+console.log("FIRST TIME -- STORE");
+{% endif %}
+</script>
+{% endunless %}

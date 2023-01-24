@@ -1,0 +1,8 @@
+{% if collection.metafields.custom_fields["featured_content_type"] != blank %}
+  <div class="custom-field custom-field__featured-content-type custom-field__type--text-list">
+    <h3 class="custom-field--title">Featured Content Type</h3>
+    <div class="custom-field--value">  
+      {{ collection.metafields.custom_fields["featured_content_type"] }}
+    </div>
+  </div>
+{% endif %}

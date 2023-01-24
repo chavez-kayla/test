@@ -1,0 +1,289 @@
+<section class="page-title text-center container-wrap section-padding-top">
+  <div class="container extra-padding-top">
+    <div class="row row-sm">
+      <h1>{% if section.settings.title != blank %}{{ section.settings.title }}{% endif %}</h1>
+    </div>
+  </div>
+</section>
+
+{% if section.settings.design_image_1 != blank %}
+	<div id="design-image-1"></div>
+{% endif %}
+
+{% if section.blocks.size > 0 %}
+	<div class="container-wrap">
+	  <div class="container">
+	    <div class="row row-sm">	
+				{% for block in section.blocks %}
+					<div class="download_item block s12 sm_s12 lg_s13 mini-padding extra-margin-bottom">						
+						{% if block.settings.image %}
+							<div class="featured_image mini-padding text-center flex-vertical-align-middle" style="background-color: {{ section.settings.bg_color }};">				
+								{% if block.settings.source_url %}<a href="{{ block.settings.source_url }}" target="_blank" title="Opens in a new window">{% endif %}<img src="{{ block.settings.image | img_url: 'x300' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}" class="contain-width-50">{% if block.settings.source_url %}</a>{% endif %}							
+							</div>
+						{% endif %}						
+						{% if block.settings.title != '' or block.settings.description != '' %}
+							<div class="mini-padding-bottom text-container" style="background-color: {{ section.settings.bg_color }};">
+								{% if block.settings.title %}
+									{% if block.settings.source_url %}<a href="{{ block.settings.source_url }}" target="_blank" title="Opens in a new window">{% endif %}<h4 class="text-center text-large" style="color: {{ section.settings.heading_color }};">{{ block.settings.title }}</h4>{% if block.settings.source_url %}</a>{% endif %}
+								{% endif %}
+								{% if block.settings.description != '' %}
+									<p class="text-center text-large">{{ block.settings.description }}</p>
+								{% endif %}
+							</div>
+						{% endif %}
+					</div>			
+				{% endfor %}						
+	    </div>
+	  </div>
+	</div>
+{% endif %}
+
+{% if section.settings.referral_title != '' or section.settings.referral_text != '' %}
+	<div class="simple-image-text-module container-wrap featured-product" data-section-type="rich-text">
+		{% if section.settings.design_image_2 != blank %}
+			<div id="design-image-2"></div>
+		{% endif %}
+		{% if section.settings.design_image_3 != blank %}
+			<div id="design-image-3"></div>
+		{% endif %}
+		<div class="container pad-sm">
+			<div class="row row--split row-lg">
+				{% if section.settings.referral_image %}
+					<div class="image no-padding-right">
+						<img src="{{ section.settings.referral_image | img_url: '800x' }}" alt="{% if section.settings.referral_image.alt != '' %}{{ section.settings.referral_image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}" class="contain-width-60 float-right">
+					</div>
+				{% endif %}
+				<div class="rich-content no-button align--left lg_align--left extra-padding referral">
+					<div class="max-width extra-padding-top">
+						{% if section.settings.referral_title != '' %}
+							<h1>{{ section.settings.referral_title }}</h1>
+						{% endif %}
+						{% if section.settings.referral_text != '' %}
+							<p class="text-large">{{ section.settings.referral_text | newline_to_br }}</p>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endif %}
+
+<style>	
+#shopify-section-page-club-tub-body #design-image-1, #shopify-section-page-club-tub-body #design-image-2, #shopify-section-page-club-tub-body #design-image-3 {
+	position: relative;
+}
+#shopify-section-page-club-tub-body #design-image-1:after, #shopify-section-page-club-tub-body #design-image-1:after, #design-image-2:after, #shopify-section-page-club-tub-body #design-image-3:after {
+	content: "";
+   display: block;
+   background-repeat: no-repeat;
+   background-position: right bottom;
+	background-size: cover;
+	position: absolute;
+}
+#shopify-section-page-club-tub-body #design-image-1:after, #shopify-section-page-club-tub-body #design-image-3:after {
+   height: 175px;
+	width: 175px;
+}
+#shopify-section-page-club-tub-body #design-image-2:after {
+	height: 50px;
+	width: 40%;
+}
+#shopify-section-page-club-tub-body #design-image-1:after {
+	background-image: url('{{ section.settings.design_image_1 | img_url: '500x' }}');
+	top: -175px;
+	left: 10%;
+}
+#shopify-section-page-club-tub-body #design-image-2:after {
+	background-image: url('{{ section.settings.design_image_2 | img_url: '500x' }}');
+	height: 35px;
+   width: 48%;
+   background-size: contain;
+   top: -45px;
+   right: 0;
+}
+#shopify-section-page-club-tub-body #design-image-3:after {
+	background-image: url('{{ section.settings.design_image_3 | img_url: '500x' }}');
+	top: 10px;
+   right: 10%;
+}
+#shopify-section-page-club-tub-body .simple-image-text-module .rich-content {
+	font-size: 16px;
+}	
+#shopify-section-page-club-tub-body .referral p {
+	font-size: 1.2em;
+}
+#shopify-section-page-club-tub-body .featured_image img {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+#shopify-section-page-club-tub-body .download_item:nth-child(3n) img {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+@media only screen and (max-width: 1200px) {
+	#shopify-section-page-club-tub-body .download_item .text-container {
+		min-height: 100px;
+	}
+}	
+	
+@media only screen and (max-width: 1024px) {
+	#shopify-section-page-club-tub-body #design-image-2:after {
+		top: -95px;
+	}
+	#shopify-section-page-club-tub-body #design-image-3:after {
+		top: -50px;
+	}
+}	
+	
+@media only screen and (min-width: 1800px) {
+	#shopify-section-page-club-tub-body #design-image-2:after {
+		height: 100px;
+	}
+}
+
+@media only screen and (min-width: 1950px) {
+	#shopify-section-page-club-tub-body #design-image-1:after, #shopify-section-page-club-tub-body #design-image-3:after {
+    height: 240px;
+    width: 240px;
+	}
+	#shopify-section-page-club-tub-body #design-image-3:after {
+		top: 50px;
+		right: 5%;
+	}
+	#shopify-section-page-club-tub-body .featured_image img {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	#shopify-section-page-club-tub-body .download_item:nth-child(3n) img {
+		padding-left: 0px;
+		padding-right: 0px;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	#shopify-section-page-club-tub-body #design-image-3:after {
+		z-index: 999;
+		right: 5%;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	#shopify-section-page-club-tub-body #design-image-1:after {
+		top: -205px;
+	}
+	#shopify-section-page-club-tub-body #design-image-2:after {
+		width: 75%;
+	}
+}
+
+@media only screen and (max-width: 500px) {
+	#shopify-section-page-club-tub-body .download_item.extra-margin-bottom {
+		margin-bottom: 0px;
+	}
+	#shopify-section-page-club-tub-body .download_item:nth-child(3n) img, #shopify-section-page-club-tub-body .download_item img {
+		padding-left: 0;
+    padding-right: 0;
+	}
+	#shopify-section-page-club-tub-body .download_item img {
+		width: 75%;
+	}
+	#shopify-section-page-club-tub-body .download_item .featured_image.mini-padding {
+		padding: 20px 10px 10px;
+	}
+	#shopify-section-page-club-tub-body .download_item .text-container {
+		padding: 0 6px;
+	}
+}
+</style>
+
+{% schema %}
+{
+  "name": "Club Tub Body",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Bubbles heading"
+    },
+		{
+		   "type": "color",
+		   "id":  "heading_color",
+		   "label": "Bubble heading color",
+		   "default": "#2c8dbe"
+		},
+		{
+		   "type": "color",
+		   "id":  "bg_color",
+		   "label": "Bubble block background color",
+		   "default": "#e4f2f3"
+		},
+		{
+		   "type": "header",
+		   "content": "Referral Content"
+		},
+		{
+      "type": "text",
+      "id": "referral_title",
+      "label": "Referral heading"
+    },
+		{
+      "type": "richtext",
+      "id": "referral_text",
+      "label": "Referral text"
+    },
+		{
+      "type": "image_picker",
+      "id": "referral_image",
+      "label": "Referral image"
+    },
+		{
+		   "type": "header",
+		   "content": "Design elements"
+		},
+		{
+      "type": "image_picker",
+      "id": "design_image_1",
+      "label": "Image to display at top left"
+    },
+		{
+      "type": "image_picker",
+      "id": "design_image_2",
+      "label": "Image to display at middle right"
+    },
+		{
+      "type": "image_picker",
+      "id": "design_image_3",
+      "label": "Image to display at bottom right"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Content",
+      "settings": [
+				{
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "url",
+          "label": "Source URL"
+        }
+      ]
+    } 
+  ]
+}
+{% endschema %}

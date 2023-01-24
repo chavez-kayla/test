@@ -1,0 +1,12 @@
+{% if product.metafields.custom_fields["hide_guarantee"] != blank %}
+  <div class="custom-field custom-field__hide-guarantee custom-field__type--checkbox">
+    <h3 class="custom-field--title">Hide Guarantee</h3>
+    <div class="custom-field--value">
+      {% if product.metafields.custom_fields["hide_guarantee"] == 1 %}
+        TRUE
+      {% else %}
+        FALSE
+      {% endif %}
+    </div>
+  </div>
+{% endif %}

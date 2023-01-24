@@ -1,0 +1,8 @@
+{% if product.metafields.custom_fields["whats_included_items_title"] != blank %}
+  <div class="custom-field custom-field__whats-included-items-title custom-field__type--text">
+    <h3 class="custom-field--title">What's Included Items Title</h3>
+    <div class="custom-field--value">
+      {{ product.metafields.custom_fields["whats_included_items_title"] }}
+    </div>
+  </div>
+{% endif %}

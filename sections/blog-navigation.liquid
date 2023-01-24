@@ -1,0 +1,148 @@
+{% comment %} Settings {% endcomment %}
+{% assign showBlogName = section.settings.show_blog_name %}
+{% assign showRSS = section.settings.show_rss %}
+{% assign showComments = section.settings.show_comments %}
+{% assign showFeatured = section.settings.show_featured_post %}
+{% assign articleColumnsGlobal = section.settings.article_columns | plus: 0 %}
+{% assign articleRows = section.settings.article_rows %}
+{% assign articleLimit = articleColumnsGlobal | times: articleRows %}
+{% assign columnsSizeGlobal = articleColumnsGlobal | replace: '1', '' %}
+
+<div id="blog-nav" data-section-id="{{ section.id }}" data-section-type="blog-template" class="blogModule container-wrap" data-featured="{{ showFeatured }}">	
+	<!-- start navigation -->
+	<div class="blog-nav-bar">
+		{% if section.settings.logo != blank %}
+			<div class="blog-logo text-center">
+				<a href="https://tubbytodd.com/blogs/tubby-blog/"><img src="{{ section.settings.logo | img_url: '500x' }}" alt="{% if section.settings.logo.alt != '' %}{{ section.settings.logo.alt }}{% else %}Tubby Todd Bath Co.{% endif %}"></a>
+			</div>
+		{% endif %}
+		<div class="blog-nav text-center" style="background: {{ section.settings.nav_bg_color }};">
+			<ul>
+				{% assign category_handle = '' %}
+				{% for block in section.blocks %}
+					{% assign category_handle = block.settings.category_tag | handleize %}
+					<li{% if canonical_url contains category_handle %} class="active"{% endif %}><a href="https://tubbytodd.com/blogs/tubby-blog/tagged/{{ category_handle }}" style="color: {{ section.settings.nav_text_color }};">{{ block.settings.title }}</a></li>
+				{% endfor %}
+			</ul>	
+			<div class="search">
+	      <form action="/search" method="get" class="search-page-form clearfix" role="search">
+            <label for="search-field2" class="sr-only">Search</label>
+	        <input type="hidden" name="type" value="article" />
+	        <input placeholder="Search the blog" name="q" type="search" id="search-field2" value="{{ search.terms | escape }}" />
+	        <input type="submit" id="search-submit" class="button" value="{{ 'search.button.text' | t }}" />
+	      </form>
+			</div>	
+		</div>	
+	</div>	
+	<!-- end navigation -->
+</div>
+
+<style>
+	.blog-nav-bar .search {
+    max-width: 200px;
+    position: absolute;
+    right: 10px;
+    top: 87px;
+	}
+	.blog-nav-bar .search-page-form input[type=search] {
+		width: 65%;
+	}
+	.blog-nav-bar .search-page-form input[type=submit] { 
+		width: 35%;
+	}
+	.blog-nav-bar .search-page-form input[type=search], .blog-nav-bar  .search-page-form input[type=submit] {
+		height: 35px;
+	}
+	#shopify-section-blog-navigation .blogModule .button {
+		background-color: #FD587C;
+		font-weight: 500;
+    font-size: 1em;
+		padding: 5px 10px 0;
+	}
+	.blog-nav-bar .search input#search-field2 {
+		background: transparent;
+    border: 0px;
+    border-bottom: 2px solid #ffffff;
+		padding: 10px 0px 0px 2px;
+	}
+	.blog-nav-bar .search input#search-field2::placeholder {
+		color: #ffffff;
+	}
+	@media only screen and (max-width: 550px) {
+			.blog-nav-bar .search {
+		    max-width: 160px;
+		    top: -1px;
+				right: 5px;
+			}
+			.blog-nav-bar .search input#search-field2 {
+				border-bottom: 2px solid #FD587C;
+			}
+			.blog-nav-bar .search input#search-field2::placeholder {
+				color: #000000;
+				font-size: .9em;
+			}
+			#shopify-section-blog-navigation .blogModule .button {
+				font-size: .9em;
+			}
+			.blog-nav-bar .search-page-form input[type=search] {
+				width: 60%;
+			}
+			.blog-nav-bar .search-page-form input[type=submit] { 
+				width: 40%;
+			}
+			.blog-logo.text-center {
+				text-align: left;
+			}
+			.blog-logo img {
+				max-width: 185px;
+			}
+	}	
+</style>	
+
+{% schema %}
+  {
+    "name": "Logo and navigation",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Header"
+      },
+			{
+			  "type": "image_picker",
+			  "id": "logo",
+			  "label": "Logo"
+			},
+      {
+        "type": "color",
+        "id": "nav_text_color",
+        "label": "Navigation text",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "nav_bg_color",
+        "label": "Navigation bar background",
+        "default": "#fbf8f3"
+      }
+    ],
+		"blocks": [
+	    {
+	      "type": "text",
+	      "name": "Navigation item",
+	      "settings": [
+					{
+	        	"type": "text",
+	        	"id": "category_tag",
+	        	"label": "Category tag",
+						"info": "Value must exactly match tag"
+	       	},
+					{
+	        	"type": "text",
+	        	"id": "title",
+	        	"label": "Title"
+	       	}
+	      ]
+	    }
+		]
+  }
+{% endschema %}

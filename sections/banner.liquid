@@ -1,0 +1,25 @@
+<section style="background-color: {{ section.settings.bg_color }};" >
+  <div class="banner max-width padding-top padding-bottom">
+  <p class="banner-text">{{ section.settings.text }}</p>
+  </div>
+</section>
+<style>
+</style>
+{% schema %}
+  {
+    "name": "Banner",
+    "settings": [
+      {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+      {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text"
+    }
+    ]
+  }
+{% endschema %}

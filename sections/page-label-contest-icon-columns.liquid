@@ -1,0 +1,97 @@
+{% if section.settings.section_title != '' %}
+	<div>
+		<h2 class="text-jumbo text-bold text-center padding-top">{{ section.settings.section_title }}</h2>
+	</div>	
+{% endif %}
+
+<div class="container pad-sm">
+	<div class="row row-lg">
+	{% for block in section.blocks %}
+		<div class="icon-column text-center padding s1 sm_s1 lg_s12 inline-block">
+			<div class="contain-width-80 margin-auto">
+				{% if block.settings.image != blank %}
+					<img src="{{ block.settings.image | img_url: '1024x' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+				{% endif %}
+				{% if block.settings.title != '' %}
+					<h3 class="text-jumbo text-bold">{{ block.settings.title }}</h3>
+				{% endif %}
+				{% if block.settings.text != '' %}
+					<div class="text-extra-large">
+						<p>{{ block.settings.text | newline_to_br }}</p>
+					</div>
+				{% endif %}
+			</div>
+		</div>	
+	{% endfor %}
+	</div>
+</div>
+
+<style>
+	.icon-columns {
+		background: {{ section.settings.bg_color }};
+		color: {{ section.settings.color }};
+	}
+	.icon-columns img {
+		max-height: 110px;
+		margin-bottom: 30px;
+	}
+	.icon-column {
+		float: left;
+	}
+	.icon-columns h2 {
+		font-size: 2.8em;
+	}
+	.icon-column .text-extra-large p {
+		font-size: 22px;
+	}
+</style>
+
+
+{% schema %}
+{
+  "name": "Icon Columns",
+	"class": "icon-columns extra-padding section-margin-top",
+	"settings": [
+		{
+    	"type": "text",
+    	"id": "section_title",
+    	"label": "Title"
+   	},
+		{
+		   "type":      "color",
+		   "id":        "bg_color",
+		   "label":     "Background color",
+		   "default":   "#f4d2b9"
+		},
+		{
+		   "type":      "color",
+		   "id":        "color",
+		   "label":     "Text color",
+		   "default":   "#000000"
+		}
+	],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Content Block",
+      "settings": [
+	      {
+	        "type": "image_picker",
+	        "id": "image",
+	        "label": "Image"
+	      },
+				{
+        	"type": "text",
+        	"id": "title",
+        	"label": "Title"
+       	},
+				{
+				   "type": "richtext",
+				   "id": "text",
+				   "label": "Text"
+				}
+      ]
+    }
+  ]
+}
+{% endschema %}

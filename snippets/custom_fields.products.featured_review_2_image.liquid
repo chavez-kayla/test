@@ -1,0 +1,8 @@
+{% if product.metafields.custom_fields["featured_review_2_image"] != blank %}
+  <div class="custom-field custom-field__featured-review-2-image custom-field__type--image">
+    <h3 class="custom-field--title">Featured Review 2 Image</h3>
+    <div class="custom-field--value">  
+      {% render 'cf-image' with image: product.metafields.custom_fields["featured_review_2_image"], print: 'url' %}
+    </div>
+  </div>
+{% endif %}

@@ -1,0 +1,74 @@
+<ul class="social-links">
+	{% if settings.instagram_url != '' %}
+    <li class="footer-link-social">
+			<a href="{{settings.instagram_url}}" target="_blank" aria-label="Instagram" title="Instagram - Opens in a new window">
+				<span class="icon-instagram"></span>
+				<span class="fallback-text">{{ 'general.footer.instagram' | t }}</span>
+			</a>
+    </li>
+	{% endif %}
+	{% if settings.facebook_url != '' %}
+		<li class="footer-link-social">
+			<a href="{{settings.facebook_url}}" target="_blank" aria-label="Facebook" title="Facebook - Opens in a new window">
+				<span class="icon-facebook"></span>
+				<span class="fallback-text">{{ 'general.footer.facebook' | t }}</span>
+			</a>
+ 		</li>
+	{% endif %}
+	{% if settings.tiktok_url != '' %}
+		<li class="footer-link-social">
+			<a href="{{settings.tiktok_url}}" target="_blank" aria-label="TikTok" title="TikTok - Opens in a new window">
+				<span class="icon-tiktok"></span>
+				<span class="fallback-text">TikTok</span>
+			</a>
+ 		</li>
+	{% endif %}
+	{% if settings.youtube_url != '' %}
+		<li class="footer-link-social">
+			<a href="{{settings.youtube_url}}" target="_blank" aria-label="YouTube" title="YouTube - Opens in a new window">
+				<span class="icon-youtube"></span>
+				<span class="fallback-text">{{ 'general.footer.youtube' | t }}</span>
+			</a>
+		</li>
+	{% endif %}
+	{% if settings.pinterest_url != '' %}
+		<li class="footer-link-social">
+			<a href="{{settings.pinterest_url}}" target="_blank" aria-label="Pinterest" title="Pinterest - Opens in a new window">
+				<span class="icon-pinterest"></span>
+				<span class="fallback-text">{{ 'general.footer.pinterest' | t }}</span>
+			</a>
+		</li>
+	{% endif %}
+	{% if settings.twitter_url != '' %}
+		<li class="footer-link-social">
+			<a href="{{settings.twitter_url}}" target="_blank" aria-label="Twitter" title="Twitter - Opens in a new window">
+				<span class="icon-twitter"></span>
+				<span class="fallback-text">{{ 'general.footer.twitter' | t }}</span>
+			</a>
+		</li>
+	{% endif %}
+	{% if settings.googleplus_url != '' %}
+		<li class="footer-link-social">
+			<a href="{{settings.googleplus_url}}" target="_blank" aria-label="Google Plus" title="Google Plus - Opens in a new window">
+				<span class="icon-googleplus"></span>
+				<span class="fallback-text">{{ 'general.footer.googleplus' | t }}</span>
+			</a>
+		</li>
+	{% endif %}
+	{% if settings.tumblr_url != '' %}
+		<li class="footer-link-social">
+			<a href="{{settings.tumblr_url}}" target="_blank" aria-label="Tumblr" title="Tumblr - Opens in a new window">
+				<span class="icon-tumblr"></span>
+				<span class="fallback-text">{{ 'general.footer.tumblr' | t }}</span>
+			</a>
+		</li>
+	{% endif %}
+	{% if settings.rss_url != '' %}
+		<li class="footer-link-social">
+			<a href="{{settings.rss_url}}" target="_blank" aria-label="RSS Feed" title="Opens in a new window">
+				<span class="icon-rss"></span>
+				<span class="fallback-text">{{ 'general.footer.rss' | t }}</span>
+			</a>
+		</li>
+	{% endif %}
+</ul>

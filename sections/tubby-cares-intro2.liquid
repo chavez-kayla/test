@@ -1,0 +1,91 @@
+{% if section.settings.banner != blank %}
+	<div id="header_banner" class="featured_image_banner row">							
+		<div>
+			<img src="{{ section.settings.banner | img_url: '2048x' }}" alt="{% if section.settings.banner.alt != '' %}{{ section.settings.banner.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+		</div>
+	</div>
+{% endif %}
+
+{% if section.settings.title != '' or section.settings.intro != '' %}
+	<div class="page-title extra-padding-top extra-margin-bottom">     
+		<div class="container contain-width-80">
+			<div class="row row-lg padding-top">      
+		  	<h1 class="page-title__heading size--small" style="color: {{ section.settings.color }};">{{ section.settings.title }}</h1>
+			</div>
+		</div>
+		<div class="container contain-width-80">
+			<div class="row row-lg">
+		  	<div class="page-title__text rte text-extra-large extra-margin-bottom">
+					<div>{{ section.settings.intro | newline_to_br }}</div>
+				</div>
+			</div>
+			{% if section.settings.button_text != '' and section.settings.button_link %}
+				<div class="row row-med u-center margin-top extra-margin-bottom">
+					<a href="{{ section.settings.button_link }}" class="button button--primary inline upcase" title="{{ section.settings.button_text | strip_html }}">{{ section.settings.button_text | strip_html }}</a>
+				</div>
+			{% endif %}
+		</div>        
+	</div>
+{% endif %}	
+
+{% if section.settings.subtitle != '' or section.settings.intro-image != blank %}
+	<div class="container text-center margin-top">
+		{% if section.settings.subtitle != '' %}
+			<h1 class="page-title__heading size--small">{{ section.settings.subtitle }}</h1>
+		{% endif %}
+		{% if section.settings.intro-image != blank %}
+			<img class="contain-width-60 margin-auto padding-top intro-image" src="{{ section.settings.intro-image | img_url: '2048x' }}" alt="{% if section.settings.intro-image.alt != '' %}{{ section.settings.intro-image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+		{% endif %}
+	</div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Intro Content",
+  "settings": [
+		{
+	    "type": "image_picker",
+	    "id": "banner",
+	    "label": "Banner image"
+	  },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro text"
+    },
+		{
+      "type": "color",
+      "id": "color",
+      "label": "Heading color",
+      "default": "#000"
+    },
+		{
+		   "type": "text",
+		   "id": "button_text",
+		   "label": "Button text"
+		},
+		{
+		   "type": "url",
+		   "id": "button_link",
+		   "label": "Button link"
+		},
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+			"info": "Displays underneath intro paragraph"
+    },
+		{
+	    "type": "image_picker",
+	    "id": "intro-image",
+	    "label": "Intro image",
+			"info": "Displays underneath intro paragraph"
+	  }
+  ]
+}
+{% endschema %}

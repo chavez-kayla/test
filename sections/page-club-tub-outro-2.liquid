@@ -1,0 +1,213 @@
+	{% if section.settings.design_image_3 != '' %}
+		<div class="float-image left">
+			<img src="{{ section.settings.design_image_3 | img_url: '1000x' }}" alt="{% if section.settings.design_image_3.alt != '' %}{{ section.settings.design_image_3.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+		</div>	
+	{% endif %}
+	{% if section.settings.design_image_4 != '' %}
+		<div class="float-image right">
+			<img src="{{ section.settings.design_image_4 | img_url: '1000x' }}" alt="{% if section.settings.design_image_4.alt != '' %}{{ section.settings.design_image_4.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+		</div>	
+	{% endif %}
+
+
+
+{% if section.settings.footer_title != '' or section.settings.footer_text != '' %}
+	<div class="container-wrap final-outro">
+		<div class="container">
+			<div class="row row-sm text-center">
+				{% if section.settings.show_button != '' %}
+					<a href="{{ section.settings.footer_url }}" class="button button--sm button--primary upcase" title="Sign Up for the Club Tub">{{ section.settings.footer_button }}</a>
+				{% endif %}
+				{% if section.settings.footer_title != '' %}
+					<h1 class="extra-padding-top extra-padding-bottom" style="color: {{ section.settings.heading_color }};">{{ section.settings.footer_title }}</h1>
+				{% endif %}
+				{% if section.settings.footer_text != '' %}
+					<p>{{ section.settings.footer_text | newline_to_br }}</p>
+				{% endif %}
+				{% if section.settings.footer_image != blank %}
+					<div class="image contain-width-60 margin-auto padding">
+						<img src="{{ section.settings.footer_image | img_url: '800x' }}" alt="{% if section.settings.footer_image.alt != '' %}{{ section.settings.footer_image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endif %}
+
+<style>
+	{% if section.settings.design_image_2 != blank %}
+		.final-outro:after {
+	    content: "";
+	    display: block;
+	    height: 170px;
+	    background-image: url('{{ section.settings.design_image_2 | img_url: '2400x' }}');
+	    background-repeat: no-repeat;
+	    background-position: right bottom;
+			background-size: cover;
+			top: -100px;
+	    position: relative;
+		}
+	{% endif %}
+	.float-image {
+		position: relative;
+    display: inline-block;
+		top: -50px;
+    transform: translateY(-6px);
+    -webkit-animation: floaty 2s ease-in-out infinite;
+    animation: floaty 2s ease-in-out infinite;
+	}
+	@keyframes floaty { 
+	    0% { transform: translate(0,  0px); } 
+	    50%  { transform: translate(0, 15px); } 
+	    100%   { transform: translate(0, -0px); }     
+	}
+	.float-image.left {
+		float: left;
+	}
+	.float-image.right {
+		float: right;
+	}
+	.float-image img {
+		top: -480px;
+    position: absolute;
+	}
+	.float-image.left img {
+		left: 0px;
+	}
+	.float-image.right img {
+    right: 0px;		
+	}
+	
+@media only screen and (max-width: 1024px) {
+	#shopify-section-page-club-tub-outro .download_item.padding {
+		padding: 10px;
+	}
+}	
+
+@media only screen and (max-width: 600px) {
+	#shopify-section-page-club-tub-outro .download_item.padding {
+		max-height: 125px
+	}
+}
+	
+@media only screen and (min-width: 1800px) {
+	#shopify-section-page-club-tub-outro .rewards .jumbo-padding-bottom {
+		padding-bottom: 8em;
+	}
+	.rewards:before, .rewards:after {
+		height: 200px;		
+	}
+	.rewards:after {
+		top: -120px;
+	}
+	.float-image img {
+	  top: -300px;
+	}
+}	
+
+@media only screen and (min-width: 1950px) {
+	.rewards:before, .rewards:after  {
+    height: 230px;
+	}
+	.rewards:after {
+		top: -135px;
+	}
+}
+</style>
+
+
+
+{% schema %}
+{
+  "name": "Club Tub Footer",
+  "settings": [
+		{
+		   "type": "header",
+		   "content": "Footer Content"
+		},
+		{
+		  "type": "checkbox",
+		  "id": "show_button",
+		  "label": "Show footer button?"
+		},
+		{
+      "type": "text",
+      "id": "footer_button",
+      "label": "Footer button text"
+    },
+    {
+      "type": "url",
+      "id": "footer_url",
+      "label": "Footer button URL"
+    },
+		{
+      "type": "text",
+      "id": "footer_title",
+      "label": "Footer heading"
+    },
+		{
+		   "type": "color",
+		   "id":  "heading_color",
+		   "label": "Footer heading color",
+		   "default": "#2c8dbe"
+		},
+		{
+      "type": "richtext",
+      "id": "footer_text",
+      "label": "Footer text"
+    },
+		{
+      "type": "image_picker",
+      "id": "footer_image",
+      "label": "Footer image"
+    },
+		{
+		   "type": "header",
+		   "content": "Design elements"
+		},
+		{
+      "type": "image_picker",
+      "id": "design_image_2",
+      "label": "Footer divider image"
+    },
+		{
+      "type": "image_picker",
+      "id": "design_image_3",
+      "label": "Overlay image"
+    },
+		{
+      "type": "image_picker",
+      "id": "design_image_4",
+      "label": "Secondary overlay image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Content",
+      "settings": [
+				{
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "url",
+          "label": "Source URL"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

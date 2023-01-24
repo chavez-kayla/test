@@ -1,0 +1,45 @@
+{% comment %}This threshold message is for receiving discounts at various thresholds{% endcomment %}
+{% if settings.enable_cart_threshold_message %}		
+	{% assign thresholdAmount1 = settings.cart_threshold_amount_1 | remove: '$' | plus: 0 %}
+	{% assign thresholdDiscount1 = settings.cart_threshold_discount_1 %}
+	{% assign thresholdAmount2 = settings.cart_threshold_amount_2 | remove: '$' | plus: 0 %}
+	{% assign thresholdDiscount2 = settings.cart_threshold_discount_2 %}
+	{% assign thresholdDiscount2Stacks = settings.cart_threshold_discount_2_stacks %}
+	{% assign thresholdAmount3 = settings.cart_threshold_amount_3 | remove: '$' | plus: 0 %}
+	{% assign thresholdDiscount3 = settings.cart_threshold_discount_3 %}
+	{% assign thresholdDiscount3Stacks = settings.cart_threshold_discount_2_stacks %}
+	{% assign cartTotal = cart.original_total_price | divided_by: 100 %}
+	{% if thresholdAmount3 > 0 and cartTotal >= thresholdAmount3 %}
+		{% assign current_discount = thresholdDiscount3 %}
+		{% assign next_discount = '' %}
+	{% elsif thresholdAmount2 > 0 and cartTotal >= thresholdAmount2 %}
+		{% assign current_discount = thresholdDiscount2 %}
+		{% assign spend_more = thresholdAmount3 | minus: cartTotal | times: 100 | money %}
+		{% assign next_discount = thresholdDiscount3 %}
+	{% elsif thresholdAmount1 and cartTotal >= thresholdAmount1 %}
+		{% assign current_discount = thresholdDiscount1 %}
+		{% assign spend_more = thresholdAmount2 | minus: cartTotal | times: 100 | money %}
+		{% assign next_discount = thresholdDiscount2 %}
+	{% endif %}
+	{% if next_discount == blank %}
+		{% assign more_message = "" %}
+	{% endif %}
+	
+	{% if thresholdDiscount2Stacks and current_discount != blank %}
+		{% if current_discount == thresholdDiscount2 %}
+			{% assign current_discount = thresholdDiscount1 | append: ' + ' | append: thresholdDiscount2 %}
+		{% elsif current_discount == thresholdDiscount3 %}
+			{% assign current_discount = thresholdDiscount3 | append: ' + ' | append: thresholdDiscount2 %}
+		{% endif %}
+	{% endif %}
+	
+	{% if thresholdDiscount3Stacks and current_discount != blank %}
+		{% if current_discount == thresholdDiscount3 %}
+			{% assign current_discount = thresholdDiscount2 | append: ' + ' | append: thresholdDiscount3 %}
+		{% endif %}
+	{% endif %}
+	
+	{% if current_discount != blank %}
+		{% include 'cart-discount-threshold-message' %}
+	{% endif %}
+{% endif %}

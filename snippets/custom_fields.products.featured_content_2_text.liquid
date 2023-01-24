@@ -1,0 +1,8 @@
+{% if product.metafields.custom_fields["featured_content_2_text"] != blank %}
+  <div class="custom-field custom-field__featured-content-2-text custom-field__type--html">
+    <h3 class="custom-field--title">Featured Content 2 Text</h3>
+    <div class="custom-field--value">
+      {{ product.metafields.custom_fields["featured_content_2_text"] }}
+    </div>
+  </div>
+{% endif %}

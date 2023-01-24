@@ -1,0 +1,57 @@
+<div class="extra-margin-bottom extra-padding-top container padding">
+	<div class="row row-lg margin-bottom">
+		<h2 class="text-extra-large">{{ section.settings.title }}</h2>
+	</div>	
+	<div class="collectionGrid-row row row-lg inline">
+		{% for block in section.blocks %}
+			{% assign product = all_products[block.settings.product] %}
+     
+			{% assign columnsSize = 4 %}
+			{% include 'collectionGrid-block' %}
+		{% endfor %}
+	</div>
+	<div class="margin-top text-center row">
+		<a href="{{ section.settings.button_link }}" class="button button--primary inline">{{ section.settings.button_text }}</a>
+	</div>
+</div>
+
+{% schema %}
+{
+  "name": "Product Row 2",
+	"class": "product-row",
+  "settings": [
+		{
+		  "type": "header",
+		  "content": "Heading and Button"
+		},
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Product",
+      "settings": [
+				{
+				  "type": "product",
+				  "id": "product",
+				  "label": "Product"
+				}
+      ]
+    }
+  ]
+}
+{% endschema %}

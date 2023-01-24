@@ -1,0 +1,135 @@
+<!-- /templates/customers/account.liquid -->
+{% paginate customer.orders by 10 %}
+
+<div class="account-home container">
+  
+	{% include "customer-image" %}
+
+	<div class="account-main">
+		<div class="account-main-inner">
+			<div class="title row inline row-sm jumbo-padding-top">
+				<h2 class="intro-title text-center text-extra-large">Welcome, {{ customer.name }}</h2>
+				<h3 class="text-center margin-top background text-large"><span><a href="#smile-home">You have <span class="sweettooth-points-balance"></span> Bubbles</a></span></h3>
+		  </div>
+           
+			{% include "customer-navigation" %} 
+		</div>
+	</div>
+
+  <div class="row row-sm inline extra-margin-top">
+    <div class="block s1">
+      <h2 class="text-center">{{ 'customer.orders.title' | t }}</h2>
+
+      {% comment %}
+        If we have past orders, loop through each one
+      {% endcomment %}
+        {% if customer.orders.size != 0 %}
+
+          <div class="block s1 margin-top order-history">
+            <div class="account-table account-home-table d-table med_d-block">
+              <div class="d-table-header">
+                <div class="d-table-row">
+                  <div class="order-number c-gray d-table-cell">Order</div class="d-table-cell">
+                  <div class="c-gray d-table-cell">{{ 'customer.orders.date' | t }}</div class="d-table-cell">
+                  <div class="c-gray d-table-cell">Status</div class="d-table-cell">
+									<div class="c-gray d-table-cell">Subtotal</div class="d-table-cell">
+									<div class="c-gray d-table-cell">Bubbles Earned</div class="d-table-cell">
+                </div>
+              </div>
+              <div class="d-table-row-group med_d-block">
+                {% for order in customer.orders %}
+                  <div class="order d-table-row med_d-block">
+                    <div class="order-number c-2 d-table-cell med_d-block">
+                      <h4 class="med_show c-gray">{{ 'customer.orders.order_number' | t }}: </h4>
+                      {{ order.name | link_to: order.customer_url }}
+                    </div>
+                    <div class="d-table-cell med_d-block">
+                      <h4 class="med_show c-gray">{{ 'customer.orders.date' | t }}</h4>
+                      {{ order.created_at | date: format: 'month_day_year' }}
+                    </div>
+                    <div class="d-table-cell med_d-block">
+                      <h4 class="med_show c-gray">Status</h4>
+                      {{ order.financial_status_label }}/{{ order.fulfillment_status_label }}
+                    </div>
+										<div class="order-subtotal d-table-cell med_d-block">
+                      <h4 class="med_show c-gray">Subtotal</h4>
+                      {{ order.subtotal_price | money_without_trailing_zeros }}
+                    </div>
+                    <div class="d-table-cell med_d-block">
+                      <h4 class="med_show c-gray">Bubbles Earned</h4>
+                      {{ order.subtotal_price | times: 5 | divided_by: 100 }}
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+					
+					{% if customer.orders_count > 1 %}
+						<div class="margin-top text-center">
+							<a href="javascript:void(0)" id="expand_orders" class="accent-color text-center" onclick="expandAccountOrders();"><img src="{{ 'Club-Tub-Account-View-More-Orders.png' | file_url }}" class="more-less" alt="View more orders" style="max-width: 50px;"></a>
+						</div>
+					{% endif %}	
+			
+
+        {% else %}
+
+          <p>{{ 'customer.orders.none' | t }}</p>
+
+      {% endif %}
+
+			{% include "customer-footer-image" %}
+      
+      {% comment %}{% if paginate.next.is_link or paginate.previous.is_link %}
+        <p class="prev-next"> 
+          {% if paginate.previous.is_link %}
+          <span class="left">{{ 'blog.blog_list_view.newer_articles' | t | link_to: paginate.previous.url }}</span>
+          {% endif %}
+          {% if paginate.next.is_link %}
+          <span class="right">{{ 'blog.blog_list_view.older_articles' | t | link_to: paginate.next.url }}</span>
+          {% endif %}
+        </p>
+      {% endif %}{% endcomment %}
+    </div>
+
+  </div>
+
+	<div class="logout text-center upcase text-large" style="text-decoration: underline;">
+		{{ 'Log out' | customer_logout_link }}
+	</div>
+
+</div>
+{% endpaginate %}
+
+<style>
+.logout a {
+	color: #000000 !important;
+}
+.order-history {
+  max-height: 220px;
+  overflow: hidden;
+}
+.order-history, .more-less {
+	transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+}
+.order-history.more {
+	max-height: none;
+}
+.more-less.rotate {
+	transform: rotate(180deg);
+}
+</style>
+
+<script>
+	function expandAccountOrders() {
+		if( $('.order-history').hasClass('more') ) {
+			$('.order-history').removeClass('more');	
+			$('.more-less').removeClass('rotate');
+		} else {
+			$('.order-history').addClass('more');
+			$('.more-less').addClass('rotate');
+		}
+	}
+</script>

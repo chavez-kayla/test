@@ -1,0 +1,74 @@
+{% if page.metafields.custom_fields["masonry_items"] != blank %}
+	<div class="section container-wrap">
+	  <div class="container">
+			{% if page.metafields.custom_fields["masonry_items_title"] %}
+				<h2 class="text-center text-extra-large extra-margin-bottom">{{ page.metafields.custom_fields["masonry_items_title"] }}</h2>
+			{% endif %}
+	    <div class="masonry_items row row-lg fadein">
+	      {% assign separator = "|###|" %}
+	      {% assign masonry_item_width_array = page.metafields.custom_fields["masonry_item_width"] | split: separator %}
+	      {% assign masonry_item_image_array = page.metafields.custom_fields["masonry_item_image"] | split: separator %}
+	      {% assign masonry_item_title_array = page.metafields.custom_fields["masonry_item_title"] | split: separator %}
+	      {% assign masonry_item_text_array = page.metafields.custom_fields["masonry_item_text"] | split: separator %}
+	      {% assign fc_keys = page.metafields.custom_fields["masonry_items"] | split: "," %}
+	      {% for i in fc_keys %}
+	        {% assign index = i | plus: 0 %}
+					{% assign width_text = masonry_item_width_array[index] %}
+					{% case width_text %}
+					{% when 'one_quarter' %}
+						{% assign width_classes = 'lg_s14 med_s12 s1' %}
+					{% when 'one_third' %}
+						{% assign width_classes = 'lg_s13 med_s12 s1' %}
+					{% when 'one_half' %}
+						{% assign width_classes = 'lg_s12 med_s12 s1' %}
+					{% else %}
+						{% assign width_classes = 'lg_s13 med_s12 s1' %}
+					{% endcase %}
+					
+					{% assign item_image = masonry_item_image_array[index] %}
+					{% assign item_title = masonry_item_title_array[index] %}
+					{% assign item_text = masonry_item_text_array[index] %}
+	
+					{% if item_title != blank and item_text != blank %}
+						<div class="masonry_item {{ width_classes }} padding-left margin-bottom">
+							<div class="padding bg-secondary">
+								{% if item_image != blank %}
+									<div class="image margin-bottom">
+										<img src="{{ item_image}}" alt="{{ item_title }}" style="width:100%;">
+									</div>
+								{% endif %}
+								<h3>{{ item_title }}</h3>
+								<div class="content rte">
+									{{ item_text }}
+								</div>
+							</div>
+						</div>
+					{% endif %}
+	      {% endfor %}
+			</div>
+    </div>
+  </div>
+
+	<script>
+		$( document ).ready(function() {
+			var $masonry = $('.masonry_items').imagesLoaded( function() {
+			  $masonry.masonry({
+			    itemSelector: '.masonry_item',
+					horizontalOrder: true
+			  });
+				$masonry.on( 'layoutComplete', $('.masonry_items').fadeTo(500, 1));
+			});
+		});
+	</script>
+	
+	<style>
+		@media screen and (max-width: 549px) {
+			body.template-full-page-masonry .page-title h1 {
+				margin-bottom: 0;
+			}
+			body.template-full-page-masonry #MainContent {
+				padding-top: 30px;
+			}
+		}
+	</style>
+{% endif %}

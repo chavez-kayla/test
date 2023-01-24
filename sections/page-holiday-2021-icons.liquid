@@ -1,0 +1,49 @@
+<div class="row inline contain-width-80 extra-margin-top">
+	{% for block in section.blocks %}
+		<div class="s13 inline-block text-center">
+			{% if block.settings.link != blank %}<a href="{{ block.settings.link }}">{% endif %}
+			<img src="{{ block.settings.image | img_url:"500x" }}" class="icon mini-margin-bottom" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+			<p style="color: {{ block.settings.title_color }};" class="mobile-hide text-large upcase text-underlined text-semi-bold">{{ block.settings.title | newline_to_br }}</p>
+			{% if block.settings.link != blank %}</a>{% endif %}
+		</div>
+	{% endfor %}
+</div>
+	
+<style>
+	#shopify-section-page-holiday-2021-icons img.icon { max-width: 120px; }
+</style>		
+
+{% schema %}
+{
+  "name": "Icon Row",
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Icon",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Icon image"
+        },
+				{
+        	"type": "textarea",
+        	"id": "title",
+        	"label": "Title"
+       	},
+				{
+		      "type": "color",
+		      "id": "title_color",
+		      "label": "Title color",
+		      "default": "#000000"
+		    },
+				{
+        	"type": "url",
+        	"id": "link",
+        	"label": "Link"
+       	}
+      ]
+    }
+  ]
+}
+{% endschema %}

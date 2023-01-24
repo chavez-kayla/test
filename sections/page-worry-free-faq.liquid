@@ -1,0 +1,55 @@
+{% if section.blocks.size > 0 %}
+	<div data-section-id="{{ section.id }}" data-section-type="faq-template" class="jumbo-padding-top">
+	  <section class="page-title container-wrap centered">
+	    <div class="container padding-bottom">
+	      <h1>{{ section.settings.title }}</h1>
+	    </div>
+	  </section>
+		<div class="container-wrap">
+		  <div class="container">
+		    <div class="sun_school row row-sm columns-2">
+					{% assign num_categories = 0 %}
+					{% for block in section.blocks %}
+						<div class="faq display-inline-block margin-bottom padding-right">
+							<p class="bold">{{ block.settings.title }}</p>
+							<div class="rich-content">{{ block.settings.answer }}</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "FAQ",
+	"settings": [
+  	{
+	    "type": "text",
+	    "id": "title",
+	    "label": "Heading"
+	  }
+	],
+  "blocks": [
+    {
+      "name": "FAQ",
+      "type": "faq",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Question",
+          "default": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero nihil at impedit nam commodi magni quas fuga, porro asperiores repellendus.</p>"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,40 @@
+{% assign lastElementClass = '' %}
+
+{% capture article_excerpt %}
+	{{ article.excerpt_or_content | strip_html | strip | truncatewords: 50 }}
+{% endcapture %}
+
+{% assign feat_img = '' %}
+{% if article.image %}
+	{% assign feat_img = article.image %}
+{% elsif section.settings.default_post_image != blank %}
+	{% assign feat_img = section.settings.default_post_image %}
+{% endif %}
+
+{% comment %} UPDATED CODE {% endcomment %}
+<div class="blog-post">
+<a href="{{ article.url }}" aria-label="{{ article.title | escape }}" title="{{ article.title | escape }}" class="block s1 med_s12 lg_s1{{ columnsSizeGlobal }}">
+<div class="article-image"><img src="{{ article.image | img_url: '800x' }}" alt="{% if article.image.alt != '' %}{{ article.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}"></div>
+<div class="article-info">
+		{%- if section.settings.tags -%}
+			{% assign current_tag = current_tags | join: '' %}
+			{% assign current_tag_comma = current_tag |  append: ', ' %}
+			{% assign atricle_tag_list = article.tags | join: ', ' %}
+			{% assign updated_list =  atricle_tag_list | remove: current_tag_comma | remove: current_tag %}
+			<p class="post-tags">{{ updated_list | upcase }}</p>
+		{%- endif -%}
+		<p class="h3 text-extra-large margin-top">{{ article.title }}</p>
+      </div>
+</a>
+<div class="article-excerpt">
+<p class="text-black">{{ article_excerpt }}</p>
+</div>
+<div class="article--read-more">
+<a href="{{ article.url }}" aria-label="Read more about {{ article.title | escape }}">
+ <p class="text-large read-more upcase">Read more</p>
+</a>
+</div>
+</div>
+    {%- if section.settings.author -%}
+		<p class="post-author">{{ article.user.first_name }} {{ article.user.last_name }}</p>
+	{%- endif -%}

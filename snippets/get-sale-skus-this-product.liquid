@@ -1,0 +1,10 @@
+{% if collection.metafields.custom_fields["sku_restrictions"] != blank %}
+	{% assign sale_skus = collection.metafields.custom_fields["sku_restrictions"] | remove: ' ' | split: ',' %}
+	{% assign sale_skus_this_product = '' %}
+	{% for v in product.variants %}
+		{% if sale_skus contains v.sku %}
+			{% assign sale_skus_this_product = sale_skus_this_product | append: v.sku | append: ',' %}
+		{% endif %}
+	{% endfor %}
+	{% assign sale_skus_this_product = sale_skus_this_product | split: ',' %}
+{% endif %}

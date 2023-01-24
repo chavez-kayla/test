@@ -1,0 +1,54 @@
+<section class="simple-image-text-module container-wrap" id="text-module-{{ section.id }}" data-section-type="rich-text">
+	<div class="container pad-sm">
+		<div class="row row-lg">
+				<div class="rich-content">
+                        	{% if section.settings.show_video %}
+          				<div class="video">
+          					{% if section.settings.image_link %}<a href="{{ section.settings.image_link }}">{% endif %}
+          						{{ section.settings.video }}
+          					{% if section.settings.image_link %}</a>{% endif %}
+          				</div>	
+          			{% else %}
+          				{% if section.settings.image != blank %}
+          					<div class="image">
+          						{% if section.settings.image_link %}<a href="{{ section.settings.image_link }}">{% endif %}
+          							{{ section.settings.image | img_url: '500x' | img_tag: section.settings.image.alt }}
+          						{% if section.settings.image_link %}</a>{% endif %}
+          					</div>
+          				{% endif %}
+          			{% endif %}
+				</div>
+		</div>
+	</div>
+</section>
+{% comment %} Schema {% endcomment %}
+{% schema %}
+	{
+		"name": "Video",
+		"class": "video",
+		"settings": [
+			{
+				"type": "image_picker",
+				"id": "image",
+				"label": "Image"
+			},
+			{
+			   "type": "checkbox",
+			   "id": "show_video",
+			   "label": "Use video instead of image?"
+			},
+			{
+			   "type": "html",
+			   "id": "video",
+			   "label": "Video embed code"
+			},
+			{
+				"type": "url",
+				"id": "image_link",
+				"label": "Image/video link"
+			}
+			
+			
+		]
+	}
+{% endschema %}

@@ -1,0 +1,25 @@
+<h2>{{ section.settings.title }}</h2>
+
+<p>This example uses the addEventListener() method to execute a function when a user clicks on a button.</p>
+
+<button class="button" id="myBtn">Try it</button>
+
+{% include 'javascript-test' %}
+{% schema %}
+  {
+    "name": "Javascript",
+    "settings": [
+      {
+            "type": "text",
+            "id": "title",
+            "label": "Heading"
+          }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

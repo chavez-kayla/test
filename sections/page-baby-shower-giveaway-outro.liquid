@@ -1,0 +1,58 @@
+{% if section.settings.subtitle != '' %}
+	<div class="container text-center margin-top contain-width-50">
+		<div class="text-extra-large">{{ section.settings.subtitle | newline_to_br }}</div>
+      
+	</div>
+{% endif %}
+
+{% if section.settings.title != '' %}
+	<div class="page-title extra-padding-top extra-margin-bottom">     
+		<div class="container contain-width-80">
+			<div class="row row-lg padding-top">      
+		  	<h1 class="page-title__heading size--small no-margin-bottom" style="color: {{ section.settings.color }};">{{ section.settings.title | newline_to_br }}</h1>
+			</div>
+		</div> 
+	</div>
+{% endif %}
+
+{% if section.settings.html != '' %}
+	<div class="container text-center contain-width-80">
+		{{ section.settings.html }}
+	</div>
+{% endif %}
+<style>
+  
+  .text-extra-large {
+    padding:35px;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Outro Content",
+  "settings": [
+	{
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subheading"
+
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Heading"
+    },
+		{
+      "type": "color",
+      "id": "color",
+      "label": "Heading color",
+      "default": "#000"
+    },
+		{
+		   "type": "html",
+		   "id": "html",
+		   "label": "Custom HTML"
+		}
+  ]
+}
+{% endschema %}

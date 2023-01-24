@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="{{ locale }}" dir="{{ direction }}" class="{{ checkout_html_classes }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, user-scalable=0">
+    <meta name="referrer" content="origin">
+
+    <title>{{ page_title }}</title>
+
+    {{ content_for_header }}
+	
+    {{ 'checkout.scss' | asset_url | stylesheet_tag }}
+    {{ checkout_stylesheets }}
+    {{ checkout_scripts }}
+  </head>
+  <body>
+    {{ skip_to_content_link }}
+
+    <div class="banner" data-header>
+      <div class="wrap">
+        {{ content_for_logo }}
+      </div>
+    </div>
+
+    {{ order_summary_toggle }}
+
+    <div class="content" data-content>
+      <div class="wrap">
+        <div class="main" role="main">
+          <div class="main__header">
+            {{ content_for_logo }}
+            {{ breadcrumb }}
+            {{ alternative_payment_methods }}
+          </div>
+          <div class="main__content">
+            {{ content_for_layout }}
+          </div>
+          <div class="main__footer">
+            {{ content_for_footer }}
+          </div>
+        </div>
+        <div class="sidebar" role="complementary">
+          <div class="sidebar__header">
+            {{ content_for_logo }}
+          </div>
+          <div class="sidebar__content">
+            {{ content_for_order_summary }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{ tracking_code }}
+    
+    {% include 'smile-initializer' %}
+    {% include 'smile-points-slider' %}
+		{% include 'checkout-scripts' %}
+    <script>
+Checkout.$(document).on('page:load', function() {
+  if (Shopify.Checkout.step === "contact_information") {
+    Checkout.$('[data-drawer-toggle="[data-order-summary]"]').click();
+  }
+});
+</script>
+  {% if first_time_accessed %}
+<script type="text/javascript">
+!function(e){if(!window.pintrk){window.pintrk=function()
+{window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var
+n=window.pintrk;n.queue=[],n.version="3.0";var
+t=document.createElement("script");t.async=!0,t.src=e;var
+r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r)}}
+("https://s.pinimg.com/ct/core.js");
+
+pintrk('load','YOUR_TAG_ID', { em: '{{ customer.email }}', }); 
+pintrk('page'); 
+</script> 
+<noscript> 
+<img height="1" width="1" style="display:none;" alt=""
+src="https://ct.pinterest.com/v3/2612873056278" /> 
+</noscript>
+
+<script>
+pintrk('track', 'checkout',{
+value: {{ total_price | money_without_currency }}, 
+currency: '{{ currency }}',
+order_quantity: 1,
+order_id: {{ checkout.id }}
+});
+</script>
+<noscript>
+<img height="1" width="1" style="display:none;" alt=""
+src="https://ct.pinterest.com/v3/2612873056278"/>
+</noscript>
+{% endif %}
+    
+  {% include 'booster-discounts' %}
+</body>
+</html>

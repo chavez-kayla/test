@@ -1,0 +1,153 @@
+{% if section.settings.banner != blank %}
+	<div id="header_banner" class="featured_image_banner row{% if section.settings.mobile_banner != blank %} desktop-only{% endif %}">							
+		<div>
+			<img src="{{ section.settings.banner | img_url: '2048x' }}" alt="{% if section.settings.banner.alt != '' %}{{ section.settings.banner.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+		</div>
+	</div>
+{% endif %}
+
+{% if section.settings.mobile_banner != blank %}
+	<div class="featured_image_banner row mobile-only">							
+		<div>
+			<img src="{{ section.settings.mobile_banner | img_url: '2048x' }}" alt="{% if section.settings.mobile_banner.alt != '' %}{{ section.settings.mobile_banner.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+		</div>
+	</div>
+{% endif %}
+
+{% if section.settings.title != '' or section.settings.intro != '' %}
+	<div class="page-title extra-padding-top extra-margin-bottom">     
+		<div class=" container contain-width-80">
+			<div class="row row-lg padding-top">      
+		  	<h1 class="page-title__heading size--small" style="color: {{ section.settings.color }};">{{ section.settings.title }}</h1>
+			</div>
+		</div>
+		<div class="container contain-width-80">
+			<div class="row row-lg">
+		  	<div class="page-title__text rte size--normal extra-margin-bottom">
+					<p>{{ section.settings.intro }}</p>
+				</div>
+			</div>
+			{% if section.settings.button_text != '' and section.settings.button_link != '' %}
+				<div class="row row-med u-center margin-top extra-margin-bottom">
+					<a href="{{ section.settings.button_link }}" class="button button--primary inline upcase" title="{{ section.settings.button_text | strip_html }}">{{ section.settings.button_text | strip_html }}</a>
+				</div>
+			{% endif %}
+		</div>        
+	</div>
+{% endif %}	
+
+{% for block in section.blocks %}
+	<div class="simple-image-text-module container-wrap featured-product" data-section-type="rich-text">
+		<div class="container" style="background-color: {{ block.settings.bg_color }};">
+			<div class="row row--split row-lg">
+				{% if block.settings.image_location == 'left' %}
+					<div class="image no-padding-right">
+						<a href="{{ block.settings.image | img_url: '1024x' }}" class="collection-image-lightbox">
+							<img src="{{ block.settings.image | img_url: '1024x' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}" class="row--split-feat-image">
+						</a>
+					</div>
+				{% endif %}
+				<div class="rich-content no-button align--left lg_align--left padding" style="background-color: {{ block.settings.bg_color }}; color: {{ block.settings.color }};">
+					<div class="max-width">	
+						<h2 class="size--xlarge text-bold" style="color: {{ block.settings.heading_color }};">{{ block.settings.title }}</h2>
+						<div class="extra-large">
+							<p>{{ block.settings.text | newline_to_br }}</p>
+						</div>
+						{% if block.settings.link != '' %}<a href="{{ block.settings.link }}">{% endif %}{% if block.settings.link_title != '' %}{{ block.settings.link_title }}{% endif %}	{% if block.settings.link_image %}<img src="{{ block.settings.link_image | img_url: '150x' }}" class="link-image" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">{% endif %}{% if block.settings.link != '' %}</a>{% endif %}
+					</div>
+				</div>
+				{% if block.settings.image_location == 'right' %}
+					<div class="image no-padding-left">
+						<a href="{{ block.settings.image | img_url: '1024x' }}" class="collection-image-lightbox">
+							<img src="{{ block.settings.image | img_url: '1024x' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+						</a>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endfor %}
+
+<style>
+	.no-padding-left {
+		padding-left: 0px !important;
+	}
+	.no-padding-right {
+		padding-right: 0px !important;
+	}
+	a.button.button--primary {
+		font-size: 1.8em;
+	}
+	{% if section.settings.accent-image != blank %}
+		#shopify-section-collection-gift-guide-intro .page-title {
+			position: relative;
+		}
+		#shopify-section-collection-gift-guide-intro .page-title:after {
+	    content: '';
+	    width: 150px;
+	    height: 150px;
+	    z-index: 99;
+	    bottom: 0;
+	    right: 5%;
+	    background-size: contain;
+	    background-repeat: no-repeat;
+	    display: block;
+	    position: absolute;
+			background-image: url('{{ section.settings.accent-image | img_url: '2400x' }}');
+		}
+	{% endif %}
+</style>
+
+
+{% schema %}
+{
+  "name": "Gift Guide Intro Content",
+  "settings": [
+		{
+	    "type": "image_picker",
+	    "id": "banner",
+	    "label": "Banner image"
+	  },
+		{
+	    "type": "image_picker",
+	    "id": "mobile_banner",
+	    "label": "Mobile banner image"
+	  },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro text"
+    },
+		{
+      "type": "color",
+      "id": "color",
+      "label": "Heading color",
+      "default": "#000"
+    },
+		{
+		   "type": "text",
+		   "id": "button_text",
+		   "label": "Button text"
+		},
+		{
+		   "type": "url",
+		   "id": "button_link",
+		   "label": "Button link"
+		},
+		{
+		   "type": "header",
+		   "content": "Optional Design Images"
+		},
+		{
+	    "type": "image_picker",
+	    "id": "accent-image",
+	    "label": "Accent image"
+	  }
+  ]
+}
+{% endschema %}

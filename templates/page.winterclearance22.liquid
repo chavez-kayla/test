@@ -1,0 +1,71 @@
+{% include 'privacy-check-start' %}
+<div class="custom-landing-page">
+{% section 'page-winterclearance22-intro' %}
+{% section 'page-winterclearance22-product-row-1' %}
+{% section 'page-winterclearance22-product-row-2' %}
+
+</div>
+{% include 'privacy-check-end' %}
+
+<style>
+body .bodyWrap-spacer {
+  padding-top: 120px;
+}
+@media only screen and (min-width: 1800px) {
+	.custom-landing-page .featured-product:before {
+		background-size: contain;
+	  background-repeat: no-repeat;	
+		top: -55vh;
+	}
+	.custom-landing-page:before {
+		top: 100px;
+	}
+}
+@media only screen and (max-width: 1025px) {
+	.custom-page-intro .simple-image-text-module .container:before {
+		top: -20vh;
+		height: 20vh;
+		width: 50%;
+	}
+	.custom-page-intro .simple-image-text-module .container:after {
+		top: -3vh;   
+	}
+	.custom-page-intro .featured-product:before {
+		height: 22vh;
+		top: -22vh;
+	}
+	.custom-page-intro {
+	  margin-top: 0;
+	}
+	.custom-page-row-2:after {
+		height: 40vh;
+		margin-top: -25vh;
+	}
+}
+@media screen and (max-width: 1023px) {
+	.custom-landing-page .contain-width, .custom-landing-page .contain-width-70, .custom-landing-page .contain-width-60, .custom-landing-page .contain-width-50 {
+		width: 80%;
+	}	
+}
+@media only screen and (max-width: 769px) {
+	.custom-landing-page .custom-page-intro .simple-image-text-module img.row--split-feat-image {
+		margin-top: -30vh;
+	}
+}
+@media only screen and (max-width: 600px) {
+	.custom-landing-page .custom-page-intro .simple-image-text-module img.row--split-feat-image {
+		margin-top: -10vh;
+	}
+	.custom-page-intro:before, .custom-page-intro .featured-product:after {
+		width: 120px;
+		height: 120px;
+	}
+	.custom-page-intro .featured-product:after {
+		right: 0px;
+		top: -115px;
+	}
+	body .bodyWrap-spacer {
+		padding-top: 90px;
+	}
+}
+</style>

@@ -1,0 +1,12 @@
+{% if product.variants.size > 1 %}
+	<div class="selector-wrapper">
+		<span class="selectArrow"></span>
+		<select class="variant_switcher" name="{{ product.options.first }}">
+			{% for variant in product.variants %}
+				{% if variant.available %}
+					<option value="{{ variant.id }}" data-price="{{ variant.price }}" data-compare-price="{{ variant.compare_at_price }}">{{ variant.option1 }}{% if variant.option2 %} - {{ variant.option2 }}{% endif %}{% if variant.option3 %} - {{ variant.option3 }}{% endif %}</option>
+				{% endif %}
+			{% endfor %}
+		</select>
+	</div>
+{% endif %}

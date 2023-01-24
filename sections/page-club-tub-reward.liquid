@@ -1,0 +1,140 @@
+<div class="container-wrap rewards">
+  <div class="extra-padding" style="background-color: {{ section.settings.bg_color }};">
+    <div class="row row-sm jumbo-padding-bottom">
+			{% if section.settings.title != blank %}<h1 class="text-center">{{ section.settings.title }}</h1>{% endif %}
+			{% if section.settings.text != blank %}<p class="text-center text-large">{{ section.settings.text }}</p>{% endif %}
+			{% if section.blocks.size > 0 %}
+				{% for block in section.blocks %}
+					<div class="download_item block s11 sm_s13 lg_s13 padding extra-margin-bottom">					
+						{% if block.settings.image %}
+							<div class="featured_image text-center flex-vertical-align-middle">				
+								{% if block.settings.source_url %}<a href="{{ block.settings.source_url }}" target="_blank" title="Opens in a new window">{% endif %}<img src="{{ block.settings.image | img_url: 'x300' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">{% if block.settings.source_url %}</a>{% endif %}							
+							</div>
+						{% endif %}					
+						{% if block.settings.title != '' or block.settings.description != '' %}
+							<div class="mini-padding-bottom">
+								{% if block.settings.title %}
+									{% if block.settings.source_url %}<a href="{{ block.settings.source_url }}" target="_blank" title="Opens in a new window">{% endif %}<h4 class="text-center" style="color: {{ section.settings.heading_color }};">{{ block.settings.title }}</h4>{% if block.settings.source_url %}</a>{% endif %}
+								{% endif %}
+								{% if block.settings.description != '' %}
+									<p class="text-center">{{ block.settings.description }}</p>
+								{% endif %}
+							</div>
+						{% endif %}
+					</div>		
+				{% endfor %}
+			{% endif %}		
+    </div>
+  </div>
+</div>
+<style>
+  {% if section.settings.design_image_1 != blank %}
+		.rewards:before {
+	    content: "";
+	    display: block;
+	    height: 180px;
+	    background-image: url('{{ section.settings.design_image_1 | img_url: '2400x' }}');
+	    background-repeat: no-repeat;
+	    background-position: right bottom;
+		background-size: cover;
+		}
+	{% endif %}
+ .jumbo-padding-bottom { 
+   padding:20px;
+ }
+</style>
+{% schema %}
+  {
+    "name": "Reward",
+    "settings": [
+      {
+      "type": "text",
+      "id": "title",
+      "label": "Rewards heading"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Rewards text"
+    },
+		{
+		   "type": "color",
+		   "id":  "bg_color",
+		   "label": "Rewards background color",
+		   "default": "#e4f2f3"
+		},
+      {
+		   "type": "header",
+		   "content": "Design elements"
+		},
+		{
+      "type": "image_picker",
+      "id": "design_image_1",
+      "label": "Top divider image"
+    }
+    ],
+    "blocks": [
+    {
+      "type": "text",
+      "name": "Content",
+      "settings": [
+				{
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "url",
+          "label": "Source URL"
+        },
+        {
+		   "type": "header",
+		   "content": "Design elements"
+		},
+		{
+      "type": "image_picker",
+      "id": "design_image_1",
+      "label": "Top divider image"
+    }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "name": "Image",
+      "settings": [
+				{
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "url",
+          "label": "Source URL"
+        }
+      ]
+    }
+  ]
+  }
+{% endschema %}

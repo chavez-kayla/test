@@ -1,0 +1,31 @@
+<!-- spurit_stp-added -->
+{% render 'spurit_stp-product-snippet' %}
+<!-- /spurit_stp-added -->
+{% include 'product-variantPopover' %}
+
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}
+	{% assign on_sale = true %}
+	{% assign on_sale_class = ' is-sale' %}
+{% endif %}
+
+{% assign sold_out = true %}
+{% if product.available %}
+	{% assign sold_out = false %}
+{% endif %}
+
+<div itemscope itemtype="http://schema.org/Product">
+	<meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+	<meta itemprop="image" content="{{ product.featured_image.src | img_url: 'grande' }}">
+	
+	{% section 'product-template' %}
+	{% section 'product-content' %}
+	{% section 'product-reviews' %}
+	{% section 'faq-section__product' %}
+	{% section 'related-products' %}
+
+	<span id="product-json" hidden>{{ product | json }}</span>
+</div>
+
+{{ 'page-product.js'  | asset_url | script_tag }}
+{% include 'product-scripts' %}

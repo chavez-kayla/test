@@ -1,0 +1,163 @@
+{% comment %} Settings {% endcomment %}
+{% assign showBlogName = section.settings.show_blog_name %}
+{% assign showRSS = section.settings.show_rss %}
+{% assign showComments = section.settings.show_comments %}
+{% assign showFeatured = section.settings.show_featured_post %}
+{% assign articleColumnsGlobal = section.settings.article_columns | plus: 0 %}
+{% assign articleRows = section.settings.article_rows %}
+{% assign articleLimit = articleColumnsGlobal | times: articleRows %}
+{% assign columnsSizeGlobal = articleColumnsGlobal | replace: '1', '' %}
+{% assign accent_line = section.settings.accent_line %}
+{% assign accent_line_color = section.settings.accent_line_color %}
+
+<div id="blog-grid" data-section-id="{{ section.id }}" data-section-type="blog-template" class="blogModule container-wrap" data-featured="{{ showFeatured }}">
+
+  <div class="container-wrap blog-listing">
+			{% paginate blog.articles by articleLimit %}
+      <div id="MainInnerContent">
+				
+				{% if current_tags != blank %}
+	        <div class="row row-lg EndlessClick">
+						<div class="left-side">
+		          {% for article in blog.articles %}
+		            {% unless showFeatured and paginate.current_page == 1 and forloop.index == 1 %}
+		              {% include 'blog-post-standard' %}
+		            {% endunless %}
+		          {% endfor %}
+						</div>
+						
+						<div class="right-side">
+							{% comment %}<h3 class="upcase normal text-brown">Popular Posts</h3>{% endcomment %}
+							{% assign article = '' %}
+							{% for block in section.blocks %}
+								<div class="related-post">
+									{% assign article = block.settings.article %}
+									<a href="{{ article.url }}">
+										<img src="{{ article.image | img_url: '500x' }}" alt="{% if article.image.alt != '' %}{{ article.image.alt }}{% else %}{{ article.title }}{% endif %}">
+										<div class="content">
+											{% if block.settings.subtitle != '' %}<p class="semi-bold upcase text-brown subtitle">{{ block.settings.subtitle }}</p>{% endif %}
+											<p class="text-black semi-bold">{{ article.title }}</p>
+										</div>
+									</a>
+								</div>	
+							{% endfor %}
+						</div>	
+
+	          {% if paginate.next %}
+	            <div class="pagination u-center">
+	              <a href="{{ paginate.next.url }}" class="loadMore button">{{ 'collections.pagination.load_more' | t }}</a>
+	              <div class="load-more-icon"></div>
+	            </div>
+	          {% elsif paginate.next == blank and showFeatured %}
+	            <div class="pagination u-center">
+	              <a href="{{ paginate.next.url }}" class="loadMore loadMore--fake button">{{ 'collections.pagination.load_more' | t }}</a>
+	              <div class="load-more-icon"></div>
+	            </div>
+	          {% endif %}
+	        </div>
+				{% endif %}
+				
+      </div>
+			
+      {% endpaginate %}  
+    </div>
+    {% if blog.articles_count == 0 %}
+    <div class="collection-error centered">
+      <div class="no-products h4">{{ 'blog.blog_list_view.no_article' | t }}</div>
+    </div>
+    {% endif %}
+  </div>
+<style>
+</style>
+
+{% schema %}
+  {
+    "name": "Blog Grid",
+		"settings": [
+      {
+        "type": "header",
+        "content": "Blog grid"
+      },
+			{
+			  "type": "image_picker",
+			  "id": "default_post_image",
+			  "label": "Default post image",
+				"info": "Will appear for any post without a featured image"
+			},
+      {
+        "type": "checkbox",
+        "id": "show_blog_name",
+        "label": "Show blog name",
+        "default": false
+      }, 
+      {
+        "type": "checkbox",
+        "id": "show_rss",
+        "label": "Show RSS follow links",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "tags",
+        "label": "Show tags",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "grid_post_date",
+        "label": "Show dates in post grid",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "author",
+        "label": "Show author",
+        "default": true
+      }, 
+      {
+        "type": "checkbox",
+        "id": "show_comments",
+        "label": "Show comment count",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "article_rows",
+        "label": "Posts rows",
+				"info": "Not used for blog blocks",
+        "default": 50,
+        "min": 1,
+        "max": 100,
+        "step": 1
+      },
+      {
+        "type": "range",
+        "id": "article_columns",
+        "label": "Posts per row",
+				"info": "Not used for blog blocks",
+        "default":4,
+        "min":1,
+        "max":5,
+        "step":1
+      }
+    ],
+		"blocks": [
+	    {
+	      "type": "text",
+	      "name": "Sidebar item",
+	      "settings": [
+					{
+					  "type": "article",
+					  "id": "article",
+					  "label": "Article"
+					},
+					{
+					  "type": "text",
+					  "id": "subtitle",
+					  "label": "Subtitle"
+					}
+	      ]
+	    }
+		]
+  }
+{% endschema %}

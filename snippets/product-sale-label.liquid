@@ -1,0 +1,28 @@
+{% if settings.enable_sale_label %}
+	{% assign show_ribbon = true %}
+	{% if settings.sale_label_skus != blank %}
+		{% assign show_ribbon = false %}
+		{% assign sale_skus = settings.sale_label_skus | remove: ' ' | split: ',' %}
+		{% assign sale_skus_this_product = '' %}
+		{% for v in product.variants %}
+			{% if sale_skus contains v.sku %}
+				{% assign show_ribbon = true %}
+				{% assign sale_skus_this_product = sale_skus_this_product | append: v.sku | append: ',' %}
+			{% endif %}
+		{% endfor %}
+	{% endif %}
+
+	{% if show_ribbon %}
+		{% assign variant_show_classes = "" %}
+		{% if sale_skus_this_product != blank %}
+			{% assign variant_show_classes = "variant-hide" %}
+			{% assign sale_skus_this_product = sale_skus_this_product | split: ',' %}
+			{% for sale_sku in sale_skus_this_product %}
+				{% assign formatted_sale_sku = sale_sku | replace: '.', '' %}
+				{% assign variant_show_classes = variant_show_classes | append: ' variant-show-' | append: formatted_sale_sku %}
+			{% endfor %}
+		{% endif %}
+		<p class="sale_ribbon{% if variant_show_classes %} {{ variant_show_classes }}{% endif %}">{{ settings.sale_label }}</p>
+		<input type="hidden" id="sale_property" class="hidden variant-remove-property{% if variant_show_classes %} {{ variant_show_classes | remove: 'variant-hide ' | replace: 'variant-show-', 'variant-add-property-' }}{% endif %}" name="properties[_Sale]" value="" data-value="3 for $40">
+	{% endif %}
+{% endif %}

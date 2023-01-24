@@ -1,0 +1,468 @@
+{% comment %} Subtitle Captures {% endcomment %}
+{% capture subtitle %}
+	<h2 class="subtitle padding-top no-padding-bottom no-margin-bottom">
+		{%- if page.metafields.custom_fields["featured_content_subtitle"] != blank -%}
+			{{ page.metafields.custom_fields["featured_content_subtitle"] }}
+		{%- else -%}
+			{{ default_subtitle }}
+		{%- endif -%}
+	</h2>
+{% endcapture %}
+
+{% capture divider %}
+	{% if page.metafields.custom_fields["title_divider"] != blank %}
+		<div class="divider-image padding">
+			{% include 'cf-image' with image: page.metafields.custom_fields["title_divider"] %}
+		</div>
+	{% endif %}
+{% endcapture %}
+
+<div data-section-id="{{ section.id }}" data-section-type="page-template">
+	<!-- Hero -->
+	{% if page.metafields.custom_fields["featured_video_banner"] != blank or page.metafields.custom_fields["featured_image_banner"] != blank %}
+		{% if page.metafields.custom_fields["featured_banner_width"] == 1 %}<div class="container">{% endif %}
+			<div id="header_banner" class="featured_image_banner row{% if page.metafields.custom_fields['featured_banner_width'] == 1 %} row-lg{% endif %}">			
+				{% if page.metafields.custom_fields["featured_image_banner_link"] != blank %}<a href="{{ page.metafields.custom_fields['featured_image_banner_link'] }}">{% endif %}
+				{% if page.metafields.custom_fields["featured_video_banner"] != blank %}
+					<video controls muted autoplay playsinline loop="loop" preload="auto">
+						<source src="{{ page.metafields.custom_fields['featured_video_banner'] }}" type="video/mp4; codecs=&quot;avc1.42E01E, mp4a.40.2&quot;">
+					</video>
+				{% elsif page.metafields.custom_fields["featured_image_banner"] != blank %}
+					{% if page.metafields.custom_fields["featured_image_banner_mobile"] != blank %}
+						<div class="mobile-only">
+							{{ page.metafields.custom_fields["featured_image_banner_mobile"].value | img_tag }}
+						</div>
+						<div class="desktop-only">
+							{{ page.metafields.custom_fields["featured_image_banner"].value | img_tag }}
+						</div>
+					{% else %}
+						<div>
+							{{ page.metafields.custom_fields["featured_image_banner"].value | img_tag }}
+						</div>
+					{% endif %}
+				{% endif %}
+				{% if page.metafields.custom_fields["featured_image_banner_link"] != blank %}</a>{% endif %}
+			</div>
+		{% if page.metafields.custom_fields["featured_banner_width"] == 1 %}</div>{% endif %}
+	{% endif %}
+  
+   <div class="page-title">
+		<div class="{% if page.metafields.custom_fields['title_background_color'] != blank %} bg-color padding{% else %} container contain-width-80{% endif %}">
+        <div class="row row-lg padding no-padding-bottom">
+				{% if page.metafields.custom_fields["subtitle"] != blank %}
+					{{ subtitle }}
+					{{ divider }}
+				{% endif %}
+          <h1 class="page-title__heading size--{{ heading_size }} padding-top" style="margin-bottom:5px;">{{ page.title }}</h1>
+        </div>
+		</div>
+     {% if page.content != blank %}
+			<div class="container contain-width-80{% if page.metafields.custom_fields['title_background_color'] != blank %} extra-padding{% endif %}">
+        <div class="row row-lg">
+          <div class="page-title__text mini-margin-top rte size--{{ text_size }}"><p>{{ page.content | strip_html }}</p></div>
+        </div>
+			</div>
+     {% endif %}
+   </div>
+
+		<!-- Featured Content 1 -->
+		{% if page.metafields.custom_fields["featured_content_title"] != blank or page.metafields.custom_fields["featured_content_text"] != blank %}
+			<div class="simple-image-text-module container-wrap featured-product" data-section-type="rich-text">
+				<div class="container">
+					<div class="row row--split row-lg">
+						{% if page.metafields.custom_fields["featured_content_video"] != blank %}
+							<div class="featured_video image desktop-only no-padding-right">
+								<iframe src="{{ page.metafields.custom_fields['featured_content_video'] }}" width="100%" height="300px" frameborder="0" title="{% if page.metafields.custom_fields['featured_content_title'] != blank %}{{ page.metafields.custom_fields['featured_content_title'] }}{% else %}Tubby Todd Bath Co.{% endif %}"></iframe>
+							</div>
+						{% elsif page.metafields.custom_fields["featured_content_image"] != blank %}
+							<div class="image no-padding-right">
+								<a href="{{ page.metafields.custom_fields['featured_content_image'] }}" class="product-image-lightbox">
+									{{ page.metafields.custom_fields["featured_content_image"].value | img_tag: page.metafields.custom_fields["featured_content_title"] }}
+								</a>
+							</div>
+						{% endif %}
+						<div class="rich-content no-button align--left lg_align--left extra-padding">
+							<div class="max-width">
+								{% if page.metafields.custom_fields["featured_content_title"] != blank %}
+									<h2 class="size--xlarge text-bold text-white">{{ page.metafields.custom_fields["featured_content_title"] }}</h2>
+								{% endif %}
+								{% if page.metafields.custom_fields["featured_content_text"] != blank %}
+									<div class="extra-large">{{ page.metafields.custom_fields["featured_content_text"] }}</div>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+					{% if page.metafields.custom_fields["featured_content_video"] != blank %}
+						<div class="featured_video mobile-only">
+							<iframe src="{{ page.metafields.custom_fields['featured_content_video'] }}" width="100%" height="200px" frameborder="0" title="{% if page.metafields.custom_fields['featured_content_title'] != blank %}{{ page.metafields.custom_fields['featured_content_title'] }}{% else %}Tubby Todd Bath Co.{% endif %}"></iframe>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		{% endif %}
+		
+		<!-- Featured Text Bar -->
+		{% if page.metafields.custom_fields["featured_text_bar_title"] != blank or page.metafields.custom_fields["featured_text_bar_body"] != blank %}
+			<div class="featured-text-bar row jumbo-section-top">
+				<div class="rich-content no-button extra-padding text-center">
+					<div class="contain-width-60 margin-auto padding-top padding-bottom">
+						{% if page.metafields.custom_fields["featured_text_bar_accent_image"] != blank %} 
+						   <img style="width: 50%; margin-bottom: 15px;" src="{% include 'cf-image' with image: page.metafields.custom_fields['featured_text_bar_accent_image'], print: 'url' %}" alt="Accent">
+						{% endif %}
+						{% if page.metafields.custom_fields["featured_text_bar_title"] != blank %}
+							<h2 class="size--xlarge text-bold">{{ page.metafields.custom_fields["featured_text_bar_title"] }}</h2>
+						{% endif %}
+						{% if page.metafields.custom_fields["featured_text_bar_body"] != blank %}
+							<div class="extra-large">{{ page.metafields.custom_fields["featured_text_bar_body"] }}</div>
+						{% endif %}
+					</div>
+				</div>		
+			</div>	
+		{% endif %}
+		
+		<!-- Featured Content 2 -->
+		{% if page.metafields.custom_fields["featured_content_title_2"] != blank or page.metafields.custom_fields["featured_content_text_2"] != blank %}
+			<div class="simple-image-text-module container-wrap featured-content" data-section-type="rich-text">
+				<div class="container pad-sm">
+					<div class="color-band"></div>
+					<div class="row row--split row-lg row-top">
+						<div class="rich-content no-button align--left lg_align--left extra-padding">
+							<div class="max-width">
+								{% if page.metafields.custom_fields["featured_content_title_2"] != blank %}
+									<h2 class="size--xlarge text-bold text-white">{{ page.metafields.custom_fields["featured_content_title_2"] }}</h2>
+								{% endif %}
+								{% if page.metafields.custom_fields["featured_content_text_2"] != blank %}
+									<div class="extra-large">{{ page.metafields.custom_fields["featured_content_text_2"] | newline_to_br }}</div>
+								{% endif %}
+							</div>
+						</div>
+						{% if page.metafields.custom_fields["featured_content_video_2"] != blank %}
+							<div class="featured_video image desktop-only">
+								<div class="featured_video image desktop-only no-padding-right">
+									<iframe src="{{ page.metafields.custom_fields['featured_content_video_2'] }}" width="100%" height="300px" frameborder="0" title="{% if page.metafields.custom_fields['featured_content_title_2'] != blank %}{{ page.metafields.custom_fields['featured_content_title_2'] }}{% else %}Tubby Todd Bath Co.{% endif %}"></iframe>
+								</div>
+							</div>
+						{% elsif page.metafields.custom_fields["featured_content_image_2"] != blank %}
+							<div class="image padding-top">
+								<a href="{{ product.metafields.custom_fields['featured_content_image_2'] }}" class="product-image-lightbox">
+									{{ page.metafields.custom_fields["featured_content_image_2"].value | img_tag: page.metafields.custom_fields["featured_content_title_2"] }}
+								</a>
+							</div>
+						{% endif %}
+					</div>
+					{% if page.metafields.custom_fields["featured_content_video_2"] != blank %}
+						<div class="featured_video mobile-only">
+							<div class="featured_video image desktop-only no-padding-right">
+								<iframe src="{{ page.metafields.custom_fields['featured_content_video_2'] }}" width="100%" height="200px" frameborder="0" title="{% if page.metafields.custom_fields['featured_content_title_2'] != blank %}{{ page.metafields.custom_fields['featured_content_title_2'] }}{% else %}Tubby Todd Bath Co.{% endif %}"></iframe>
+							</div>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		{% endif %}
+		
+		{% if page.metafields.custom_fields["featured_content_2_outro"] != blank %}
+		  <div class="row text-bar-outro extra-margin-bottom" {% if page.metafields.custom_fields['featured_content_2_bg_color'] != blank %} style="background-color: {{ page.metafields.custom_fields['featured_content_2_bg_color'] }};"{% endif %}>
+				{% if page.metafields.custom_fields["featured_content_2_outro_img"] != blank %} 
+				   <img class="text-bar-image" src="{% include 'cf-image' with image: page.metafields.custom_fields['featured_content_2_outro_img'], print: 'url' %}" alt="Icon badge">
+				{% endif %}
+				<div class="rich-content no-button align--center lg_align--center padding">
+					<div class="max-width">
+		      	<p class="size--xlarge no-margin-bottom">{{ page.metafields.custom_fields["featured_content_2_outro"] }}</p>
+					</div>
+		    </div>
+		  </div>
+		{% endif %}
+		
+			<!-- Outro -->
+			{% if page.metafields.custom_fields["featured_footer_banner"] != blank %}
+				<div id="footer_banner" class="row footer">
+					{% if page.metafields.custom_fields["featured_footer_banner_text"] != blank %}
+						<div class="rich-content no-button extra-padding text-center">
+							<div class="max-width">
+								<div class="extra-large">{{ page.metafields.custom_fields["featured_footer_banner_text"] }}</div>
+							</div>
+						</div>
+					{% endif %}
+					<div class="mobile-only">
+						{{ page.metafields.custom_fields["featured_footer_banner"].value | img_tag: page.metafields.custom_fields["featured_content_title"] }}
+					</div>
+				</div>
+			{% endif %}
+
+</div>	
+
+{% assign featured_text_bar_color = page.metafields.custom_fields["featured_text_bar_text_color"] | strip %}
+{% if featured_text_bar_color != blank and featured_text_bar_color contains "#" and featured_text_bar_color.size == 7 %}
+	<style>
+		.featured-text-bar h2, .featured-text-bar div, .featured-text-bar p, .featured-text-bar h1, .featured-text-bar h2, .featured-text-bar h3 {
+			color: {{ featured_text_bar_color }} !important;
+		}
+	</style>
+{% endif %}
+
+{% assign featured_text_bar_bg_color = page.metafields.custom_fields["featured_text_bar_bg_color"] | strip %}
+{% if featured_text_bar_bg_color != blank and featured_text_bar_bg_color contains "#" and featured_text_bar_bg_color.size == 7 %}
+	<style>
+		.featured-text-bar .rich-content {
+			background-color: {{ featured_text_bar_bg_color }} !important;
+		}
+	</style>
+{% endif %}
+
+
+{% assign featured_color_product = page.metafields.custom_fields["featured_content_bg_color"] | strip %}
+{% if featured_color_product != blank and featured_color_product contains "#" and featured_color_product.size == 7 %}
+	<style>
+		.featured-product .container .rich-content, .featured-product .container .rich-content h2, .featured-product .container .rich-content a {
+			background-color: {{ featured_color_product }};
+		}
+	</style>
+{% endif %}
+
+{% assign featured_text_color_product = page.metafields.custom_fields["featured_content_text_color"] | strip %}
+{% if featured_text_color_product != blank and featured_text_color_product contains "#" and featured_text_color_product.size == 7 %}
+	<style>
+		.featured-product .container .rich-content, .featured-product .container .rich-content h2, .featured-product .container .rich-content p, .featured-product .container .rich-content a {
+			color: {{ featured_text_color_product }} !important;
+		}
+	</style>
+{% endif %}
+
+{% assign featured_text_color_content = page.metafields.custom_fields["featured_content_text_color"] | strip %}
+{% if featured_text_color_content != blank and featured_text_color_content contains "#" and featured_text_color_content.size == 7 %}
+	<style>
+		.featured-content .container .rich-content, .featured-content .container .rich-content h2, .featured-content .container .rich-content p, .featured-content .container .rich-content a {
+			color: {{ featured_text_color_content }}  !important;
+		}
+	</style>
+{% endif %}
+
+{% assign featured_color_content = page.metafields.custom_fields["featured_content_bg_color"] | strip %}
+{% if featured_color_content != blank and featured_color_content contains "#" and featured_color_content.size == 7 %}
+	<style>
+		.featured-content .container .color-band {
+			background-color: {{ featured_color_content }} !important;
+		}
+	</style>
+{% endif %}
+
+{% assign title_color = page.metafields.custom_fields["main_title_color"] | strip %}
+{% if title_color != blank and title_color contains "#" and title_color.size == 7 %}
+	<style>
+		.page-title h1.page-title__heading {
+			color: {{ title_color }}  !important;
+		}
+	</style>
+{% endif %}
+
+{% assign product_title_color = page.metafields.custom_fields["featured_product_title_color"] | strip %}
+{% if product_title_color != blank and product_title_color contains "#" and product_title_color.size == 7 %}
+	<style>
+		.featured-product .container .rich-content h2 {
+			color: {{ product_title_color }}  !important;
+		}
+	</style>
+{% endif %}
+
+{% assign featured_content_title_color = page.metafields.custom_fields["featured_content_title_color"] | strip %}
+{% if featured_content_title_color != blank and featured_content_title_color contains "#" and featured_content_title_color.size == 7 %}
+	<style>
+		.featured-content .container .row .rich-content h2.size--xlarge {
+			color: {{ featured_content_title_color }}  !important;
+		}
+	</style>
+{% endif %}
+
+
+{% assign title_bg_color = page.metafields.custom_fields["title_background_color"] | strip %}
+{% if title_bg_color != blank and title_bg_color contains "#" and title_bg_color.size == 7 %}
+	<style>
+		.page-title .bg-color {
+			background-color: {{ title_bg_color }}  !important;
+		}
+	</style>
+{% endif %}
+
+{% assign featured_color_height = page.metafields.custom_fields["featured_content_band_height"] | strip %}
+{% if featured_color_height != blank and featured_color_height contains "%" %}
+	<style>
+		.featured-content .container .color-band {
+			height: {{ featured_color_height }};
+		}
+	</style>
+{% else %}	
+	<style>
+		.featured-content .container .color-band {
+			height: 50%;
+		}
+	</style>
+{% endif %}
+
+
+{% assign footer_background = page.metafields.custom_fields["featured_footer_banner"] | strip %}
+{% if footer_background != blank %}
+	<style>
+		#footer_banner {
+			background-image: url('{{ footer_background }}');
+		}
+	</style>
+{% endif %}
+
+<!-- For Featured Content 2 -->
+
+{% assign featured_content_title_color_2 = page.metafields.custom_fields["featured_content_title_2_color"] | strip %}
+{% if featured_content_title_color_2 != blank and featured_content_title_color_2 contains "#" and featured_content_title_color_2.size == 7 %}
+	<style>
+		.featured-content .container .row .rich-content h2.size--xlarge {
+			color: {{ featured_content_title_color_2 }}  !important;
+		}
+	</style>
+{% endif %}
+
+{% assign featured_color_content_2 = page.metafields.custom_fields["featured_content_bg_color_2"] | strip %}
+{% if featured_color_content_2 != blank and featured_color_content_2 contains "#" and featured_color_content_2.size == 7 %}
+	<style>
+		.featured-content .container .color-band {
+			background-color: {{ featured_color_content_2 }} !important;
+		}
+	</style>
+{% endif %}
+
+{% assign featured_text_color_content_2 = page.metafields.custom_fields["featured_content_text_color_2"] | strip %}
+{% if featured_text_color_content_2 != blank and featured_text_color_content_2 contains "#" and featured_text_color_content_2.size == 7 %}
+	<style>
+		.featured-content .container .rich-content, .featured-content .container .rich-content h2, .featured-content .container .rich-content p, .featured-content .container .rich-content a {
+			color: {{ featured_text_color_content_2 }}  !important;
+		}
+	</style>
+{% endif %}
+
+
+
+
+<style>
+	img.text-bar-image {
+		position: absolute;
+    top: -250%;
+    left: 10%;
+
+	}
+	body.template-page .bodyWrap{
+		margin-bottom:0px;
+	}
+	body.template-page #header_banner video {
+		width: 100%;
+	}
+	body.template-page .collectionBlock .collectionBlock-image{
+		background-size: cover;
+		padding-top: 100%;
+	}
+	body.template-page .featured-product .container .rich-content a{
+			display:block;
+	}
+	body.template-page .featured-product {
+		margin: 30px 0;
+	}
+	body.template-page .container .rich-content a, body.template-page #footer_banner .rich-content a{
+		text-transform:uppercase;
+		font-weight: bold;
+		color: #222;
+		padding-top:1.0em;
+	}
+	body.template-page .subtitle {
+		border-bottom: 0px;
+	}
+	body.template-page #footer_banner .rich-content a {
+		font-size: 1.4em;
+	}
+	.featured-content .container {
+		position: relative;
+	}
+	.featured-content .container .color-band {
+		background-color: #CCAB8B;
+		display: block;
+		width: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	.divider-image img {
+		width: 25%;
+	}
+	h2.subtitle {
+		font-size: 1.8em;
+    font-weight: 400;
+	}
+	h1 + h2.subtitle {
+		padding-top: 0;
+	}
+	#footer_banner{
+		height: 30vw;
+    background-size: cover;
+    background-repeat: no-repeat;
+	}
+	.mobile-only img{
+		max-width:100%;
+	}
+	@media screen and (min-width: 769px){
+		body.template-page .bodyWrap-spacer{
+			padding-top:125px;
+		}
+		#header_banner {
+			display: flex;
+			max-height: 65vh;
+	    overflow: hidden;
+		}
+		#header_banner video {
+			width: 100%;
+			height: 100%;
+			align-self: center;
+		}
+		body.template-page .simple-image-text-module .row--split .image.padding-top {
+			padding-top: 40px;
+		}
+	}
+	@media screen and (min-width: 768px) and (max-width: 1100px){
+		.featured-content .container .color-band{height:70% !important;}
+	}
+	@media screen and (max-width: 1024px){
+		img.text-bar-image {
+			top: -150%;
+			left: 10%;
+		}
+	}
+	@media screen and (max-width: 768px) {
+		body.template-page #footer_banner .rich-content{padding-top: 0px !important;}
+		.mobile-only{display:block;}
+		.featured-content .container .color-band{height:80% !important;}
+		.divider-image img {
+			width: 75%;
+		}
+		.page-title .row.row-lg.padding {
+			padding-bottom: 0px;
+		}
+		.page-title .row.row-lg.padding h1 {
+			margin-bottom: 0px;
+		}
+		body.template-page .simple-image-text-module.featured-product {
+			margin: 10px 0 30px;
+		}
+		img.text-bar-image {
+			display: none;
+		}
+	}	
+	@media screen and (max-width: 550px){
+		h1.page-title__heading.size--normal{
+			margin-bottom:0;
+		}
+	}
+	@media only screen and (min-width: 1800px) {
+		body.template-page .simple-image-text-module.container-wrap.featured-content .container {
+			max-width: 100%;
+		}
+		body.template-page .simple-image-text-module.container-wrap.featured-content .container .row {
+			max-width: 70%;
+		}
+	}
+</style>

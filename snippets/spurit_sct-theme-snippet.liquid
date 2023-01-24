@@ -1,0 +1,19 @@
+<script>
+    var SCTParams = {
+        "id" : "38aecc64451d24cbe1316e08ab19d67b",
+        "appFolder" : "prod",
+        "apiScript" : "{{ 'api.jquery.js' | shopify_asset_url }}",
+        "product" : {{ product | json }},
+        "collection": {{ collection.id | json }},
+        "template": {{ template.name | json }},
+      	"page": {{ page.handle | json }}
+    }
+    if (SCTParams.product !== null) {
+        var collectionsArr = {{ product.collections | json }};
+        var collectionsObj = {};
+        collectionsArr.forEach(function (col) {
+            collectionsObj[col.id] = col;
+        });
+        SCTParams.product.collections = collectionsObj;
+    }
+</script>

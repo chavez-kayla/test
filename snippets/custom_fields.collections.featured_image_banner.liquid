@@ -1,0 +1,8 @@
+{% if collection.metafields.custom_fields["featured_image_banner"] != blank %}
+  <div class="custom-field custom-field__featured-image-banner custom-field__type--image">
+    <h3 class="custom-field--title">Featured Image Banner</h3>
+    <div class="custom-field--value">  
+      {% render 'cf-image' with image: collection.metafields.custom_fields["featured_image_banner"], print: 'url' %}
+    </div>
+  </div>
+{% endif %}

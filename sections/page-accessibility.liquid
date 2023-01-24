@@ -1,0 +1,54 @@
+{% if section.settings.title != '' or section.settings.intro != '' %}
+	<div class="page-title extra-padding-top margin-bottom">     
+		<div class=" container contain-width-80">
+			<div class="row row-lg padding-top">      
+		  	<h1 class="page-title__heading size--small" style="color: {{ section.settings.color }};">{{ section.settings.title }}</h1>
+			</div>
+		</div>
+		<div class="container contain-width-80">
+			<div class="row row-lg">
+		  	<div class="page-title__text rte size--normal margin-bottom">
+					<p>{{ section.settings.intro }}</p>
+				</div>
+			</div>
+			{% if section.settings.button_text != '' and section.settings.button_link %}
+				<div class="row row-med u-center margin-top margin-bottom">
+					<a href="{{ section.settings.button_link }}" class="button button--primary inline upcase" title="{{ section.settings.button_text | strip_html }}">{{ section.settings.button_text | strip_html }}</a>
+				</div>
+			{% endif %}
+		</div>        
+	</div>
+{% endif %}
+
+
+{% schema %}
+
+{
+  "name": "Intro Content",
+	"class": "custom-page-intro",
+  "settings": [
+		{
+	    "type": "image_picker",
+	    "id": "banner",
+	    "label": "Banner image"
+	  },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro text"
+    },
+{
+      "type": "color",
+      "id": "color",
+      "label": "Heading color",
+      "default": "#000"
+    }
+ ]
+}
+
+{% endschema %}

@@ -1,0 +1,216 @@
+<section class="page-title text-center container-wrap">
+	<div class="container">
+		<div class="row row-sm">
+			{% if section.settings.image %}
+				<div class="text-center extra-padding">
+					<img src="{{ section.settings.image | img_url: '500x' }}" alt="{% if section.settings.image.alt != '' %}{{ section.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+				</div>
+			{% endif %}
+      <p class="text-large text-center extra-margin-bottom">{% if section.settings.title != blank %}{{ section.settings.title | newline_to_br }}{% else %}{{ page.title }}{% endif %}</p>
+			{% if section.settings.button_text_1 != blank %}
+				<a tabindex="0" {% if section.settings.button_url_1 != blank %}href="{{ section.settings.button_url_1 }}"{% endif %} class="button button--sm button--primary upcase" title="{{ section.settings.button_text_1 }}">{{ section.settings.button_text_1 }}</a>
+			{% endif %}
+			{% if section.settings.button_text_2 != blank %}
+				<a tabindex="0" {% if section.settings.button_url_2 != blank %}href="{{ section.settings.button_url_2 }}"{% endif %} class="button button--sm button--primary upcase" title="{{ section.settings.button_text_2 }}">{{ section.settings.button_text_2 }}</a>
+			{% endif %}
+    </div>
+  </div>
+</section>
+
+{% if section.blocks.size > 0 %}
+	<div class="container-wrap extra-margin-top intro">
+	  <div class="section-padding-top" style="background-color: {{ section.settings.hiw_bg_color }};">
+	    <div class="row row-sm">
+				{% if section.settings.how_it_works_title %}
+					<h1 class="text-center margin-top margin-bottom">{{ section.settings.how_it_works_title }}</h1>
+				{% endif %}	
+				{% for block in section.blocks %}
+					<div class="download_item club-tub block s13 sm_s13 lg_s13 text-center padding">						
+						{% if block.settings.image %}
+							{% if block.settings.url != blank %}<a href="{{ block.settings.url }}" title="{{ block.settings.url }}">{% endif %}
+								<div class="featured_image padding text-center margin-bottom flex-vertical-align-middle">				
+									{% if block.settings.source_url %}<a href="{{ block.settings.source_url }}" target="_blank" title="Opens in a new window">{% endif %}<img src="{{ block.settings.image | img_url: 'x300' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">{% if block.settings.source_url %}</a>{% endif %}							
+								</div>
+							{% if block.settings.url != blank %}</a>{% endif %}
+						{% endif %}						
+						{% if block.settings.url != blank %}<a href="{{ block.settings.url }}" title="{{ block.settings.url }}">{% endif %}
+							{% if block.settings.text %}
+								<p class="text-center">{{ block.settings.text }}</p>
+							{% endif %}	
+						{% if block.settings.url != blank %}</a>{% endif %}			
+					</div>			
+				{% endfor %}						
+	    </div>
+	  </div>
+	</div>
+{% endif %}
+
+<style>
+	{% if section.settings.border_image != blank %}
+		.intro {
+			border-image: url('{{ section.settings.border_image | img_url: '500x' }}') 60 repeat;
+			border-top: 30px solid transparent;
+			border-bottom: 0px;
+		}
+	{% endif %}
+	{% if section.settings.border_bottom_image != blank %}
+		.intro:after {
+	    content: "";
+	    display: block;
+	    height: 150px;
+	    background-image: url('{{ section.settings.border_bottom_image | img_url: '2400x' }}');
+	    background-repeat: no-repeat;
+	    background-position: right bottom;
+			background-size: cover;
+		}
+	{% endif %}
+	#shopify-section-page-club-tub-intro .page-title a {
+		width: 200px;
+	}
+	#shopify-section-page-club-tub-intro a.button:focus {
+		overflow: visible;
+	}
+	.download_item.club-tub p {
+		font-size: 1.4em;
+	}
+	#shopify-section-page-club-tub-intro .download_item a {
+		color: #000000;
+	}
+	#shopify-section-page-club-tub-intro .download_item p {
+		margin-bottom: 0px;
+	}
+	
+	
+@media only screen and (min-width: 1800px) {
+	.intro:after {
+		height: 200px;
+	}
+}	
+
+@media only screen and (min-width: 1950px) {
+	.intro:after {
+	  height: 230px;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.row.row-sm {
+		width: 80%;
+	}
+	#shopify-section-page-club-tub-intro .intro .featured_image img {
+		max-height: 100px;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	.row.row-sm {
+		width: 100%;
+	}
+	#shopify-section-page-club-tub-intro .page-title img {
+		max-width: 100%;
+	}
+	#shopify-section-page-club-tub-intro .download_item.padding {
+		padding: 0px;
+	}
+	#shopify-section-page-club-tub-intro .download_item.padding .featured_image {
+		padding: 0px;
+	}
+	.intro {
+		border-image: none;
+		border-top: 10px solid #F8CD41;
+		padding: 0 0 !important;
+	}	
+}
+</style>
+
+{% schema %}
+{
+  "name": "Club Tub Intro",
+  "settings": [
+		{
+	    "type": "image_picker",
+	    "id": "image",
+	    "label": "Header image"
+	  },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Heading text"
+    },
+    {
+      "type": "text",
+      "id": "button_text_1",
+      "label": "Button 1 text"
+    },
+    {
+      "type": "text",
+      "id": "button_url_1",
+      "label": "Button 1 link"
+    },
+    {
+      "type": "text",
+      "id": "button_text_2",
+      "label": "Button 2 text"
+    },
+    {
+      "type": "text",
+      "id": "button_url_2",
+      "label": "Button 2 link"
+    },
+		{
+		   "type": "header",
+		   "content": "Design Elements"
+		},
+		{
+	    "type": "image_picker",
+	    "id": "border_image",
+	    "label": "Top divider image",
+			"info": "Optional top divider image"
+	  },
+		{
+	    "type": "image_picker",
+	    "id": "border_bottom_image",
+	    "label": "Bottom divider image",
+			"info": "Optional bottom divider image"
+	  },
+		{
+		   "type": "header",
+		   "content": "How It Works Section"
+		},
+    {
+      "type": "textarea",
+      "id": "how_it_works_title",
+      "label": "How It Works heading"
+    },
+		{
+		   "type":      "color",
+		   "id":        "hiw_bg_color",
+		   "label":     "How It Works background color",
+		   "default":   "#e4f2f3"
+		}
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Content",
+      "settings": [
+				{
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text"
+        },
+				{
+					"type": "url",
+				  "id": "url",
+				  "label": "Optional link"
+				}
+      ]
+    } 
+  ]
+}
+{% endschema %}

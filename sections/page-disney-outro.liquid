@@ -1,0 +1,70 @@
+{% if section.settings.title != '' %}
+	<div class="page-title extra-padding-top extra-margin-bottom">     
+		<div class="container contain-width-60">
+			<div class="row row-lg padding-top">      
+		  	<h1 class="page-title__heading size--small no-margin-bottom" style="color: {{ section.settings.color }};">{{ section.settings.title | newline_to_br }}</h1>
+			</div>
+		</div> 
+	</div>
+{% endif %}
+
+{% if section.settings.html != '' %}
+	<div class="html-section container text-center extra-margin-top contain-width-50 padding">
+		{{ section.settings.html }}
+	</div>
+{% endif %}
+
+<style>
+	.outro-section {
+		background: {{ section.settings.bg_color }};
+		padding-bottom: 50px;
+		margin-top: 50px;
+	}
+	.html-section form .TextInput__StyledInputContainer-sc-1o6de9f-1:before {
+    content: "\e85d" !important;
+    position: absolute;
+		top: 20px;
+		left: 15px;
+		font-family: 'iconsmind' !important;
+	}	
+	.rHJnw.rHJnw.rHJnw.rHJnw.rHJnw.rHJnw {
+		padding-left: 35px;
+	}
+	.rHJnw.rHJnw.rHJnw.rHJnw.rHJnw.rHJnw, .dJXOAM.dJXOAM.dJXOAM.dJXOAM.dJXOAM.dJXOAM {
+		border-top: 0px;
+		border-left: 0px;
+		border-right: 0px;
+		border-bottom: 2px solid #000000;
+	}
+</style>	
+
+{% schema %}
+{
+  "name": "Outro Content",
+	"class": "outro-section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Heading"
+    },
+		{
+      "type": "color",
+      "id": "color",
+      "label": "Heading color",
+      "default": "#ffffff"
+    },
+		{
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#D20C2B"
+    },
+		{
+		   "type": "html",
+		   "id": "html",
+		   "label": "Custom HTML"
+		}
+  ]
+}
+{% endschema %}

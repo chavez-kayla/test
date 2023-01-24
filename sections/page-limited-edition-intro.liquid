@@ -1,0 +1,231 @@
+{% if section.settings.title != '' or section.settings.intro != '' %}
+	<div class="page-title extra-padding-top extra-margin-bottom">     
+		<div class="container contain-width-80">
+			<div class="row row-lg padding-top">      
+		  	<h1 class="page-title__heading size--small">{{ section.settings.title }}</h1>
+			</div>
+		</div>
+		<div class="container contain-width-80">
+			<div class="row row-lg">
+		  	<div class="page-title__text rte text-extra-large extra-margin-bottom">
+					<div>{{ section.settings.intro | newline_to_br }}</div>
+				</div>
+			</div>
+		</div>        
+	</div>
+{% endif %}	
+
+{% if section.settings.show_product_row %}
+	<div class="contain-width-90 margin-auto padding-bottom" style="overflow: hidden;">
+		<div class="block s1 sm_s1 lg_s12 text-center">
+			<a href="{{ section.settings.link_1 }}" title="{{ section.settings.title_1 }}">
+				<img src="{{ section.settings.image_1 | img_url: '500x' }}" alt="{% if section.settings.image_1.alt != '' %}{{ section.settings.image_1.alt }}{% else %}Tubby Todd Bath Co.{% endif %}">
+			</a>
+			{% if section.settings.title_1 != blank %}
+				<a href="{{ section.settings.link_1 }}" title="{{ section.settings.title_1 }}">
+					<h4 class="padding-top">{{ section.settings.title_1 }}</h4>
+				</a>	
+			{% endif %}
+			{% if section.settings.title_1 != blank %}
+				<p class="price">{{ section.settings.subtitle_1  }}</p>
+			{% endif %}
+		</div>	
+		<div class="block s1 sm_s1 lg_s12 text-center">
+			<a href="{{ section.settings.link_2 }}" title="{{ section.settings.title_2 }}">
+				<img src="{{ section.settings.image_2 | img_url: '500x' }}" alt="{% if section.settings.image_2.alt != '' %}{{ section.settings.image_1.alt }}{% else %}Tubby Todd Bath Co.{% endif %}">
+			</a>
+			{% if section.settings.title_2 != blank %}
+				<a href="{{ section.settings.link_2 }}" title="{{ section.settings.title_2 }}">
+					<h4 class="padding-top">{{ section.settings.title_2 }}</h4>
+				</a>	
+			{% endif %}
+			{% if section.settings.title_2 != blank %}
+				<p class="price">{{ section.settings.subtitle_2  }}</p>
+			{% endif %}
+		</div>
+	</div>	
+{% endif %}
+
+<div class="no-margin extra-padding-top">
+	<div class="js-collectionGrid collectionGrid-row row inline row-lg EndlessClick">
+		{% for block in section.blocks %}
+			<div class="collectionBlock js-collectionBlock block s12 sm_s12 lg_s14  is-visible text-center">
+				<a href="{{ block.settings.link }}" title="{{ block.settings.title }}"> 
+				<img src="{{ block.settings.image | img_url: '500x' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}" style="max-width: 100%;">
+				<div class="contain-width-80 margin-auto">
+					<h4 class="padding-top">{{ block.settings.title }}</h4>
+					<div class="text-black">{{ block.settings.text }}</div>
+				</div>
+				</a>
+			</div>
+		{% endfor %}
+	</div>
+</div>
+
+{% if section.settings.show_outro %}
+	<div class="simple-image-text-module container-wrap featured-content padding" style="background-color: {{ section.settings.outro_background }};" data-section-type="rich-text">
+		<div class="container pad-sm">
+			<div class="row row--split row-lg">
+				<div class="image mobile-only">
+					<a href="{% if section.settings.outro_link != blank %}{{ section.settings.outro_link }}{% else %}{{ section.settings.outro_image | img_url: '1000x' }}{% endif %}" class="product-image-lightbox">
+						<img src="{{ section.settings.outro_image | img_url: '500x' }}" alt="{% if section.settings.outro_image.alt != '' %}{{ section.settings.outro_image.alt }}{% else %}Tubby Todd Bath Co.{% endif %}">
+					</a>
+				</div>
+				<div class="rich-content no-button align--left lg_align--left">
+					<div class="max-width">
+						<h2 class="size--xlarge text-extra-bold" style="color: {{ section.settings.outro_title_color }};">{{ section.settings.outro_title }}</h2>				
+						<div class="text-normal">{{ section.settings.outro_text }}</div>
+					</div>
+				</div>
+				<div class="image mobile-hide">
+					<a href="{% if section.settings.outro_link != blank %}{{ section.settings.outro_link }}{% else %}{{ section.settings.outro_image | img_url: '1000x' }}{% endif %}" class="product-image-lightbox">
+						<img src="{{ section.settings.outro_image | img_url: '500x' }}" alt="{% if section.settings.outro_image.alt != '' %}{{ section.settings.outro_image.alt }}{% else %}Tubby Todd Bath Co.{% endif %}">
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Main Content",
+  "settings": [
+		{
+		  "type": "header",
+		  "content": "Introductory text"
+		},
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro text"
+    },
+		{
+		  "type": "header",
+		  "content": "Featured Product Row"
+		},
+		{
+		  "type": "checkbox",
+		  "id": "show_product_row",
+		  "label": "Show featured product row?",
+		  "default": false
+		},
+		{
+	    "type": "image_picker",
+	    "id": "image_1",
+	    "label": "Product 1 image"
+	  },
+		{
+		   "type": "url",
+		   "id": "link_1",
+		   "label": "Product 1 link"
+		},
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Product 1 title"
+    },
+    {
+      "type": "text",
+      "id": "subtitle_1",
+      "label": "Product 1 price"
+    },
+		{
+	    "type": "image_picker",
+	    "id": "image_2",
+	    "label": "Product 2 image"
+	  },
+		{
+		   "type": "url",
+		   "id": "link_2",
+		   "label": "Product 2 link"
+		},
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Product 2 title"
+    },
+    {
+      "type": "text",
+      "id": "subtitle_2",
+      "label": "Product 2 price"
+    },
+		{
+		  "type": "header",
+		  "content": "Outro Content"
+		},
+		{
+		  "type": "checkbox",
+		  "id": "show_outro",
+		  "label": "Show outro?",
+		  "default": false
+		},
+    {
+      "type": "text",
+      "id": "outro_title",
+      "label": "Outro heading"
+    },
+    {
+      "type": "textarea",
+      "id": "outro_text",
+      "label": "Outro text"
+    },
+		{
+	    "type": "image_picker",
+	    "id": "outro_image",
+	    "label": "Outro image"
+	  },
+		{
+		  "type": "color",
+		  "id": "outro_title_color",
+		  "label": "Title color",
+		  "default": "#cb0f2c"
+		},
+		{
+		  "type": "color",
+		  "id": "outro_background",
+		  "label": "Background color",
+		  "default": "#fbc200"
+		},
+		{
+    	"type": "url",
+    	"id": "outro_link",
+    	"label": "Outro link",
+			"info": "Optional, if added will apply to outro image"
+   	}
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Product",
+      "settings": [
+				{
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+				{
+        	"type": "text",
+        	"id": "title",
+        	"label": "Title"
+       	},
+				{
+				   "type": "richtext",
+				   "id": "text",
+				   "label": "Text"
+				},
+				{
+        	"type": "url",
+        	"id": "link",
+        	"label": "Link"
+       	}
+      ]
+    }
+  ]
+}
+{% endschema %}

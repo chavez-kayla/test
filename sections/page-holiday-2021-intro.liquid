@@ -1,0 +1,83 @@
+{% if section.settings.title != '' or section.settings.intro != '' or section.settings.banner != blank %}
+	<div class="page-title extra-padding-top extra-margin-bottom">     
+		<div class=" container contain-width-80">
+			{% if section.settings.banner != blank %}
+				<div class="banner margin-bottom">
+					<img src="{{ section.settings.banner | img_url: '800x' }}" alt="{% if section.settings.banner.alt != '' %}{{ section.settings.banner.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+				</div>
+			{% endif %}
+			{% if section.settings.title != '' %}
+				<div class="row row-lg padding-top">      
+			  	<h1 class="page-title__heading size--small" style="color: {{ section.settings.color }};">{{ section.settings.title }}</h1>
+				</div>
+			{% endif %}
+		</div>
+		<div class="container contain-width-80 intro-text">
+			<div class="row row-lg">
+		  	<div class="page-title__text rte size--normal extra-margin-bottom">
+					<p class="text-large text-normal">{{ section.settings.intro | newline_to_br }}</p>
+				</div>
+			</div>
+		</div>        
+	</div>
+{% endif %}	
+
+<style>
+	#shopify-section-page-holiday-2021-intro { background: {{ section.settings.bg_color }}; }
+	#shopify-section-page-holiday-intro .title-module .row--split, #shopify-section-page-holiday-intro .simple-image-text-module .row--split {
+		margin-bottom: 0px !important;
+	}
+	#shopify-section-page-holiday-2021-intro .banner img { max-width: 500px; }
+	#holiday-2021 .bodyWrap-spacer {
+		padding-top: 130px;
+	}
+	#shopify-section-page-holiday-intro .container {
+		max-width: 2500px;
+	}
+	.no-padding-left {
+		padding-left: 0px !important;
+	}
+	.no-padding-right {
+		padding-right: 0px !important;
+	}
+</style>
+
+
+{% schema %}
+{
+  "name": "Intro Content",
+  "settings": [
+		{
+	    "type": "image_picker",
+	    "id": "banner",
+	    "label": "Heading image"
+	  },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro text"
+    },
+		{
+		   "type": "header",
+		   "content": "Colors"
+		},
+		{
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#fff"
+    },
+		{
+      "type": "color",
+      "id": "color",
+      "label": "Heading color",
+      "default": "#000"
+    }
+  ]
+}
+{% endschema %}

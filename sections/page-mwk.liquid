@@ -1,0 +1,153 @@
+{% if section.settings.banner != blank %}
+	<div id="header_banner" class="featured_image_banner row">							
+		<div>
+			<img src="{{ section.settings.banner | img_url: '2048x' }}" alt="{% if section.settings.banner.alt != '' %}{{ section.settings.banner.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+		</div>
+	</div>
+{% endif %}
+
+{% if section.settings.title != '' or section.settings.intro != '' %}
+<div class="page-title extra-padding-top">     
+	<div class=" container contain-width-80">
+		<div class="row row-lg padding">      
+	  	<h1 class="page-title__heading size--small">{{ section.settings.title }}</h1>
+		</div>
+	</div>
+	<div class="container contain-width-80">
+		<div class="row row-lg">
+	  	<div class="page-title__text mini-margin-top rte size--normal">
+				<p>{{ section.settings.intro }}</p>
+			</div>
+		</div>
+	</div>        
+</div>
+{% endif %}	
+	
+{% for block in section.blocks %}
+<div class="simple-image-text-module container-wrap featured-product" data-section-type="rich-text">
+	<div class="container pad-sm">
+		<div class="row row--split row-lg">
+			{% if block.settings.image_location == 'left' %}
+				<div class="image no-padding-right">
+					<a href="{{ block.settings.image | img_url: '1024x' }}" class="collection-image-lightbox">
+						<img src="{{ block.settings.image | img_url: '1024x' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+					</a>
+				</div>
+			{% endif %}
+			<div class="rich-content no-button align--left lg_align--left extra-padding" style="background-color: {{ block.settings.bg_color }}; color: {{ block.settings.color }};">
+				<div class="max-width">	
+					<h2 class="size--xlarge text-bold">{{ block.settings.title}}</h2>
+					<div class="extra-large">
+						<p>{{ block.settings.text | newline_to_br }}</p>
+					</div>
+				</div>
+			</div>
+			{% if block.settings.image_location == 'right' %}
+				<div class="image no-padding-left">
+					<a href="{{ block.settings.image | img_url: '1024x' }}" class="collection-image-lightbox">
+						<img src="{{ block.settings.image | img_url: '1024x' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+					</a>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endfor %}
+
+<style>
+	#mamas-who-know .bodyWrap-spacer {
+		padding-top: 130px;
+	}
+	#mamas-who-know .container {
+		max-width: 2500px;
+	}
+	#mamas-who-know .row--split img {
+		width: 100%;
+	}
+	.no-padding-left {
+		padding-left: 0px !important;
+	}
+	.no-padding-right {
+		padding-right: 0px !important;
+	}
+</style>
+
+
+{% schema %}
+{
+  "name": "MWK Main Content",
+  "settings": [
+		{
+	    "type": "image_picker",
+	    "id": "banner",
+	    "label": "Banner image"
+	  },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro text"
+    },
+    {
+      "type": "paragraph",
+      "content": "Add content blocks below"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Content Block",
+      "settings": [
+				{
+        	"type": "text",
+        	"id": "title",
+        	"label": "Title"
+       	},
+				{
+				   "type": "richtext",
+				   "id": "text",
+				   "label": "Text"
+				},
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+				{
+				   "type":      "color",
+				   "id":        "color",
+				   "label":     "Text color",
+				   "default":   "#000000"
+				},
+				{
+				   "type":      "color",
+				   "id":        "bg_color",
+				   "label":     "Background color",
+				   "default":   "#f4d2b9"
+				},
+				{
+				   "type": "select",
+				   "id": "image_location",
+				   "label": "Image location",
+				   "options": [
+				     {
+				       "value": "left",
+				       "label": "Left"
+				     },
+				     {
+				       "value": "right",
+				       "label": "Right"
+				     }
+				   ],
+				   "default": "left",
+				   "info": "Default location is left"
+				}
+      ]
+    }
+  ]
+}
+{% endschema %}

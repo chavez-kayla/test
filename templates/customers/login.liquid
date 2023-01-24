@@ -1,0 +1,127 @@
+<div class="container">
+  <div class="row row-lg inline u-center">
+    {% comment %}
+      If a user has successfully requested a new password, the form.posted_successfully? variable
+      is set to true within the 'recover_customer_password' form only. Within that form you'll see
+      the variable 'resetPassword' set to true, which is used to initialize timber.resetPasswordSuccess().
+    {% endcomment %}
+    <div class="block s1 med_s13" id="ResetSuccess" style="display:none;">
+      {{ 'customer.recover_password.success' | t }}
+    </div>
+  </div>
+
+  <div class="row row-lg inline u-center">
+	
+		<div class="club_tub block s1 med_s12">
+			<div class="image contain-width-80 margin-auto margin-bottom js-loginForm">
+				{{ "tubby-todd-club-tub-login-image.png" | file_url | img_tag: 'Welcome to Club Tub', 'account-img' }}
+			</div>
+			<div class="image contain-width-80 margin-auto margin-bottom js-recoverForm hidden">
+				{{ "tubby-todd-club-tub-reset-pw-image.png" | file_url | img_tag: 'Reset Club Tub Password', 'account-img' }}
+			</div>
+		</div>
+		
+		<div class="account-form block s1 med_s12">
+
+	    <div class="js-loginForm contain-width-80 margin-auto">
+				<div class="margin-auto">
+	      	{% form 'customer_login', class: "validate" %}
+		        <div class="row inline">
+
+		          <h1 class="block s1 u-center upcase">{{ 'customer.login.title' | t }}</h1>
+
+		          <div class="block s1 u-center p c-accent">
+		            {{ form.errors | default_errors }}
+		          </div>
+		          <div class="inputGroup block s1">
+		            <label for="CustomerEmail" class="h4 c-gray hidden">{{ 'customer.login.email' | t }}*</label>
+		            <input id="CustomerEmail" type="email" name="customer[email]" class="{% if form.errors contains 'email' %} error{% endif %}" autocorrect="off" autocapitalize="off" autofocus required aria-required="true" placeholder="{{ 'customer.login.email' | t }}*">
+								{% if form.errors contains 'email' %}<div class="error">Please provide a valid Email</div>{% endif %}
+		          </div>
+
+		          {% if form.password_needed %}
+		            <div class="inputGroup block s1">
+		              <label for="CustomerPassword" class="h4 c-gray hidden">{{ 'customer.login.password' | t }}*</label>
+		              <input type="password" value="" name="customer[password]" id="CustomerPassword" class="{% if form.errors contains 'password' %} error{% endif %}" required aria-required="true" placeholder="{{ 'customer.login.password' | t }}*">
+									{% if form.errors contains 'password' %}<div class="error">Please provide a valid Password</div>{% endif %}
+		            </div>
+		          {% endif %}
+							<p class="text-small text-left text-grey nudge-right">*required</p>
+							
+
+		        </div> <!-- END form .row -->
+		        <div class="row inline u-center">
+
+		          <input type="submit" class="account-form-submit button block upcase" value="{{ 'customer.login.sign_in' | t }}">
+							{% if form.password_needed %}
+								<div class="margin-top margin-bottom">
+	              	<a href="#0" class="js-recoverToggle p text-half-spaced semi-bold">{{ 'customer.login.forgot_password' | t }}</a>
+								</div>
+	            {% endif %}
+							
+		          <div class="account-form-links block s1 row inline u-center border-top light-grey extra-padding-top">
+		            {% if shop.customer_accounts_enabled %}
+									<p class="text-semi-large semi-bold">Not a member? Join the party!</p>
+		              <a href="./register" class="p upcase text-half-spaced semi-bold">{{ 'customer.link.sign_up' | t }}</a>
+		            {% endif %}
+		          </div>
+
+		        </div> <!-- END form .row -->
+		      {% endform %}
+		    </div>
+			
+			</div>
+
+	    <div class="js-recoverForm recoverForm" style="display:none">
+	      <div class="row inline u-center">
+
+	        <h1 class="block s1 u-center">Reset Password</h1>
+	        <p class="block s1 u-center">{{ 'customer.recover_password.subtext' | t }}</p>
+
+	        <div class="block s1 med_s1 padding">
+	          {% form 'recover_customer_password' %}
+	            <div class="row inline u-center">
+
+	              {{ form.errors | default_errors }}
+
+	              {% if form.posted_successfully? %}
+	                {% assign resetPassword = true %}
+	              {% endif %}
+
+	              <div class="inputGroup">
+	                <label for="RecoverEmail" class="p c-gray hidden">{{ 'customer.recover_password.email' | t }}</label>
+	                <input type="email" value="" name="email" id="RecoverEmail" autocorrect="off" autocapitalize="off" placeholder="{{ 'customer.login.email' | t }}*">
+	              </div>
+	            </div>
+	            <div class="row inline u-center">
+	              <input type="submit" class="account-form-submit button upcase" value="Reset">
+
+	              <div class="account-form-links">
+	                <a href="#0" class="js-recoverCancel p text-half-spaced semi-bold">{{ 'customer.recover_password.cancel' | t }}</a>
+	              </div>
+	            </div>
+
+	          {% endform %}
+					</div>
+        </div>
+
+      </div>
+    </div>
+
+    {% comment %}
+      If accounts are set as optional, the following will be shown as an option
+      during checkout, not on the default /login page.
+    {% endcomment %}
+    {% if shop.checkout.guest_login %}
+
+      <h2>{{ 'customer.login.guest_title' | t }}</h2>
+
+      {% form 'guest_login' %}
+        <input type="submit" class="button" value="{{ 'customer.login.guest_continue' | t }}">
+      {% endform %}
+    {% endif %}
+
+  </div>
+</div>
+
+{{ 'account.js'  | asset_url | script_tag }}

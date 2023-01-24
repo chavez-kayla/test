@@ -1,0 +1,8 @@
+{% if customer.metafields.custom_fields["influencer_level"] != blank %}
+  <div class="custom-field custom-field__influencer-level custom-field__type--text-list">
+    <h3 class="custom-field--title">Influencer Level</h3>
+    <div class="custom-field--value">  
+      {{ customer.metafields.custom_fields["influencer_level"] }}
+    </div>
+  </div>
+{% endif %}

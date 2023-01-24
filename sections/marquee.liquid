@@ -1,0 +1,82 @@
+{% if section.settings.show_affirmations %}
+<section class="marquee row mini-padding" data-section-id="{{ section.id }}" style="background: {{ section.settings.bg_color }};">
+		<div class="inner_container text-center">
+			{% for block in section.blocks %}
+				<div class="marquee marquee-{{ forloop.index }}{% if forloop.index == 1 %} active{% endif %}"{% if forloop.index > 1 %} style="display:none;"{% endif %}>
+					<h4 class="text-extra-large text-white bold">
+						{% assign words = block.settings.title | split: ' ' %}
+						{% for word in words %}
+							<span class="word word-{{forloop.index}}">{{word}}</span>
+						{% endfor %}
+					</h4>
+				</div>
+			{% endfor %}
+		</div>	
+</section>
+{% endif %}
+<style>
+
+.marquee div {
+  display: block;
+  width: 200%;
+  height: 30px;
+  position: inherit;
+  overflow: hidden;
+  animation: marquee 10s linear infinite;
+}
+
+  @keyframes marquee {
+  0% { left: 0; }
+  100% { left: -100%; }
+}
+</style>
+
+{% schema %}
+  {
+    "name": "Marquee",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_affirmations",
+        "label": "Show Affirmation?",
+        "default": false
+      },
+			{
+			  "type": "color",
+			  "id": "bg_color",
+			  "label": "Background color",
+			  "default": "#fd587c"
+			}
+		],
+		"blocks": [
+	    {
+	      "type": "text",
+	      "name": "Text",
+	      "settings": [
+					{
+	        	"type": "text",
+	        	"id": "title",
+	        	"label": "Text"
+	       	}
+	      ]
+	    }
+		],
+    "presets": [
+    {
+      "name": "Marquee",
+      "category": "Text",
+      "blocks": [
+        {
+          "type": "text"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "text"
+        }
+      ]
+    }
+  ]
+	}	
+{% endschema %}

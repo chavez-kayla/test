@@ -1,0 +1,33 @@
+{% if settings.google_verification != blank %}
+	<meta name="google-site-verification" content="{{settings.google_verification}}" />
+{% endif %}
+
+{% if settings.google_adwords_id != blank %}
+	<!-- Global site tag (gtag.js) - Google AdWords: {{settings.google_adwords_id}} -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=AW-{{settings.google_adwords_id}}"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'AW-{{settings.google_adwords_id}}');
+	</script>
+{% endif %}
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KX3MZBL');</script>
+<!-- End Google Tag Manager -->
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9633588509314391",
+    enable_page_level_ads: true
+  });
+</script>
+
+{{ shop.metafields.loox["global_html_head"] }}

@@ -1,0 +1,104 @@
+{% if section.blocks.size > 0 %}
+	{% for block in section.blocks %}
+		<div class="container outro-blocks id-{{ block.id }}">
+			{% if block.settings.image != blank %}
+				<div id="header_banner" class="featured_image_banner row">							
+					<div>
+						<img src="{{ block.settings.image | img_url: '2048x' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+					</div>			
+				</div>
+			{% endif %}
+
+			{% if block.settings.title != '' or block.settings.text != '' %}
+			<div class="page-title extra-padding" style="background-color: {{ block.settings.bg_color }}; color: {{ block.settings.color }};">     
+				{% if block.settings.title != '' %}
+					<div class=" container contain-width-90">
+						<div class="row row-lg">      
+					  	<h3 class="page-title__heading size--small">{{ block.settings.title }}</h3>
+						</div>
+					</div>
+				{% endif %}
+				{% if block.settings.text != '' %}
+					<div class="container contain-width-90">
+						<div class="row row-lg">
+					  	<div class="page-title__text mini-margin-top rte size--normal">
+								<p>{{ block.settings.text }}</p>
+							</div>
+						</div>
+					</div> 
+				{% endif %}       
+			</div>
+			{% endif %}
+		</div>
+	{% endfor %}
+{% endif %}
+
+{% if section.settings.button_text != '' and section.settings.button_link != '' %}
+<div class="row row-med u-center extra-margin-top">
+	<a href="{{ section.settings.button_link }}" class="button button--primary inline upcase" title="{{ section.settings.button_text | strip_html }}">{{ section.settings.button_text | strip_html }}</a>
+</div>
+{% endif %}
+
+<style>
+	.outro-blocks a {
+		text-decoration: underline;
+		color: #000000;
+	}
+	.outro-blocks.id-1597291535354 .page-title {
+		padding-top: 10px !important;
+	}
+</style>
+
+
+{% schema %}
+{
+  "name": "Worry Free Outro Content",
+	"settings": [
+		{
+		   "type": "text",
+		   "id": "button_text",
+		   "label": "Button text"
+		},
+		{
+		   "type": "url",
+		   "id": "button_link",
+		   "label": "Button link"
+		}
+	],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Content Block",
+      "settings": [
+				{
+        	"type": "textarea",
+        	"id": "title",
+        	"label": "Title"
+       	},
+				{
+				   "type": "richtext",
+				   "id": "text",
+				   "label": "Text"
+				},
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+				{
+				   "type":      "color",
+				   "id":        "color",
+				   "label":     "Text color",
+				   "default":   "#000000"
+				},
+				{
+				   "type":      "color",
+				   "id":        "bg_color",
+				   "label":     "Background color",
+				   "default":   "#f4d2b9"
+				}
+      ]
+    }
+  ]
+}
+{% endschema %}

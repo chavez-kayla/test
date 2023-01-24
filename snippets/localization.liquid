@@ -1,0 +1,40 @@
+<script>
+/* Set announcement bar text according to country code */
+function updateAnnouncement(countryCode) {
+	if(countryCode) {
+		countryCode = countryCode.toLowerCase();
+		if( $('.announcement_bar .announcement_campaign[data-campaign="' + countryCode + '"]').length ) {
+			$('.announcement_bar .announcement_campaign').hide();
+			$('.announcement_bar .announcement_campaign[data-campaign="' + countryCode + '"]').show();
+		} else if ( $('.announcement_bar .announcement_campaign[data-campaign="default"]').length ) {
+			if ( $('.announcement_bar .announcement_campaign[data-campaign="default"]').is(":hidden") ) {
+				updateAnnouncement('default');
+			}
+		}
+	}
+}
+function determineLocale() {
+	if(readCookie('LocaleCountryCode')) {
+		updateAnnouncement(readCookie('LocaleCountryCode'));
+	} else {
+		//Determine new visitor's locale
+		jQuery.ajax( {
+			url: 'https://geolocation-db.com/jsonp',
+			type: 'POST',
+			jsonpCallback: "callback",
+			dataType: 'jsonp',
+			success: function(location) {
+				if(location.country_code) {
+					createCookie('LocaleCountryCode', location.country_code, 7);
+					updateAnnouncement(location.country_code);
+				}
+			}
+		});
+	}
+}
+
+if( window.location.href.indexOf("{{shop.permanent_domain}}") === -1 ) {
+	//Make sure we are not on theme customization page
+	determineLocale();
+}
+</script>

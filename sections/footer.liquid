@@ -1,0 +1,290 @@
+<section role="footer" class="container-wrap" data-section-type="footer" data-section-id="{{ section.id }}">
+  <footer class="site-footer">
+    <div class="container">
+
+      {% comment %} Footer top - logo, menus, social icons {% endcomment %}
+      <div class="footer-inner row row-lg inline u-center">
+        {%- if section.blocks.size > 0 -%}
+          <div class="block s1">
+            <div class="footer-blocks">
+
+              {%- for block in section.blocks -%}
+                {%- capture column -%}{%- cycle 'footer--left', 'footer--center', 'footer--left', 'footer--right' -%}{%- endcapture -%}
+                {%- assign mobile_hide_block = block.settings.mobile_hide_block -%}
+
+                {%- case block.type -%}
+                {%- when 'logo' -%}
+                  <div class="footer__block footer__logo block  {{ column }}{% if mobile_hide_block %} med_hide{% endif %}" {{ block.shopify_attributes }}>
+                    {%- if block.settings.logo -%}
+                      <a href="/" aria-label="Tubby Todd Home">
+                        {%- assign image = block.settings.logo -%}
+                        <img 
+                           src="{{ block.settings.logo | img_url: '360x' }}"
+                           width="{{ block.settings.logo_width }}"
+                           alt="{{ shop.name }}">
+                        <noscript>
+                          <img width="{{ block.settings.logo_width }}" src="{{ block.settings.logo | img_url: '360x' }}" title="{{ shop.name }}">
+                        </noscript>
+                      </a>
+                    {%- else -%}
+                      <div class="placeholder-wrapper--footer" style="width: {{ section.settings.logo_width | append: 'px' }};">
+                      {{ 'image' | placeholder_svg_tag }}
+                      </div>
+                    {%- endif -%}
+                  </div>
+
+                 {%- when 'menu' -%}
+                    <div class="footer__block footer__menus block {{ column }}{% if mobile_hide_block %} med_hide{% endif %}" {{ block.shopify_attributes }}>
+                      {%- if block.settings.menu_primary != blank -%}
+                      <div class="footer__menu" >
+                        <h4 class="mobileFooter" aria-label="Open mobile footer menu">{{ block.settings.title  }}</h4>
+                         <ul>
+                           <h4 class="footer_desktop">{{ block.settings.title  }}</h4>
+                          {% assign list_ctr = 1 %}
+                          {%- assign menu_primary = block.settings.menu_primary -%}
+                          {%- for link in linklists[menu_primary].links -%}
+                            <li class="footer-link{% if link.active %} is-active{% endif %}">
+                              <a href="{{ link.url }}">{{ link.title }}</a>
+                            </li>
+                          {% assign list_ctr = list_ctr | plus : 1 %}
+                          {% if list_ctr == 8 %}
+                          	</ul>
+                        	<ul>
+                            {% assign list_ctr = 1 %}
+                          {% endif %}
+                          {%- endfor -%}
+                        </ul>
+                      </div>
+                      {%- endif -%}
+                    </div>
+
+                  {%- when 'social' -%}
+                    <div class="footer__block footer__social block {{ column }}{% if mobile_hide_block %} med_hide{% endif %}" {{ block.shopify_attributes }}>
+                      {%- include 'social-links' -%}
+                    </div>
+									{%- when 'newsletter' -%}
+                    <div class="footer__block footer__newsletter padding-left padding-right block {{ column }}{% if mobile_hide_block %} med_hide{% endif %}" {{ block.shopify_attributes }}>
+                      {%- if block.settings.newsletter_form_id != blank -%}
+												{%- if block.settings.title != blank -%}
+                      		<span class="h4"><strong>{{ block.settings.title }}</strong></span>
+													<div class="klaviyo-form-{{ block.settings.newsletter_form_id }}"></div>
+												{%- endif -%}
+                      {%- endif -%}
+                    </div>
+                {%- endcase -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+        
+      </div>
+    </div>
+    
+
+
+    {% comment %} Footer bottom - Text, copyright, payment icons {% endcomment %}
+    {%- assign footer_text = section.settings.text -%}
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="row row-lg">
+          
+          {%- if footer_text != blank -%}
+            <div class="block s1 lg_s12">
+              <div class="footer__text">
+                {% if section.settings.show_copyright %}&copy; {{ 'now' | date: "%Y" }} {% endif %}{{ footer_text }}
+              </div>
+							{%- if section.settings.menu_secondary != blank -%}
+                <ul class="bottom_menu">
+                  {%- assign menu_secondary = section.settings.menu_secondary -%}
+                  {%- for link in linklists[menu_secondary].links -%}
+                    <li class="footer-link">
+                      <a href="{{ link.url }}">{{ link.title }}</a>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+          
+          {%- if section.settings.contact_text != blank -%}
+            <div class="block s1 lg_s12">
+              <div class="footer__text text-center">
+                {{ section.settings.contact_text }}
+              </div>
+            </div>
+          {%- endif -%}
+
+        </div>
+      </div>
+      {% comment %} Bambuser Floating Action Widget {% endcomment %}
+      {% render 'floating-action-widget' %}
+    </div>
+  </footer>
+</section>
+<script>
+$(document).ready(function() {
+  $('.mobileFooter').on('click', function() {
+    if ($(window).width() < 768) {
+      $(this).next().toggle();
+    }
+  });
+});
+
+</script>
+<style>
+  @media screen and (min-width:1280px){
+    .mobileFooter{
+      display:none;
+    }
+   
+  }
+  @media screen and (max-width: 468px){
+
+  .footer_desktop {
+      display:none;
+    }
+    
+  .mobileFooter {
+   font-size: 24px;
+   text-align:left; 
+   border-bottom: 2px solid #fff;  
+  } 
+   
+  .mobileFooter:after {
+    content: "\002B";
+    width: 6px;
+    float: right;
+    position: relative;
+    right: 25px;
+  }  
+} 
+</style>
+
+{% schema %}
+{
+  "name": "Footer",
+  "max_blocks": 6,
+  "settings": [
+		{
+      "type": "checkbox",
+      "id": "show_copyright",
+      "label": "Show copyright before text",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Copyright Text",
+      "default":"<p>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut.</p>"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_secondary",
+      "label": "Bottom Menu",
+      "info": "This menu won't show dropdown items"
+    },
+    {
+      "type": "text",
+      "id": "contact_text",
+      "label": "Contact Text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo"
+        },
+        {
+          "type": "range",
+          "id": "logo_width",
+          "min": 60,
+          "max": 180,
+          "step": 10,
+          "unit": "px",
+          "label": "Logo width",
+          "default": 150
+        },
+        {
+          "type": "checkbox",
+          "id": "mobile_hide_block",
+          "label": "Hide block on mobile",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "menu",
+      "name": "Menu",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading"
+        },
+        {
+          "type": "link_list",
+          "id": "menu_primary",
+          "default":"main-menu",
+          "label": "Choose Menu",
+          "info": "This menu won't show dropdown items"
+        },
+        {
+          "type": "checkbox",
+          "id": "mobile_hide_block",
+          "label": "Hide block on mobile",
+          "default": true
+        }
+      ]
+    },
+    
+    {
+      "type": "social",
+      "name": "Social icons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Social media",
+          "info":"Edit your social settings and accounts in General settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "mobile_hide_block",
+          "label": "Hide block on mobile",
+          "default": false
+        }
+      ]
+    },
+		{
+      "type": "newsletter",
+      "name": "Newsletter",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Newsletter",
+          "info": "Klaviyo newsletter functionality"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+					"default": "Sign up for our newsletter"
+        },
+        {
+          "type": "text",
+          "id": "newsletter_form_id",
+          "label": "Form ID"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

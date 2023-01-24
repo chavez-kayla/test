@@ -1,0 +1,83 @@
+{% include 'privacy-check-start' %}
+{% section 'page-holiday-intro' %}
+{% section 'page-holiday-product-row-1' %}
+{% section 'page-holiday-product-row-2' %}
+{% section 'page-holiday-body' %}
+{% section 'page-holiday-body-2' %}
+{% section 'page-holiday-product-row-3' %}
+{% section 'page-holiday-outro' %}
+{% include 'privacy-check-end' %}
+
+<style>
+#holiday-2020 .bodyWrap-spacer {
+  padding-top: 120px;
+}
+@media only screen and (min-width: 1800px) {
+	#shopify-section-page-holiday-body-2 .featured-product:before {
+		background-size: contain;
+	  background-repeat: no-repeat;	
+		top: -55vh;
+	}
+	#shopify-section-page-holiday-body:before {
+		top: 100px;
+	}
+	#shopify-section-page-holiday-intro .featured-product:after {
+		top: -75px;
+	}
+}
+@media only screen and (max-width: 1025px) {
+	#shopify-section-page-holiday-intro .simple-image-text-module .container:before {
+		top: -20vh;
+		height: 20vh;
+		width: 50%;
+	}
+	#shopify-section-page-holiday-intro .simple-image-text-module .container:after {
+		top: -3vh;   
+	}
+	#shopify-section-page-holiday-body-2 .featured-product:before {
+		height: 22vh;
+		top: -22vh;
+	}
+	#shopify-section-page-holiday-body-2 {
+	  margin-top: 25vh;
+	}
+	#shopify-section-page-holiday-product-row-2:after {
+		height: 40vh;
+		margin-top: -25vh;
+	}
+}
+@media screen and (max-width: 1023px) {
+	#holiday-2020 .contain-width, #holiday-2020 .contain-width-70, #holiday-2020 .contain-width-60, #holiday-2020 .contain-width-50 {
+		width: 80%;
+	}	
+}
+@media only screen and (max-width: 769px) {
+	#holiday-2020 #shopify-section-page-holiday-intro .simple-image-text-module img.row--split-feat-image {
+		margin-top: -30vh;
+	}
+	#shopify-section-page-holiday-body:before {
+		top: -119px;
+	}
+}
+@media only screen and (max-width: 600px) {
+	#holiday-2020 #shopify-section-page-holiday-intro .simple-image-text-module img.row--split-feat-image {
+		margin-top: -10vh;
+	}
+	#shopify-section-page-holiday-product-row-3:before {
+		width: 60px;
+		height: 190px;
+		top: 220px;
+	}
+	#shopify-section-page-holiday-outro:after {
+		bottom: 10%;
+	}
+	#shopify-section-page-holiday-body:before, #shopify-section-page-holiday-intro .featured-product:after {
+		width: 120px;
+		height: 120px;
+	}
+	#shopify-section-page-holiday-intro .featured-product:after {
+		right: 0px;
+		top: -115px;
+	}
+}
+</style>

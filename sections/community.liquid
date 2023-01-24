@@ -1,0 +1,57 @@
+<section style="background: {{ section.settings.bg_color }};">
+  <div class="rich-content align--center lg_align--{{ section.settings.heading_align }}">
+    <div class="max-width center" style="padding-bottom:50px;">
+      <h2 class="size--xlarge" style="padding-top:50px; padding-bottom:50px;">{{ section.settings.title }}</h2>
+      <div class="js-collectionGrid collectionGrid-row row inline row-lg EndlessClick">
+        {% for block in section.blocks %}
+          <div class="collectionBlock js-collectionBlock block s12 sm_s12 lg_s14  is-visible text-center">
+          <img src="{{ block.settings.image | img_url: '500x' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}" class="margin-top margin-bottom">
+          </div>
+          {% endfor %}
+      </div>
+      <a href="https://dev-tubby-todd-bath-co.myshopify.com/pages/community" class="button button--primary inline margin-top" style="color:black; background-color:white; border-color: black;">Have Fun With Us</a>
+    </div>
+  </div>
+</section>
+<style>
+.collectionGrid-row img {
+		max-width: 100%;
+	}
+</style>
+{% schema %}
+  {
+    "name": "Community",
+    "settings": [
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background color",
+        "default": "#fbf8f3"
+      },
+		{
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+       	}
+    ],
+    "blocks":[
+      {
+        "name":"Image",
+        "type":"images",
+        "settings":[
+          {
+        "type": "image_picker",
+        "id": "image",
+        "label":"Image"
+          }
+        ]
+      }
+    ],
+    "presets":[
+      {
+      "name": "Community",
+      "category": "Text"
+    }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,22 @@
+{% if section.settings.footer_logo != blank %}
+	<div class="blog-footer text-center">
+		<img src="{{ section.settings.footer_logo | img_url: '500x' }}" alt="{% if section.settings.footer_logo.alt != '' %}{{ section.settings.footer_logo.alt }}{% else %}Tubby Todd Bath Co.{% endif %}">
+	</div>	
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Blog footer",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Footer"
+      },
+			{
+			  "type": "image_picker",
+			  "id": "footer_logo",
+			  "label": "Footer logo"
+			}
+		]
+	}	
+{% endschema %}

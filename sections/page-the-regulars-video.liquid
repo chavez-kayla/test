@@ -1,0 +1,152 @@
+{% if section.settings.border-image != blank %}
+	<div class="border-image-top">
+		<img src="{{ section.settings.border-image | img_url: '2400x' }}" alt="{% if section.settings.banner.alt != '' %}{{ section.settings.banner.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+	</div>	
+{% endif %}	
+
+<div class="no-margin extra-padding-top" style="background: {{ section.settings.bg_color }}; positon:relative;">
+	{% if section.settings.title != '' or section.settings.intro != '' %}
+		<div class="page-title extra-margin-bottom">     
+			<div class=" container contain-width-80">
+				<div class="row row-lg padding-top">
+                  <div class="image no-padding-right">
+						{% if section.settings.video_embed != blank %}
+							{{ section.settings.video_embed }}
+						{% elsif section.settings.video_url != blank %}
+							<div class="mp4-video">
+							  <a href="{{ section.settings.video_url }}"><img class="padding" src="{{ section.settings.image | img_url: '1024x' }}" alt="{% if section.settings.link_title != blank %}{{ section.settings.link_title }}{% else %}Video Link{% endif %}" /></a>       
+							</div>
+						{% else %}
+							<a href="{{ section.settings.image | img_url: '1024x' }}" class="collection-image-lightbox">
+								<img src="{{ section.settings.image | img_url: '1024x' }}" alt="{% if section.settings.image.alt != '' %}{{section.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}" class="row--split-feat-image">
+							</a>
+						{% endif %}
+					</div>
+			  	<h2 class="size--xlarge text-bold" style="color: {{ section.settings.color }};">{{ section.settings.title }}</h2>
+				</div>
+			</div>
+			<div class="container contain-width-80">
+				<div class="row row-lg">
+			  	<div class="page-title__text rte size--normal extra-margin-bottom">
+						<p>{{ section.settings.intro }}</p>
+					</div>
+				</div>
+				{% if section.settings.button_text != '' and section.settings.button_link %}
+					<div class="row row-med u-center margin-top extra-margin-bottom">
+						<a href="{{ section.settings.button_link }}" class="button button--primary inline upcase" title="{{ section.settings.button_text | strip_html }}">{{ section.settings.button_text | strip_html }}</a>
+					</div>
+				{% endif %}
+			</div>        
+		</div>
+	{% endif %}
+	
+
+</div>
+
+{% if section.settings.border-image != blank %}
+	<div class="border-image-bottom">
+		<img src="{{ section.settings.border-bottom-image | img_url: '2400x' }}" alt="{% if section.settings.banner.alt != '' %}{{ section.settings.banner.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+	</div>	
+{% endif %}	
+
+<style>
+  .contain-width-80{
+         width:30%
+          }
+ 
+	.custom-page-row-1 .border-image-top img, .custom-page-row-1 .border-image-bottom img {
+		display: block;
+		width: 100%;
+	}
+	
+	@media only screen and (max-width: 1025px) {
+		.custom-page-row-1 .border-image-top img {
+			margin-bottom: -1px;
+		}
+ 
+	  }
+  
+  @media only screen and (max-width:550px){
+    .extra-margin-bottom{
+      margin-bottom:0px;
+    }
+   
+    .contain-width-80{
+         width:80%
+          }
+  }
+
+</style>
+
+{% schema %}
+{
+  "name": "Product Row 1",
+	"class": "custom-page-row-1",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro text"
+    },
+{
+				   "type": "text",
+				   "id": "video_url",
+				   "label": "Video URL",
+					 "info": "If URL entered video will play in modal."
+				},
+				{
+				   "type": "html",
+				   "id": "video_embed",
+				   "label": "Video Embed",
+					 "info": "If entered video will be embedded in page"
+				},
+	{
+      "type": "color",
+      "id": "color",
+      "label": "Heading color",
+      "default": "#000"
+    },
+	{
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#fff"
+    },
+	{
+	   "type": "text",
+	   "id": "button_text",
+	   "label": "Button text"
+	},
+	{
+	   "type": "url",
+	   "id": "button_link",
+	   "label": "Button link"
+	},
+	{
+	    "type": "image_picker",
+	    "id": "border-image",
+	    "label": "Border top image"
+    },
+	{
+	    "type": "image_picker",
+	    "id": "border-bottom-image",
+	    "label": "Border bottom image"
+    },
+	{
+	    "type": "image_picker",
+	    "id": "accent-image",
+	    "label": "Accent image top"
+  	},
+	{
+	    "type": "image_picker",
+	    "id": "accent-image-bottom",
+	    "label": "Accent image bottom"
+  	}
+  ]
+}
+{% endschema %}

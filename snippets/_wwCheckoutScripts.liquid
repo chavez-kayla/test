@@ -1,0 +1,14 @@
+{% unless order %}
+{% comment %}
+    PLACE ANY SCRIPTS THAT SHOULD APPEAR ~ONLY~ ON THE CHECKOUT FLOW
+    -- NOTE: This snippet is only valid for ShopifyPlus stores
+{% endcomment %}
+<script>
+console.log("Checkout SCRIPTS");
+{% if first_time_accessed %}
+console.log("FIRST TIME -- Check");
+{% else %}
+console.log("NOT FIRST TIME -- Check");
+{% endif %}
+</script>
+{% endunless %}

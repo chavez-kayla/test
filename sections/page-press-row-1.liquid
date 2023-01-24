@@ -1,0 +1,99 @@
+<div class="no-margin extra-padding-top" style="background: {{ section.settings.bg_color }}; positon:relative;">
+	<div class="js-collectionGrid collectionGrid-row row inline row-lg EndlessClick">
+		{% for block in section.blocks %}
+			<div class="collectionBlock js-collectionBlock block s11 sm_s12 lg_s14  is-visible text-center">
+			  <div class="press_item_inner" style="background-color: {{ block.settings.color }};">
+				<div class="contain-width-80 margin-auto">
+				{% comment %} <h3>{{ block.settings.title }}</h3> {% endcomment %}
+					<p class="text-center">{{ block.settings.text }}</p>
+                        {% if block.settings.image %}
+							<div class="featured_image padding text-center margin-bottom flex-vertical-align-middle">
+								{% if block.settings.image.aspect_ratio > 2 %}
+									{{ block.settings.image | img_url: 'x50' | img_tag }}
+								{% else %}
+									{{ block.settings.image | img_url: 'x150' | img_tag }}
+								{% endif %}
+							</div>
+                        {% if block.settings.source_name %}
+							<p class="text-center">{% if block.settings.source_url %}<a aria-label="{{ block.settings.source_name }}" href="{{ block.settings.source_url }}" target="_blank" title="Opens in a new window">{% endif %}Read More</a></p>
+						{% endif %}
+						{% endif %}
+				</div>
+              </div>
+			</div>
+		{% endfor %}
+		<div class="gridSpacer item block s1 sm_s12 lg_s14"></div>
+		<div class="gridSpacer item block s1 sm_s12 lg_s14"></div>
+	</div>
+</div>
+
+<style>
+
+   .padding{
+     padding:10px;
+   }
+  
+	.custom-page-row-1 .collectionGrid-row img {
+		max-width: 100%;
+	}
+	.custom-page-row-1 .collectionGrid-row div p {
+		color: #000;
+	}
+	.custom-page-row-1 .collectionGrid-row h3 {
+		margin-top:15px;
+	}
+
+</style>
+
+{% schema %}
+{
+  "name": "Press Page",
+  "class": "custom-page-row-1",
+  "settings": [
+  	{
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#fff"
+    }
+  ],
+ "blocks": [
+    {
+      "type": "press",
+      "name": "Press",
+      "settings": [
+				{
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "source_name",
+          "label": "Source Name"
+        },
+        {
+          "type": "text",
+          "id": "source_url",
+          "label": "Source URL"
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Block color"
+        }
+      ]
+    } 
+  ]
+}
+{% endschema %}

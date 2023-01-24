@@ -1,0 +1,276 @@
+<script class="cartFlagX"></script>{% include 'bold-cart' %}
+{% unless template == 'cart' %}
+	<div class="js-cartToggle js-cartToggle-close cart-close icon-close diamond-outline"><div class="diamond"></div></div>
+	<div class="scroll">
+		<div class="cart-wrapper">
+{% endunless %}
+
+<div id="Cart" class="row cart-row">
+  <div class="cart-title block s1 u-center">
+    <h2>{{ 'cart.labels.cart_title' | t }}</h2>
+
+  {% if cart.item_count > 0 %}
+    <p>{{ 'cart.labels.total_items' | t }} (<span id="CartItemCount">{{cart.item_count}}</span>)</p>
+  </div>
+
+  <form action="/cart" method="post">
+    <div class="cart-table d-table" aria-label="Shopping Checkout" role="table" aria-readonly="true">
+      <div class="med_hide d-table-header" role="row">
+        <div class="d-table-row">
+          <div class="cart-product-thumb d-table-cell" role="columnheader">
+            <h3 style="display:none">Image</h3>
+          </div>
+          <div class="d-table-cell" role="columnheader">
+          	<h3 style="display:none">Product</h3>
+          </div>
+          <div class="cart-product-quantity d-table-cell" role="columnheader">
+            <h3 class="">{{ 'cart.labels.quantity' | t }}</h3>
+          </div>
+          <div class="cart-product-total d-table-cell" role="columnheader">
+            <h3 class="">{{ 'cart.labels.total' | t }}</h3>
+          </div>
+          <div class="cart-product-remove d-table-cell" role="columnheader"></div>
+        </div>
+      </div>
+
+      <div id="CartItems" class="med_d-block d-table-row-group" role="row">
+
+        {% for item in cart.items %}
+					
+					{% assign is_gift = false %}
+					{% assign gift_source = '' %}
+					{% for p in item.properties %}
+						{% if p.first == "_Sale" and p.last == "GWP" %}
+							{% if settings.enable_cart_gift or settings.enable_cart_gift_popup %}
+								{% assign is_gift = true %}
+							{% endif %}
+						{% endif %}
+						{% if p.first == "_Source" %}
+							{% assign gift_source = p.last %}
+						{% endif %}
+					{% endfor %}
+					{% if item.product.tags contains "Free Gift" %}
+						{% assign is_gift = true %}
+					{% endif %}
+					
+					{% assign hide_links = false %}
+					{% if item.product.tags contains "Hidden" %}
+						{% assign hide_links = true %}
+					{% endif %}
+
+					{% include 'bold-cart-item' with item %}
+          <div class="line-item med_u-container med_u-block med_u-row d-table-row">
+            <div class="cart-product-thumb med_u-block med_d-block d-table-cell" role="gridcell">
+              <a class="product-thumbnail lazyload fade-in" href="{% unless hide_links %}{{ collection_url }}{{ item.url }}{% else %}javascript:void(0){% endunless %}" data-bgset="{% include 'bgset', image: item.image %}" data-sizes="auto" data-parent-fit="cover" title="{{item.product.title}} <span class=tdf-cart-item-t></span> Thumbnail"></a>
+            </div>
+            <div class="cart-product-desc med_u-block med_d-block d-table-cell" role="gridcell">
+              <a class="h3" href="{% unless hide_links %}{{ collection_url }}{{ item.url }}{% else %}javascript:void(0){% endunless %}">{{ item.product.title }}
+<span class='booster-cart-item-success-notes' data-key='{{item.key}}'></span><span class='booster-cart-item-upsell-notes' data-key='{{item.key}}'></span></a>
+							{% unless item.variant.title contains "$" and item.variant.title.size < 5 %}
+              	<p class="u-margin-0">{% if item.variant.title != 'Default Title' %}{{ item.variant.title }}{%endif%}</p>
+							{% endunless %}
+							
+							{% assign hide_item_price = false %}
+							{% for p in item.properties %}
+								{% if p.first == "Custom Amount" %}
+									{% assign hide_item_price = true %}
+								{% endif %}
+							{% endfor %}
+							{% unless hide_item_price %}
+              	<p class="product-price u-margin-0" data-price="{{ bold_item_price }}">
+									{% unless is_mixed_cart %}
+										{% assign discount_title_prefix = "" %}
+										{% if item.total_discount > 0 and item.variant.compare_at_price > 0 and item.variant.compare_at_price != item.original_price %}
+											<span class="strikethrough">{{ item.variant.compare_at_price | money_without_trailing_zeros }}</span>&nbsp;
+											{% assign discount_title_prefix = "Additional " %}
+										{% endif %}
+		                <span class="{% if item.total_discount > 0 %}strikethrough{% endif %}">{% if bold_item_price == 0 %}FREE{% else %}{{ bold_item_price | money_without_trailing_zeros }}{% endif %}</span>
+										{% if item.total_discount > 0 %}
+		                  <span class="cart-item__line-price-discounted" data-money-convertible>{{ item.final_price | money_without_trailing_zeros }}</span>
+		                {% endif %}
+										{%- if item.line_level_discount_allocations != blank -%}
+		                  <ul class="cart-item__discount-list">
+		                    {%- for discount_allocation in item.line_level_discount_allocations -%}
+		                      <li class="cart-item__discount">
+		                        {%- include 'icon-sale' -%}{% if discount_title_prefix %}{{ discount_title_prefix }}{% endif %}{{ discount_allocation.discount_application.title }} (-{{ discount_allocation.amount | money_without_trailing_zeros }})
+		                      </li>
+		                    {%- endfor -%}
+		                  </ul>
+		                {%- endif -%}
+									{% else %}
+										<span>{% if bold_item_price == 0 %}FREE{% else %}{{ bold_item_price | money_without_trailing_zeros }}{% endif %}</span>
+									{% endunless %}
+	              </p>
+							{% endunless %}
+
+              {% assign property_size = item.properties | size %}
+              {% if property_size > 0 %}
+                <div class="cart-product-props h5">
+									{{ bold_item_properties }}
+									{{ bold_recurring_desc }}
+                </div>
+              {% endif %}
+            </div>
+            <div class="cart-product-quantity med_u-block med_d-block d-table-cell" role="gridcell">
+							{% assign hide_qty = false %}
+							{% if is_gift %}
+								{% assign hide_qty = true %}
+							{% endif %}
+							{% unless hide_qty %}
+	              <div class="js-counter counter inputGroup">
+	                <a href="#" role="button" class="inputCounter-down">&nbsp;<span class="icon-minus"></span><span class="notext">Subtract</span></a>
+	                <input aria-label="Quantity" type="text" name="updates[]" id="updates_{{ item.id }}" class="inputCounter" value="{{ item.quantity }}" />
+	                <a href="#" role="button" class="inputCounter-up"><span class="icon-plus"></span><span class="notext">Add</span>&nbsp;</a>
+	              </div>
+							{% elsif is_gift and item.quantity > 1 %}
+								{% comment %}Limit gift items to 1 per checkout{% endcomment %}
+								<script>
+									jQuery.post('/cart/change.js', { 'id': {{item.id}}, 'quantity': 1 });
+									window.location.reload();
+								</script>
+							{% endunless %}
+            </div>
+            <div class="cart-product-total med_u-block med_d-block d-table-cell" role="gridcell">
+							{% unless is_mixed_cart %}
+								<span class='booster-cart-item-line-price' aria-live="polite" data-key='{{item.key}}'>{% if item.final_line_price == 0 %}FREE{% else %}{% if item.original_line_price != item.final_line_price %}<span class="strikethrough">{{ item.original_line_price | money_without_trailing_zeros }}</span> {{ item.final_line_price | money_without_trailing_zeros }}{% else %}{{ bold_item_line_price | money_without_trailing_zeros }}{% endif %}{% endif %}</span>
+							{% else %}
+								<span class='booster-cart-item-line-price' aria-live="polite" data-key='{{item.key}}'>{{ bold_item_line_price | money_without_trailing_zeros }}</span>
+							{% endunless %}
+						</div>
+            <div class="cart-product-remove med_d-block-ab d-table-cell" aria-label="remove" role="gridcell">
+							{% assign hide_remove = false %}
+							{% if is_gift and gift_source != "Popup" %}
+								{% unless item.product.tags contains "Free Gift" %}
+									{% assign hide_remove = true %}
+								{% endunless %}
+							{% endif %}
+							{% unless hide_remove %}
+              	<a href="/cart/change?line={{ forloop.index }}&quantity=0" class="{{ bold_remove_class }}" aria-label="remove"><i class="icon-close h4"></i></a>
+							{% endunless %}
+            </div>
+          </div>
+        {% endfor %}
+
+      </div>
+
+      <div class="d-table-footer">
+        <div class="d-table-row">
+          <div class="d-table-cell"></div>
+          <div class="d-table-cell"></div>
+          <div class="d-table-cell is-update">
+            <button class="cart-update" type="submit" name="update" value="Update +">{{ 'cart.labels.update' | t }} <i class="icon-update"></i></button>
+          </div>
+          <div class="d-table-cell"></div>
+          <div class="cart-subtotal-title d-table-cell" colspan="2">
+            <p class=" u-margin-0">{{ 'cart.labels.subtotal' | t }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="clear-both"></span>
+    
+    <div class="checkout-buttons row inline">
+      <div class="block s1 u-right u-margin-b-sm">
+        <h3 class=" sm_show">{{ 'cart.labels.subtotal' | t }}</h3>
+        <p class="h4">
+					{% unless is_mixed_cart %}
+						<span class=""><span class='wh-original-price'>{% if cart.original_total_price != cart.total_price %}<span class="wh-original-cart-total"><span class='wh-original-price'><span class="strikethrough">{{ cart.original_total_price | money_without_trailing_zeros }}</span> {{ cart.total_price | money_without_trailing_zeros }}</span></span><span class="wh-cart-total"></span><div class="additional-notes"><span class="wh-minimums-note"></span><span class="wh-extra-note"></span></div>{% else %}<span class="wh-original-cart-total"><span class='wh-original-price'>{{ bold_cart_total_price | money_without_trailing_zeros }}</span></span><span class="wh-cart-total"></span><div class="additional-notes"><span class="wh-minimums-note"></span><span class="wh-extra-note"></span></div>{% endif %}</span></span><span class="wh-cart-total"></span><div class="additional-notes"><span class="wh-minimums-note"></span><span class="wh-extra-note"></span></div>
+					{% else %}
+						<span class=""><span class='wh-original-price'><span style="display:none" class="tdf-cart-total-flag"></span><span class="wh-original-cart-total"><span class='wh-original-price'>{{ bold_cart_total_price | money_without_trailing_zeros }}</span></span><span class="wh-cart-total"></span><div class="additional-notes"><span class="wh-minimums-note"></span><span class="wh-extra-note"></span></div></span></span><span class="wh-cart-total"></span><div class="additional-notes"><span class="wh-minimums-note"></span><span class="wh-extra-note"></span></div>
+					{% endunless %}
+				</p>
+				<div class="cart_messages">
+        	<p><small>{{ 'cart.labels.excluding_tax_and_shipping' | t }}</small></p>
+					{% unless is_mixed_cart %}{% include 'cart-discount-thresholds' %}{% endunless %}
+					{% if settings.cart_message != blank %}
+						{% assign enable_cart_message = true %}
+						{% if settings.limit_cart_message_ids != blank %}
+							{% assign enable_cart_message = false %}
+							{% for item in cart.items %}
+								{% if settings.limit_cart_message_ids contains item.variant_id %}
+									{% assign enable_cart_message = true %}
+								{% endif %}
+							{% endfor %}
+						{% endif %}
+						{% if enable_cart_message %}
+							<p><small><em>{{ settings.cart_message }}</em></small></p>
+						{% endif %}
+					{% endif %}
+				</div>
+      </div>
+			<div class="order-info">
+				{% if template == 'cart' and settings.enable_cart_gift and settings.cart_gift_product != blank %}
+					{% include 'cart-gift' %}
+				{% endif %}
+				{% if template == 'cart' and settings.enable_cart_gift_popup and settings.cart_gift_popup_product != blank %}
+					{% include 'cart-gift-popup' %}
+				{% endif %}
+                {% if template == 'cart' and settings.enable_double_cart_gift_popup %}
+					{% include 'cart-gift-popup-double' %}
+				{% endif %}
+	      {% if settings.enable_cart_order_notes %}
+	        <div class="order-notes">
+	          <label class="order-notes__label" for="order-notes">{{ 'cart.labels.add_a_note' | t }}</label>
+	          <textarea id="order-notes" class="order-notes__content" name="note"></textarea>
+	        </div>
+	      {% endif %}
+           <br>
+           <p class="cart-attribute__field_2">
+                  <input type="checkbox" name="attributes[Add a Pump]" value="Yes"{% if cart.attributes["Add a Pump"] == "Yes" %} checked{% endif %}>
+                  <input type="hidden" name="attributes[Add a Pump]" value="No">
+                  <label>Yes, I need a pump</label>
+           </p>
+            </div>
+			{{ bold_ro_cart }}
+      <a href="{% if template == 'cart' %}https://tubbytodd.com/collections/all-1{% else %}#{% endif %}" {% if template == 'cart' %} onclick="history.go(-1)" {% endif %} class="js-continueShopping button button--light hover-highlight block sm_s12 sm_hide">{{ 'cart.labels.continue_shopping' | t }}</a>
+      <button class="button cart-checkout hover-highlight block s1 sm_s12 lg_s13 xxl_s14 u-margin-b-sm" type="submit" name="checkout">{{ 'cart.labels.checkout' | t }}</button>
+      <a {% if template == 'cart' %} onclick="history.go(-1)" {% endif %} class="block sm_s12 med_s25 lg_s13 xxl_s14 sm_show u-center sm_show"><h4>‹ {{ 'cart.labels.continue_shopping' | t }}</h4></a>
+
+    </div>
+  </form>
+</div> <!-- close .cart-row -->
+
+{% else %}
+
+  <p>{{ 'cart.labels.empty_cart' | t }}</p>
+  <a href="{% if template == 'cart' %}https://tubbytodd.com/collections/all-1{% else %}#{% endif %}" class="js-continueShopping button s1 sm_s12 med_s25 lg_s13 xxl_s14">{{ 'cart.labels.continue_shopping' | t }}</a>
+  </div> <!-- closing tag for title row -->
+</div> <!-- close .cart-row -->
+
+{% endif %}
+    
+{% unless template == 'cart' %}
+  </div>
+  </div>
+{% endunless %}
+
+<!-- BEGIN AFTERPAY PRESENT -->
+<script type="application/javascript" src="https://static-us.afterpay.com/javascript/present-afterpay.js"></script>
+<script>
+const total = <span class=""><span class='wh-original-price' aria-live="polite"><span style="display:none" class="tdf-cart-total-flag"></span><span class="wh-original-cart-total"><span class='wh-original-price'>{{cart.total_price | json}}</span></span><span class="wh-cart-total"></span><div class="additional-notes"><span class="wh-minimums-note"></span><span class="wh-extra-note"></span></div></span></span><span class="wh-cart-total"></span><div class="additional-notes"><span class="wh-minimums-note"></span><span class="wh-extra-note"></span></div>
+const subscription = document.querySelector('.bold_recurring_desc');
+const apCartConfig = {
+ 'priceSelector': ".checkout-buttons > div p",   // REQUIRED: set to the div
+ 'locale': 'en_US',            // REQUIRED: set to the locale for your site
+ 'afterpayLogoColor': 'color', // optional: set to use black or white logo
+ 'amount': total,              // optional: set to item price or order total
+//  showUpperLimit:  false // hide upper limit for low AOV
+ };
+  const exclude = {
+ 'priceSelector': ".checkout-buttons > div p",   // REQUIRED: set to the div
+ 'locale': 'en_US',            // REQUIRED: set to the locale for your site
+ 'afterpayLogoColor': 'black', // optional: set to use black or white logo
+ 'amount': total,              // optional: set to item price or order total
+//  showUpperLimit:  false // hide upper limit for low AOV
+ 'excludedProducts': 'subscription items'
+ };
+if(window.location.pathname === "/cart"){
+	!subscription && new presentAfterpay(apCartConfig).init();
+	subscription && new presentAfterpay(exclude).init();
+}
+</script>
+<!-- END AFTERPAY PRESENT -->
+<style>
+	.afterpay-paragraph{font-size: 1em}
+  .afterpay-link, .afterpay-link-inner{ font-size: 0.9em; } 
+</style>

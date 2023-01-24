@@ -1,0 +1,45 @@
+{% if section.settings.show_newsletter %}
+	<div class="row extra-padding extra-margin-top" style="background-color: {{ section.settings.bg_color }};">
+		<div class="contain-width-70 margin-auto">
+			<div class="block s1 med_s1 lg_s1">
+				{% if section.settings.title %}
+					<h3 class="text-extra-large text-center">{{ section.settings.title }}</h3>
+				{% endif %}
+				<div>
+					{{ section.settings.signup_form }}
+				</div>	
+			</div>
+		</div>
+	</div>	
+{% endif %}
+
+
+{% schema %}
+  {
+    "name": "Newsletter",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_newsletter",
+        "label": "Show newsletter?",
+        "default": false
+      },
+			{
+      	"type": "text",
+      	"id": "title",
+      	"label": "Title"
+     	},
+			{
+      	"type": "html",
+      	"id": "signup_form",
+      	"label": "Signup form code"
+     	},
+			{
+			  "type": "color",
+			  "id": "bg_color",
+			  "label": "Background color",
+			  "default": "#E5D3BA"
+			}
+		]
+	}	
+{% endschema %}

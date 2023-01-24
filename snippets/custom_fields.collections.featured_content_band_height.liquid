@@ -1,0 +1,8 @@
+{% if collection.metafields.custom_fields["featured_content_band_height"] != blank %}
+  <div class="custom-field custom-field__featured-content-band-height custom-field__type--text">
+    <h3 class="custom-field--title">Featured Content Color Band Height</h3>
+    <div class="custom-field--value">
+      {{ collection.metafields.custom_fields["featured_content_band_height"] }}
+    </div>
+  </div>
+{% endif %}

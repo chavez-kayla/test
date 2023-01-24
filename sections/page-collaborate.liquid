@@ -1,0 +1,48 @@
+<section class="page-title text-left container-wrap">
+  <div class="container">
+    <div class="row row-sm inline">
+      <h1>{{ page.title }}</h1>
+    </div>
+  </div>
+</section>
+
+<div class="container-wrap">
+  <div class="container">
+    <div class="row row-sm">
+	
+			{% if section.settings.featured_image %}
+				<div class="featured_image s1 med_s12 float-{{ section.settings.featured_image_align }} extra-margin">
+					{{ section.settings.featured_image | img_url: '500x' | img_tag }}
+				</div>
+			{% endif %}
+	
+			<div class="text-content rte">
+      	{{ page.content }}
+			</div>
+						
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collaborate page",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "featured_image",
+      "label": "Featured Image"
+    },
+		{ 
+			"type": "select",
+			"id": "featured_image_align",
+			"label": "Image Alignment",
+			"default": "right",
+			"options": [
+				{ "value": "left", "label": "Left" },
+				{ "value": "right", "label": "Right" }
+			]
+		}
+  ]
+}
+{% endschema %}

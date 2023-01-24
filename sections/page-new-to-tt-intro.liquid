@@ -1,0 +1,117 @@
+<hr>
+{% if section.settings.title != '' or section.settings.intro != '' %}
+	<div class="page-title extra-padding-top extra-margin-bottom">     
+		<div class="container contain-width-80">
+			<div class="row row-lg padding-top">      
+		  	<h1 class="page-title__heading size--small">{{ section.settings.title }}</h1>
+			</div>
+		</div>
+		<div class="container contain-width-80">
+			<div class="row row-lg">
+		  	<div class="page-title__text rte text-extra-large extra-margin-bottom">
+					<div>{{ section.settings.intro | newline_to_br }}</div>
+				</div>
+			</div>
+		</div>        
+	</div>
+{% endif %}	
+
+{% if section.settings.show_highlight %}
+	<div class="simple-image-text-module container-wrap featured-content padding" data-section-type="rich-text">
+		<div class="container pad-sm">
+			<div class="row row--split row-lg padding extra-padding-top extra-padding-bottom" style="background-color: {{ section.settings.highlight_background }};">
+				<div class="image text-center">
+					<a href="{% if section.settings.highlight_link != blank %}{{ section.settings.highlight_link }}{% else %}{{ section.settings.highlight_image | img_url: '1000x' }}{% endif %}" class="product-image-lightbox">
+						<img src="{{ section.settings.highlight_image | img_url: '500x' }}" alt="{% if section.settings.highlight_image.alt != '' %}{{ section.settings.highlight_image.alt }}{% else %}Tubby Todd Bath Co.{% endif %}">
+					</a>
+				</div>
+				<div class="rich-content no-button align--left lg_align--left">
+					<div class="max-width">
+						<h2 class="size--xlarge text-extra-bold" style="color: {{ section.settings.highlight_title_color }};">{{ section.settings.highlight_title }}</h2>				
+						<div class="text-normal">{{ section.settings.highlight_text }}</div>
+						<a href="{{ section.settings.highlight_link }}" class="button button--primary inline margin-top">{{ section.settings.highlight_link_text }}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endif %}
+
+<style>
+  hr {
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 25px 115px 0 115px;
+  }
+</style>
+
+
+
+{% schema %}
+{
+  "name": "Main Content",
+  "settings": [
+		{
+		  "type": "header",
+		  "content": "Introductory text"
+		},
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro text"
+    },
+		{
+		  "type": "header",
+		  "content": "Highlight Box"
+		},
+		{
+		  "type": "checkbox",
+		  "id": "show_highlight",
+		  "label": "Show highlight box?",
+		  "default": false
+		},
+    {
+      "type": "text",
+      "id": "highlight_title",
+      "label": "Highlight box heading"
+    },
+    {
+      "type": "richtext",
+      "id": "highlight_text",
+      "label": "Highlight box text"
+    },
+		{
+    	"type": "text",
+    	"id": "highlight_link_text",
+    	"label": "Highlight button text"
+   	},
+		{
+    	"type": "url",
+    	"id": "highlight_link",
+    	"label": "Highlight button link"
+   	},
+		{
+	    "type": "image_picker",
+	    "id": "highlight_image",
+	    "label": "Highlight box image"
+	  },
+		{
+		  "type": "color",
+		  "id": "highlight_title_color",
+		  "label": "Highlight box title color",
+		  "default": "#000000"
+		},
+		{
+		  "type": "color",
+		  "id": "highlight_background",
+		  "label": "Highlight color",
+		  "default": "#fbc200"
+		}
+  ]
+}
+{% endschema %}

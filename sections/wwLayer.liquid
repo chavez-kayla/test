@@ -1,0 +1,30 @@
+{% render "_wwLayerInit" %}
+{% if order %}
+    {% render "_wwSummaryScripts" %}
+{% elsif checkout %}
+    {% render "_wwCheckoutScripts" %}
+{% else %}
+    {% render "_wwStorefrontScripts" %}
+{% endif %}
+
+
+    {{ "x1xx-WwGlobals.js" | asset_url | script_tag }}
+
+
+{% schema %}
+{
+    "name":"[Ww] Tracking Layer",
+    "limit": 1,
+    "class":"ww-layer-container",
+    "settings":[
+       {
+          "type": "header",
+          "content": "What is this?"
+       },
+       {
+          "type": "paragraph",
+          "content": "This was installed by WW and provides a standard set of tracking events and website features. When enabled, this code will automatically enrich your existing onsite tools (Klaviyo, Analytics, Facebook, etc.) with reliable data populated by the actions your customers take while here."
+       }
+    ]
+ }
+{% endschema %}

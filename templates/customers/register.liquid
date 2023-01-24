@@ -1,0 +1,64 @@
+<!-- /templates/customers/register.liquid -->
+
+<div class="container">
+
+  <div class="row row-lg inline u-center">
+
+		<div class="club_tub block s1 med_s12">
+			<div class="image contain-width-80 margin-auto margin-bottom">
+				{{ "tubby-todd-club-tub-register-image.png" | file_url | img_tag: 'Welcome to Club Tub', 'account-img' }}
+			</div>
+		</div>
+
+    <div class="account-form registerFrom block s1 med_s12">
+			<div class="contain-width-80 margin-auto">
+				<h1 class="block s1 u-center">{{ 'customer.register.title' | t }}</h1>
+	      {% form 'create_customer', class: "validate" %}
+	        <div class="row inline">
+
+	          <div class="block s1 u-center p c-accent" role="alert">
+	            {{ form.errors | default_errors }}
+	          </div>
+	          <div class="inputGroup block s1">
+	            <label for="FirstName" class="h4 c-gray hidden">{{ 'customer.register.first_name' | t }}*</label>
+	            <input type="text" autocomplete="given-name" name="customer[first_name]" id="FirstName" class="input-full" {% if form.first_name %}value="{{ form.first_name }}"{% endif %} autocapitalize="words" autofocus required aria-required="true" {% comment %}aria-describedby="fnameError"{% endcomment %} placeholder="{{ 'customer.register.first_name' | t }}*">
+							{% if form.errors contains 'first_name' %}<div role="alert" class="error" id="fnameError">Please provide a First Name</div>{% endif %}
+	          </div>
+
+	          <div class="inputGroup block s1">
+	            <label for="LastName" class="h4 c-gray hidden">{{ 'customer.register.last_name' | t }}*</label>
+	            <input type="text" autocomplete="family-name" name="customer[last_name]" id="LastName" class="input-full" {% if form.last_name %}value="{{ form.last_name }}"{% endif %} autocapitalize="words" required aria-required="true" {% comment %}aria-describedby="lnameError"{% endcomment %} placeholder="{{ 'customer.register.last_name' | t }}*">
+							{% if form.errors contains 'last_name' %}<div role="alert" class="error" id="lnameError">Please provide a Last Name</div>{% endif %}
+	          </div>
+
+	          <div class="inputGroup block s1">
+	            <label for="Email" class="h4 c-gray hidden">{{ 'customer.register.email' | t }}*</label>
+	            <input type="email" autocomplete="email" name="customer[email]" id="Email" class="input-full{% if form.errors contains 'email' %} error{% endif %}" {% if form.email %} value="{{ form.email }}"{% endif %} autocorrect="off" autocapitalize="off" required aria-required="true" {% comment %}aria-describedby="emailError"{% endcomment %} placeholder="{{ 'customer.register.email' | t }}*">
+							{% if form.errors contains 'email' %}<div role="alert" class="error" id="emailError">Please provide a valid Email</div>{% endif %}
+	          </div>
+
+	          <div class="inputGroup block s1">
+	            <label for="CreatePassword" class="h4 c-gray hidden">{{ 'customer.register.password' | t }} (must be at least 5 characters)*</label>
+	            <input type="password" autocomplete="new-password" name="customer[password]" id="CreatePassword" class="input-full{% if form.errors contains 'password' %} error{% endif %}" required aria-required="true" {% comment %}aria-describedby="pwError"{% endcomment %} placeholder="{{ 'customer.register.password' | t }} (must be at least 5 characters)*">
+							{% if form.errors contains 'password' %}<div role="alert" class="error" id="pwError">Please provide a valid Password</div>{% endif %}
+	          </div>
+	
+						
+						<p class="text-small text-left text-grey nudge-right">*required</p>
+	        </div>
+	        <div class="row inline u-center">
+	          <input type="submit" value="Sign Up" class="account-form-submit button block upcase">
+	        </div>
+					<div class="account-form-links block s1 row inline u-center border-top light-grey extra-padding-top">
+            {% if shop.customer_accounts_enabled %}
+							<p class="text-semi-large semi-bold">Already a member?</p>
+              <a href="/account/login" class="p upcase text-half-spaced semi-bold">{{ 'customer.login.sign_in' | t }}</a>
+            {% endif %}
+          </div>
+	      {% endform %}
+			</div>
+    </div>
+
+  </div>
+
+</div>

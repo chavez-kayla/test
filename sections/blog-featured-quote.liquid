@@ -1,0 +1,61 @@
+{% if section.settings.show_quote %}
+	<div class="row extra-padding-top flex-vertical-align-middle contain-width-70">
+		<div class="block s23 med_s23 lg_s23 padding-right">
+			<p class="text-extra-large italic">{{ section.settings.quote }}</p>
+			<p class="text-large italic">{{ section.settings.attribution }}</p>
+			<p class="read-more upcase bold margin-top"><a href="{{ section.settings.url }}" aria-label="Read more related to {{ section.settings.quote | escape }}">Read more</a></p>
+		</div>
+		<div class="block s13 med_s13 lg_s13">
+			<a href="{{ section.settings.url }}"><img src="{{ section.settings.image | img_url: '500x' }}" alt="{% if section.settings.image.alt != '' %}{{ section.settings.image.alt | escape }}{% else %}Tubby Todd Mama Blog{% endif %}"></a>
+		</div>	
+	</div>	
+{% endif %}
+
+<style>
+  @media screen and (max-width:576px){
+    .contain-width-70 {
+    width:100%;
+    flex-direction:column-reverse;
+    }
+    
+    .s13 {
+    width:75%;
+    }
+  }
+</style>
+
+
+{% schema %}
+  {
+    "name": "Featured quote",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_quote",
+        "label": "Show featured quote?",
+        "default": false
+      },
+			{
+			  "type": "image_picker",
+			  "id": "image",
+			  "label": "Image",
+				"info": "Image should be square"
+			},
+			{
+      	"type": "textarea",
+      	"id": "quote",
+      	"label": "Quote"
+     	},
+			{
+      	"type": "text",
+      	"id": "attribution",
+      	"label": "Attribution line"
+     	},
+			{
+      	"type": "url",
+      	"id": "url",
+      	"label": "Link"
+     	}
+		]
+	}	
+{% endschema %}

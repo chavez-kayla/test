@@ -1,0 +1,76 @@
+{% if section.settings.title != '' or section.settings.intro != '' %}
+<div class="page-title extra-padding-top extra-margin-bottom"> 
+  <div class="container contain-width-90">
+    <div class="row row-lg padding-top">      
+	  <h1 class="page-title__heading size-small" style="color: {{ section.settings.color }};">{{ section.settings.title }}</h1>
+    </div>
+  </div>
+</div>
+
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Intro Content",
+    "settings": [
+{
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "label": "Heading color",
+      "default": "#000"
+    },
+   {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section background color",
+      "default": "#ffffff"
+    },
+    {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+		   "type": "image_picker",
+			"id": "image_mobile",
+			"label": "Image mobile",
+			"info": "Desktop image will be used if not set"
+			},
+  {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro text"
+    },
+{
+	    "type": "image_picker",
+	    "id": "divider",
+	    "label": "Divider image"
+	  },
+{
+				   "type": "select",
+				   "id": "image_location",
+				   "label": "Image location",
+				   "options": [
+				     {
+				       "value": "left",
+				       "label": "Left"
+				     },
+				     {
+				       "value": "right",
+				       "label": "Right"
+				     }
+				   ],
+				   "default": "left",
+				   "info": "Default location is left"
+				}
+
+]
+  }
+{% endschema %}
+
+

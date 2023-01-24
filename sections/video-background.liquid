@@ -1,0 +1,254 @@
+{% include 'video-background'%}
+
+{% comment %} Schema {% endcomment %}
+{% schema %}
+{
+	"name":"Video Background",
+	"class": "videoBackground",
+	"max_blocks": 1,
+	"blocks": [
+		{
+		"type": "video",
+		"name": "Video",
+		"settings": [
+			{
+				"type": "url",
+				"id": "video_link",
+				"label":"Video link"
+			},
+			{
+				"type": "image_picker",
+				"id": "video_image",
+				"label": {
+				"en": "Cover image"
+				}
+			},
+            {
+				"type": "select",
+				"id": "alignment",
+				"label": "Slide content alignment",
+				"default": "center",
+				"options": [
+					{
+						"value": "left",
+						"label": "Left"
+					},
+					{
+						"value": "center",
+						"label": "Center"
+					},
+					{
+						"value": "right",
+						"label": "Right"
+					},
+					{
+						"value": "bottom-left",
+						"label": "Bottom left"
+					},
+					{
+						"value": "bottom-right",
+						"label": "Bottom right"
+					}
+				]
+			},
+			{
+				"type": "select",
+				"id": "content_width",
+				"label": "Slide content width",
+				"default": "one-half",
+				"options": [
+					{
+						"value": "one-third",
+						"label": "33%"
+					},
+					{
+						"value": "one-half",
+						"label": "50%"
+					},
+					{
+						"value": "full-width",
+						"label": "100%"
+					}
+				]
+			},
+			{
+				"type": "select",
+				"id": "color_style",
+				"label": "Color",
+				"default": "white",
+				"options": [
+					{
+						"value": "white",
+						"label": "Light"
+					},
+					{
+						"value": "black",
+						"label": "Dark"
+					}
+				]
+			},
+			{
+				"type": "text",
+				"id": "subheading",
+				"label": "Subheading"
+			},
+			{
+				"type": "text",
+				"id": "title",
+				"label": "Heading",
+				"default": "Welcome to Modular"
+			},
+			{
+				"type": "richtext",
+				"id": "text",
+				"label": "Text",
+				"default": "<p>A unique layout with a striking design</p>"
+			},
+			{
+				"type": "text",
+				"id": "cta",
+				"label": "Button label",
+				"default": "Shop Now"
+			},
+			{
+				"type": "url",
+				"id": "link",
+				"label": "Button link",
+				"default":"/collections/all"
+			},
+			{
+				"type": "text",
+				"id": "cta_2",
+				"label": "Second button label"
+			},
+			{
+				"type": "url",
+				"id": "link_2",
+				"label": "Second button link"
+			},
+			{
+				"type": "header",
+				"content": "Typography"
+			},
+			{
+				"type": "select",
+				"id": "heading_size",
+				"label": "Heading size",
+				"default": "large",
+				"options": [
+					{ "label": "Small", "value": "small" },
+					{ "label": "Normal", "value": "normal" },
+					{ "label": "Large", "value": "large" },
+					{ "label": "Extra large", "value": "xlarge" }
+				]
+			},
+			{
+				"type": "select",
+				"id": "text_size",
+				"label": "Text size",
+				"default": "normal",
+				"options": [
+					{ "label": "Small", "value": "small" },
+					{ "label": "Normal", "value": "normal" },
+					{ "label": "Large", "value": "large" },
+					{ "label": "Extra large", "value": "xlarge" }
+				]
+			},
+			{
+				"type": "header",
+				"content": "Overlay"
+			},
+			{
+				"type": "color",
+				"id": "overlay_color",
+				"label": "Color",
+				"default": "#333"
+			},
+			{
+				"type": "range",
+				"id": "overlay_opacity",
+				"label": "Opacity",
+				"min":0,
+				"max":95,
+				"step":5,
+				"unit":"%",
+				"default": 30
+			},
+			{
+				"type": "header",
+				"content": "Buttons style"
+			},
+			{
+				"type": "select",
+				"id": "button_size",
+				"label": "Size",
+				"default": "normal",
+				"options": [
+					{ "label": "Normal", "value": "normal" },
+					{ "label": "Large", "value": "large" }
+				]
+			},
+			{
+				"type": "header",
+				"content": "Primary button colors"
+			},
+			{
+				"type": "color",
+				"id": "cta_color",
+				"label": "Text",
+				"default": "#ffffff"
+			},
+			{
+				"type": "color",
+				"id": "cta_bg",
+				"label": "Background",
+				"default": "#333333"
+			},
+			{
+				"type": "color",
+				"id": "cta_border",
+				"label": "Border",
+				"default": "transparent"
+			},
+			{
+				"type": "header",
+				"content": "Secondary button colors"
+			},
+			{
+				"type": "color",
+				"id": "cta_2_color",
+				"label": "Text",
+				"default": "#333333"
+			},
+			{
+				"type": "color",
+				"id": "cta_2_bg",
+				"label": "Background",
+				"default": "#ffffff"
+			},
+			{
+				"type": "color",
+				"id": "cta_2_border",
+				"label": "Border",
+				"default": "transparent"
+			}
+		]
+		}
+	],
+	"presets": [
+		{
+			"name": {
+				"en": "Video Background"
+			},
+			"category": {
+				"en": "Main"
+			},
+			"blocks": [
+				{
+					"type": "video"
+				}
+			]
+		}
+	]
+}
+{% endschema %}

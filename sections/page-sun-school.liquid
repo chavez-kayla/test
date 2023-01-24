@@ -1,0 +1,89 @@
+<section class="page-title text-left container-wrap">
+  <div class="container">
+    <div class="row row-sm inline">
+      <h1 class="extra-padding-left extra-padding-right">{% if section.settings.title != blank %}{{ section.settings.title }}{% else %}{{ page.title }}{% endif %}</h1>
+    </div>
+  </div>
+</section>
+
+{% if section.blocks.size > 0 %}
+	<div class="container-wrap">
+	  <div class="container">
+	    <div class="sun_school row inline row-sm fadein">
+	
+				{% for block in section.blocks %}
+					<div class="sun_school_item s1 lg_s12 extra-padding-left extra-padding-right margin-bottom">
+						{% case block.type %}
+						{% when 'image' %}
+							<div class="image margin-bottom{% if section.settings.show_image_border %} mini-padding bg-highlight{% endif %}">
+								{{ block.settings.image | img_url: '500x' | img_tag }}
+							</div>
+						{% when 'text' %}
+							<p class="bold">{{ block.settings.title }}</p>
+							<div class="rich-content">{{ block.settings.answer }}</div>
+						{% endcase %}
+					</div>
+				{% endfor %}
+						
+	    </div>
+	  </div>
+	</div>
+	<script>
+		$( document ).ready(function() {
+			var $sun_school = $('.sun_school').imagesLoaded( function() {
+			  $sun_school.masonry({
+			    itemSelector: '.sun_school_item',
+					horizontalOrder: true
+			  });
+				$sun_school.on( 'layoutComplete', $('.sun_school').fadeTo(500, 1));
+			});
+		});
+	</script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Sun School page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image_border",
+      "label": "Show highlight border around images"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+				{
+          "type": "text",
+          "id": "title",
+          "label": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+				{
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,20 @@
+   {% if product.object_type == 'product' %}
+        {% if on_sale == true or sold_out == true or new_arrival == true %}
+          <span class="product-status-flag{% if on_sale %} is-sale{% endif %}{%if sold_out %} is-sold-out{%endif%}{% if new_arrival %} is-new{% endif %}">
+            {% if sold_out == true %}
+              {{ 'products.labels.sold_out' | t }}
+            {% elsif on_sale == true %}
+              {{ 'products.labels.on_sale' | t }}
+						{% elsif new_arrival == true %}
+							{{ 'products.labels.new_arrival' | t }}
+            {% elsif on_sale == true and sold_out == true %}
+              {{ 'products.labels.sold_out' | t }}
+            {% endif %}
+          </span>
+        {% endif %}
+				{% if more_scents == true %}
+					<span class="product-status-flag more-scents">       
+							More Scents
+          </span>
+				{% endif %}
+      {% endif %}

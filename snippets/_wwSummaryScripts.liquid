@@ -1,0 +1,11 @@
+{% if order %}
+{% comment %}
+    PLACE ANY SCRIPTS THAT SHOULD APPEAR ~ONLY~ ON THE ORDER SUMMARY PAGE
+{% endcomment %}
+<script>
+console.log("SUMMARY SCRIPTS");
+{% if first_time_accessed %}
+console.log("FIRST TIME -- ORDER");
+{% endif %}
+</script>
+{% endif %}

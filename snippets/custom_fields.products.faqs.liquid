@@ -1,0 +1,27 @@
+{% if product.metafields.custom_fields["faqs"] != blank %}
+  <div class="custom-field custom-field__faqs custom-field__type--field-collection-json">
+    <h3 class="custom-field--title">FAQs</h3>
+    <div class="custom-field--value">
+      {% for item in product.metafields.custom_fields["faqs"] %}
+        <div class="fc-item fc-index--{{ forloop.index0 }}">
+           {% if item["question"] != blank %}
+             <div class="fc-field field__question field-type--text">
+               <h4 class="custom-field--title">Question</h4>
+               <div class="custom-field--value">
+                 {{ item["question"] }}
+               </div>
+             </div>
+           {% endif %}
+           {% if item["answer"] != blank %}
+             <div class="fc-field field__answer field-type--text">
+               <h4 class="custom-field--title">Answer</h4>
+               <div class="custom-field--value">
+                 {{ item["answer"] }}
+               </div>
+             </div>
+           {% endif %}
+         </div>
+       {% endfor %}
+    </div>
+  </div>
+{% endif %}

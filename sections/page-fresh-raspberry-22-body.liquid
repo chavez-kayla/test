@@ -1,0 +1,247 @@
+{% for block in section.blocks %}
+	<div class="simple-image-text-module container-wrap featured-product" data-section-type="rich-text">
+		<div class="container" style="background-color: {{ block.settings.bg_color }};">
+			<div class="row row--split row-lg">
+				{% if block.settings.image_location == 'left' %}
+					<div class="image no-padding-right">
+						{% if block.settings.video_embed != blank %}
+							{{ block.settings.video_embed }}
+						{% elsif block.settings.video_url != blank %}
+							<div class="mp4-video">
+							  <a href="{{ block.settings.video_url }}"><img class="padding" src="{{ block.settings.image | img_url: '1024x' }}" alt="{% if block.settings.link_title != blank %}{{ block.settings.link_title }}{% else %}Video Link{% endif %}" /></a>       
+							</div>
+						{% else %}
+							<a href="{{ block.settings.image | img_url: '1024x' }}" class="collection-image-lightbox">
+								<img src="{{ block.settings.image | img_url: '1024x' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}" class="row--split-feat-image">
+							</a>
+						{% endif %}
+					</div>
+				{% endif %}
+             
+				{% if block.settings.image_location == 'right' %}
+					<div class="image no-padding-left">
+						{% if block.settings.video_embed != blank %}
+							{{ block.settings.video_embed }}
+						{% elsif block.settings.video_url %}
+							<div class="mp4-video">	
+							  <video src="{{ block.settings.video_url }}"><img class="padding" src="{{ block.settings.image | img_url: '1024x' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}" /></video>       
+							</div>
+						{% else %}
+							<a href="{{ block.settings.image | img_url: '1024x' }}" class="collection-image-lightbox">
+								<img src="{{ block.settings.image | img_url: '1024x' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}" class="row--split-feat-image">
+							</a>
+						{% endif %}
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endfor %}
+
+{% if section.settings.banner != blank %}
+	<div class="featured_image_banner row extra-margin-top">							
+		<div>
+			{% if section.settings.banner_link %}<a href="{{ section.settings.banner_link }}" title="Tubby Todd Gift Guide">{% endif %}
+				<img src="{{ section.settings.banner | img_url: '2048x' }}" alt="{% if section.settings.banner.alt != '' %}{{ section.settings.banner.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+			{% if section.settings.banner_link %}</a>{% endif %}
+		</div>
+	</div>
+{% endif %}
+  
+
+
+<script>
+	$(function () {
+	   $('.mp4-video a').fancybox({
+	       width: 640,
+	       height: 640,
+	       type: 'iframe'
+	   });
+  });
+</script>
+
+<style>
+	#shopify-section-page-fresh-raspberry-22-body .title-module .row--split, #shopify-section-page-fresh-raspberry-22-body .simple-image-text-module .row--split {
+		margin-bottom: 0px !important;
+	}
+	#shopify-section-page-fresh-raspberry-22-body .bodyWrap-spacer {
+		padding-top: 130px;
+	}
+	#shopify-section-page-fresh-raspberry-22-body .container {
+		max-width: 2500px;
+        padding:20px;
+	}
+	#shopify-section-page-fresh-raspberry-22-body .row--split img {
+		width: 100%;
+	}
+	.no-padding-left {
+		padding-left: 0px !important;
+	}
+	.no-padding-right {
+		padding-right: 0px !important;
+	}
+	a.button.button--primary {
+		font-size: 1.8em;
+	}
+	#shopify-section-page-fresh-raspberry-22-body img.link-image {
+		width: 50px;
+		margin-top: 10px;
+	}
+	#shopify-section-page-fresh-raspberry-22-body .featured-product {
+		margin-bottom: 0px;
+        margin-top: -20px;
+	}
+	#fresh-raspberry-22 #shopify-section-page-fresh-raspberry-22-body .title-module .row--split, #fresh-raspberry-22 #shopify-section-page-fresh-raspberry-22-body .simple-image-text-module .row--split {
+		display: flex-end !important;
+	}
+	#fresh-raspberry-22 #shopify-section-page-fresh-raspberry-22-body .simple-image-text-module img.row--split-feat-image {
+		margin-top: -15vh;
+	}
+	{% if section.settings.accent-image != blank %}
+		#shopify-section-page-fresh-raspberry-22-body {
+			position: relative;
+		}
+		#shopify-section-page-fresh-raspberry-22-body:before {
+		content: '';
+	    width: 150px;
+	    height: 150px;
+		z-index: 99;
+		top: 10px;
+		left: -30px;
+		background-size: cover;
+	    display: block;
+	    position: absolute;
+		background-image: url('{{ section.settings.accent-image | img_url: '2400x' }}');
+		}
+	{% endif %}
+ 
+  video{
+    border:1px solid white;
+  }
+ 
+</style>
+
+
+{% schema %}
+{
+  "name": "Body Content",
+  "settings": [
+		{
+	    "type": "image_picker",
+	    "id": "banner",
+	    "label": "Banner image",
+			"info": "Will display under blocks"
+	  },
+		{
+		   "type": "url",
+		   "id": "banner_link",
+		   "label": "Optional banner link"
+		},
+		{
+		   "type":      "header",
+		   "content":   "Optional Design Images"
+		},
+		{
+	    "type": "image_picker",
+	    "id": "accent-image",
+	    "label": "Accent image"
+	  },
+      {
+		"type":"color",
+		"id":"bg_color",
+		"label":"Background color",
+		"default":"#f4d2b9"
+				}
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Content Block",
+      "settings": [
+				{
+        	"type": "text",
+        	"id": "title",
+        	"label": "Title"
+       	},
+				{
+				   "type": "richtext",
+				   "id": "text",
+				   "label": "Text"
+				},
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Main Image"
+        },
+				{
+				   "type": "text",
+				   "id": "video_url",
+				   "label": "Video URL",
+					 "info": "If URL entered video will play in modal."
+				},
+				{
+				   "type": "html",
+				   "id": "video_embed",
+				   "label": "Video Embed",
+					 "info": "If entered video will be embedded in page"
+				},
+				{
+				   "type": "select",
+				   "id": "image_location",
+				   "label": "Image location",
+				   "options": [
+				     {
+				       "value": "left",
+				       "label": "Left"
+				     },
+				     {
+				       "value": "right",
+				       "label": "Right"
+				     }
+				   ],
+				   "default": "left",
+				   "info": "Default location is left"
+				},
+				{
+        	"type": "text",
+        	"id": "link_title",
+        	"label": "Optional link title",
+					"info": "Link will display under block text."
+       	},
+				{
+        	"type": "url",
+        	"id": "link",
+        	"label": "Link"
+       	},
+				{
+				   "type":      "header",
+				   "content":   "Optional Design Elements"
+				},
+				{
+          "type": "image_picker",
+          "id": "link_image",
+          "label": "Link image"
+        },
+				{
+		      "type": "color",
+		      "id": "heading_color",
+		      "label": "Heading color",
+		      "default": "#000"
+		    },
+				{
+				   "type":      "color",
+				   "id":        "color",
+				   "label":     "Text color",
+				   "default":   "#000000"
+				},
+				{
+				   "type":      "color",
+				   "id":        "bg_color",
+				   "label":     "Background color",
+				   "default":   "#f4d2b9"
+				}
+      ]
+    }
+  ]
+}
+{% endschema %}

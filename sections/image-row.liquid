@@ -1,0 +1,147 @@
+{% comment %}  
+Image row
+{% endcomment %}
+
+{% include 'image-row-heading' %}
+
+<div data-section-id="{{ section.id }}" >
+<div class="row row-lg padding inline">
+		{% for block in section.blocks %}
+			<div class="s12 sm_s12 lg_s14 block padding-left padding-right">
+				{% if block.settings.image != blank %}
+					<div class="image centered padding">
+						<img src="{{ block.settings.image | img_url: '600x' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+					</div>	
+				{% endif %}
+				<div class="content">
+                  <a href="{{ block.settings.link }}" title="{{ block.settings.title }}"> 
+					{% if block.settings.title != blank %}
+                    <p>{{ block.settings.title }}</p></a>
+					{% endif %}
+					{% if block.settings.text != blank %}
+						<p>{{ block.settings.text }}</p>
+					{% endif %}
+				</div>	
+			</div>	
+		{% endfor %}
+	</div>
+</div>
+<style>
+  .content{
+    text-align:center;
+  }
+</style>
+{% schema %}
+{
+  "name": "Images row",
+  "class": "commitment-3",
+  "settings": [
+		{
+	    "type": "image_picker",
+	    "id": "icon",
+	    "label": "Heading icon"
+	  },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+			"info": "Displays above heading"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+{
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro text"
+    },
+{
+      "type": "textarea",
+      "id": "highlighted_text",
+      "label": "Highlighted text",
+			"info": "Displays large and bold"
+    },
+		{
+	    "type": "image_picker",
+	    "id": "divider",
+	    "label": "Divider image"
+	  },
+		{
+		   "type": "header",
+		   "content": "Colors"
+		},
+		{
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section background color",
+      "default": "#ffffff"
+    },
+		{
+      "type": "color",
+      "id": "color",
+      "label": "Heading color",
+      "default": "#000000"
+    }
+  ],
+	"blocks": [
+		{
+      "type": "text",
+      "name": "Content Block",
+      "settings": [
+				{
+        	"type": "text",
+        	"id": "title",
+        	"label": "Title"
+       	},
+				{
+				   "type": "richtext",
+				   "id": "text",
+				   "label": "Text"
+				},
+           {
+         	"type": "url",
+        	"id": "link",
+        	"label": "Link"
+        	},
+				{
+			    "type": "image_picker",
+			    "id": "image",
+			    "label": "Image"
+			  },
+				{
+				   "type":      "color",
+				   "id":        "bg_color",
+				   "label":     "Background color",
+				   "default":   "#f4d2b9"
+				},
+				{
+				   "type": "select",
+				   "id": "image_location",
+				   "label": "Image location",
+				   "options": [
+				     {
+				       "value": "left",
+				       "label": "Left"
+				     },
+				     {
+				       "value": "right",
+				       "label": "Right"
+				     }
+				   ],
+				   "default": "left",
+				   "info": "Default location is left"
+				}
+			]
+		}	
+	],
+
+  "presets": [
+			{
+				"category": "Image Row",
+				"name": "Images Row"
+			} 
+		]
+}
+{% endschema %}

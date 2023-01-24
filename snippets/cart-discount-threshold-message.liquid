@@ -1,0 +1,6 @@
+<p class="cart_threshold_message"{% if display == "none" %} style="display:none"{% endif %}><small>Yay, you're saving <span class="current_discount">{{ current_discount }}</span>! <span class="more">{% if more_message %}{{ more_message }}{% else %}Add <span class="spend">{{ spend_more }}</span> more to receive <span class="next_discount">{{ next_discount }}</span>.{% endif %}</span></small></p>
+
+{% if template == "cart" and settings.cart_threshold_disclaimer != blank %}
+	<br />
+	<p class="cart_threshold_message_disclaimer"><small><em>{{ settings.cart_threshold_disclaimer }}</em></small></p>
+{% endif %}

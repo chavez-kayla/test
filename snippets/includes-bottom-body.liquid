@@ -1,0 +1,167 @@
+{% if settings.klaviyo_account_id %}
+	<!-- Klaviyo -->
+	<script type="text/plain" class="_iub_cs_activate" data-iub-blockifccpaoptout>
+	  var _learnq = _learnq || [];
+
+	  _learnq.push(['account', '{{ settings.klaviyo_account_id }}']);
+
+		{% if customer %}
+			_learnq.push(['identify', {
+				'$email' : '{{ customer.email }}',
+				'$first_name' : '{{ customer.first_name }}',
+				'$last_name' : '{{ customer.last_name }}',
+				'Has Account' : {{ customer.has_account }},
+				'Orders Count' : {{ customer.orders_count }},
+				'Total Spent' : {{ customer.total_spent | money_without_currency }},
+				'Last Order' : '{{ customer.last_order.created_at | date: "%F %T" }}'
+		  }]);
+		{% endif %}
+
+	  (function () {
+	  var b = document.createElement('script'); b.type = 'text/javascript'; b.async = true;
+	  b.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'a.klaviyo.com/media/js/analytics/analytics.js';
+	  var a = document.getElementsByTagName('script')[0]; a.parentNode.insertBefore(b, a);
+	  })();
+	</script>
+	
+	<script async type="text/plain" class="_iub_cs_activate" data-iub-blockifccpaoptout src="//static.klaviyo.com/onsite/js/klaviyo.js?company_id={{settings.klaviyo_account_id}}"></script>
+	<!-- End Klaviyo -->
+
+	<!-- BEGIN KLAVIYO SIGNUP FORM CODE -->
+	<script type="text/plain" class="_iub_cs_activate" data-iub-blockifccpaoptout>
+	var __klKey = __klKey || '{{ settings.klaviyo_account_id }}';
+	(function() {
+	var s = document.createElement('script');
+	s.type = 'text/javascript';
+	s.async = true;
+	s.src = '//static.klaviyo.com/forms/js/client.js';
+	var x = document.getElementsByTagName('script')[0];
+	x.parentNode.insertBefore(s, x);
+	})();
+	</script>
+	<!-- END KLAVIYO SIGNUP FORM CODE -->
+	
+	{% if template contains "product" and settings.klaviyo_back_in_stock_enable %}
+		<script type="text/plain" class="_iub_cs_activate" data-iub-blockifccpaoptout src="https://a.klaviyo.com/media/js/onsite/onsite.js"></script>
+		<script type="text/plain" class="_iub_cs_activate" data-iub-blockifccpaoptout>
+		    var klaviyo = klaviyo || [];
+		    klaviyo.init({
+		      account: "{{ settings.klaviyo_account_id }}",
+					{% if settings.klaviyo_list_id %}list: '{{ settings.klaviyo_list_id }}',{% endif %}
+		      platform: "shopify"
+		    });
+		    klaviyo.enable("backinstock",{ 
+		    trigger: {
+		      product_page_text: "Oops, sold out! Notify Me When Available.",
+		      product_page_class: "button",
+		      product_page_text_align: "center",
+		      product_page_margin: "0px",
+		      replace_anchor: false
+		    },
+		    modal: {
+		     	headline: "{product_name}",
+		     	body_content: "Enter your email and we'll notify you as soon as our {product_name} is back in stock!",
+					newsletter_subscribe_label: "YES! Add me to your email list for news on special discounts, new bubbly goodies and more.",
+					email_field_label: "Email",
+					button_label: "Notify Me When Available",
+					subscription_success_label: "You're set! We'll let you know when it's back.",
+					footer_content: '',
+					additional_styles: `
+						@font-face {
+							font-family: 'VAGRoundedNext';
+							src: url({{ '39F1EF_8_0.eot' | asset_url }});
+							src: url({{ '39F1EF_8_0.eot?#iefix' | asset_url }}) format('embedded-opentype'),
+								url({{ '39F1EF_8_0.woff2' | asset_url }}) format('woff2'),
+								url({{ '39F1EF_8_0.woff' | asset_url }}) format('woff'),
+								url({{ '39F1EF_8_0.ttf' | asset_url }}) format('truetype');
+							font-weight: normal;
+							font-style: normal;
+						}
+						@font-face {
+							font-family: 'VAGRoundedNext';
+							src: url({{ '39F1EF_E_0.eot' | asset_url }});
+							src: url({{ '39F1EF_E_0.eot?#iefix' | asset_url }}) format('embedded-opentype'),
+								url({{ '39F1EF_E_0.woff2' | asset_url }}) format('woff2'),
+								url({{ '39F1EF_E_0.woff' | asset_url }}) format('woff'),
+								url({{ '39F1EF_E_0.ttf' | asset_url }}) format('truetype');
+						  font-weight: bold;
+						  font-style: normal;
+						}
+						@font-face {
+							font-family: 'VAGRoundedNext';
+							src: url({{ '39F1EF_12_0.eot' | asset_url }});
+							src: url({{ '39F1EF_12_0.eot?#iefix' | asset_url }}) format('embedded-opentype'),
+								url({{ '39F1EF_12_0.woff2' | asset_url }}) format('woff2'),
+								url({{ '39F1EF_12_0.woff' | asset_url }}) format('woff'),
+								url({{ '39F1EF_12_0.ttf' | asset_url }}) format('truetype');
+							font-weight: 800;
+							font-style: normal;
+						}
+						.modal-title, button.btn { font-weight: 800;} 
+						.modal-title { font-size: 2.0em; }
+						button.btn { font-size: 1.6em; line-height: 1.2em; }
+						.modal-title, p { text-align: center; }
+						p { margin-top: 0px; }
+						p, .input-lg { font-size: 1.3em; }
+						#newsletter_subscription p { font-size: 1.0em; text-align: left; margin-top: 1em; }
+						#container { border-radius: 0px; padding: 45px 40px; }
+						.close { text-shadow: none; font-size: 35px; font-weight: 400; }
+					`,
+					header_font_family: 'VAGRoundedNext, sans-serif;',
+					font_family: 'VAGRoundedNext, sans-serif;',
+					drop_background_color: "#000",
+					background_color: "#80C4D5",
+					text_color: "#000",
+					button_text_color: "#fff",
+					button_background_color: "#000",
+					close_button_color: "#000",
+					error_background_color: "#fcd6d7",
+					error_text_color: "#C72E2F",
+					success_background_color: "#d3efcd",
+					success_text_color: "#1B9500"
+		    }
+		  });
+		</script>
+	{% endif %}
+{% endif %}
+
+<!-- Pinterest Tag -->
+<script>
+!function(e){if(!window.pintrk){window.pintrk = function () {
+window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var
+  n=window.pintrk;n.queue=[],n.version="3.0";var
+  t=document.createElement("script");t.async=!0,t.src=e;var
+  r=document.getElementsByTagName("script")[0];
+  r.parentNode.insertBefore(t,r)}}("https://s.pinimg.com/ct/core.js");
+pintrk('load', '2620998741351', {em: '<user_email_address>'});
+pintrk('page');
+</script>
+<noscript>
+<img height="1" width="1" style="display:none;" alt=""
+  src="https://ct.pinterest.com/v3/?event=init&tid=2620998741351&pd[em]=<hashed_email_address>&noscript=1" />
+</noscript>
+<!-- end Pinterest Tag -->
+
+<!-- Gorgias Chat Widget Start -->
+<div id="gorgias-chat">
+<script>window.gorgiasChatParameters = {}
+</script>
+<script src="https://config.gorgias.io/production/DrQqY7X4D17L4Wjv/chat/r1WE86r3Dql2J4Mv.js" defer>
+</script>
+</div>
+<!-- Gorgias Chat Widget End -->
+
+<!-- ConversionRuler Script BEGIN -->
+<script>(function (w, id, q) {var s='script',d=w.document,p=d.getElementsByTagName(s)[0],n=d.createElement(s);
+w._crq=w._crq?w._crq:[];w._crq.push(q);n.src='//www.conversionruler.com/bin/js.php?siteid='+id;p.parentNode.insertBefore(n, p);
+}(window,'7147',0));</script><noscript><div style="position: absolute; left: 0"><img
+src="https://www.conversionruler.com/bin/tracker.php?siteid=7147&amp;nojs=1" alt="" width="1" height="1"
+/></div></noscript>
+<!-- ConversionRuler Script END -->
+
+<!-- spurit_sct-added -->
+{% include 'spurit_sct-theme-snippet' %}
+<!-- /spurit_sct-added -->
+
+{% include 'smile-initializer' %}
+{% include 'booster-discounts' %}

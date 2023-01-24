@@ -1,0 +1,39 @@
+{% if section.settings.title != '' %}
+	<div class="page-title extra-padding-top extra-margin-bottom">     
+		<div class="container contain-width-80">
+			<div class="row row-lg padding-top">      
+		  	<h1 class="page-title__heading size--small no-margin-bottom" style="color: {{ section.settings.color }};">{{ section.settings.title | newline_to_br }}</h1>
+			</div>
+		</div> 
+	</div>
+{% endif %}
+
+{% if section.settings.html != '' %}
+	<div class="container text-center contain-width-80">
+		{{ section.settings.html }}
+	</div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Outro Content",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Heading"
+    },
+		{
+      "type": "color",
+      "id": "color",
+      "label": "Heading color",
+      "default": "#000"
+    },
+		{
+		   "type": "html",
+		   "id": "html",
+		   "label": "Custom HTML"
+		}
+  ]
+}
+{% endschema %}

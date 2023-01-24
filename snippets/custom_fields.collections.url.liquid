@@ -1,0 +1,8 @@
+{% if collection.metafields.custom_fields["url"] != blank %}
+  <div class="custom-field custom-field__url custom-field__type--url">
+    <h3 class="custom-field--title">URL</h3>
+    <div class="custom-field--value">
+      {{ collection.metafields.custom_fields["url"] }}
+    </div>
+  </div>
+{% endif %}

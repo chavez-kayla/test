@@ -1,0 +1,79 @@
+<section class="page-title text-center container-wrap">
+  <div class="container">
+    <div class="row row-sm">
+      <h1>{% if section.settings.title != blank %}{{ section.settings.title }}{% else %}{{ page.title }}{% endif %}</h1>
+    </div>
+  </div>
+</section>
+
+{% if section.blocks.size > 0 %}
+	<div class="container-wrap">
+	  <div class="container">
+	    <div class="row row-sm">
+	
+				{% for block in section.blocks %}
+
+					<div class="download_item block s12 sm_s12 lg_s13 padding extra-margin-bottom">
+						
+						{% if block.settings.image %}
+							<div class="featured_image bg-secondary padding text-center margin-bottom flex-vertical-align-middle">				
+								{% if block.settings.source_url %}<a href="{{ block.settings.source_url }}" target="_blank" title="Opens in a new window">{% endif %}{{ block.settings.image | img_url: 'x300' | img_tag }}{% if block.settings.source_url %}</a>{% endif %}							
+							</div>
+						{% endif %}
+						
+						{% if block.settings.title %}
+							{% if block.settings.source_url %}<a href="{{ block.settings.source_url }}" target="_blank" title="Opens in a new window">{% endif %}<h4 class="text-center">{{ block.settings.title }}</h4>{% if block.settings.source_url %}</a>{% endif %}
+						{% endif %}
+						{% if block.settings.description != '' %}
+							<p class="italic text-center">{% if block.settings.source_url %}<a href="{{ block.settings.source_url }}" target="_blank" title="Opens in a new window">{% endif %}{{ block.settings.description }}{% if block.settings.source_url %}</a>{% endif %}</p>
+						{% endif %}
+
+					</div>
+			
+				{% endfor %}
+						
+	    </div>
+	  </div>
+	</div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Downloads page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "download",
+      "name": "Download",
+      "settings": [
+				{
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Optional description"
+        },
+        {
+          "type": "text",
+          "id": "source_url",
+          "label": "Source URL"
+        }
+      ]
+    } 
+  ]
+}
+{% endschema %}

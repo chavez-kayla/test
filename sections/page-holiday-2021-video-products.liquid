@@ -1,0 +1,183 @@
+{% if section.settings.accent_image_1 != blank %}
+	<img class="accent-image-1" src="{{ section.settings.accent_image_1 | img_url: '500x' }}" alt="{% if section.settings.accent_image_1.alt != '' %}{{ section.settings.accent_image_1.alt }}{% else %}Tubby Todd Bath Co.{% endif %}">
+{% endif %}
+
+{% if section.settings.accent_image_2 != blank %}
+	<img class="accent-image-2" src="{{ section.settings.accent_image_2 | img_url: '500x' }}" alt="{% if section.settings.accent_image_2.alt != '' %}{{ section.settings.accent_image_2.alt }}{% else %}Tubby Todd Bath Co.{% endif %}">
+{% endif %}
+
+{% if section.settings.title != '' or section.settings.text %}
+	<div class="page-title extra-padding-top extra-margin-bottom">     
+		<div class=" container contain-width-80">
+			<div class="row row-lg padding-top">      
+		  	<h1 class="page-title__heading size--small" style="color: {{ section.settings.heading_color }};">{{ section.settings.title }}</h1>
+			</div>
+		</div>
+		<div class="container contain-width-80">
+			<div class="row row-lg">
+		  	<div class="page-title__text rte size--normal">
+					<p class="text-large text-normal">{{ section.settings.text | newline_to_br }}</p>
+				</div>
+			</div>
+		</div>        
+	</div>
+{% endif %}	
+
+<div class="row margin-top padding-top">
+	<div class="product-container">
+		<div class="row inline">
+			<div class="s1 med_s1 lg_s12 slide-item padding-right main-feature float-left">
+				{% if section.settings.video_url != blank %}
+					<a href="//fast.wistia.net/embed/iframe/{{section.settings.video_url}}?autoPlay=true" data-fancybox data-type="iframe" data-width=500 data-height=411 >
+				{% endif %}
+				{% if section.settings.url != blank %}<a href="{{ section.settings.url }}">{% endif %}	
+					<img src="{{ section.settings.image | img_url: '1000x' }}" alt="{% if section.settings.image.alt != '' %}{{ section.settings.image.alt }}{% else %}Tubby Todd Bath Co.{% endif %}">
+				{% if section.settings.url != blank %}</a>{% endif %}
+				{% if section.settings.video_url != blank %}
+					</a>
+				{% endif %}
+			</div>
+			{% for block in section.blocks %}
+				<div class="s12 med_s12 lg_s14 slide-item float-left">	
+					<a href="{{ block.settings.url }}">
+						<div class="contain-width-90 margin-auto">
+							{% if block.settings.image != blank %}
+								<img src="{{ block.settings.image | img_url: '1000x' }}"  alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt }}{% else %}{{ block.settings.title }}{% endif %}">
+							{% endif %}
+							<div class="text-center">
+								<p class="title no-margin text-black text-semi-bold">{{ block.settings.title }}</p>
+								{% if block.settings.price != '' %}<p class="price text-black">{{ block.settings.price }}</p>{% endif %}
+							</div>
+						</div>
+					</a>
+				</div>	
+			{% endfor %}
+		</div>
+	</div>		
+</div>	
+				
+<style>
+	#shopify-section-page-holiday-2021-video-products { background-color: {{ section.settings.bg_color }}; }	
+	#shopify-section-page-holiday-2021-video-products img { max-width: 100%; }	
+	#shopify-section-page-holiday-2021-video-products .accent-image-1, #shopify-section-page-holiday-2021-video-products .accent-image-2 { position: absolute; }
+	#shopify-section-page-holiday-2021-video-products .accent-image-1 { max-width: 70px; right: 8%; top: 0; }
+	#shopify-section-page-holiday-2021-video-products .accent-image-2 { max-width: 30px; left: 8%; top: 8%; }
+	{% if section.settings.border-image != blank %}
+		#shopify-section-page-holiday-2021-video-products {
+			margin-top: 35vh;
+			position: relative;
+		}
+		#shopify-section-page-holiday-2021-video-products:before {
+			content: '';
+	    width: 100%;
+	    height: 20vh;
+			left: 0;
+			background-size: cover;
+			background-position: center right;
+			background-repeat: no-repeat;
+	    display: block;
+	    top: -20vh;
+	    position: absolute;
+			background-image: url('{{ section.settings.border-image | img_url: '2400x' }}');
+		}
+	{% endif %}
+</style>								
+		
+{% schema %}
+  {
+    "name": "Products and Video",
+    "settings": [
+	    {
+	      "type": "text",
+	      "id": "title",
+	      "label": "Heading"
+	    },
+	    {
+	      "type": "textarea",
+	      "id": "text",
+	      "label": "Text"
+	    },
+			{
+			   "type": "text",
+			   "id": "video_url",
+			   "label": "Wistia video ID",
+				 "info": "If URL entered video will play in modal."
+			},
+			{
+			  "type": "image_picker",
+			  "id": "image",
+			  "label": "Image"
+			},
+			{
+			   "type": "url",
+			   "id": "url",
+			   "label": "Optional image url",
+				 "info": "Can be used if video is not used"
+			},
+			{
+			   "type": "header",
+			   "content": "Design"
+			},
+			{
+		    "type": "image_picker",
+		    "id": "border-image",
+		    "label": "Border image"
+		  },
+			{
+	      "type": "color",
+	      "id": "bg_color",
+	      "label": "Background color",
+	      "default": "#ffffff"
+	    },
+			{
+	      "type": "color",
+	      "id": "heading_color",
+	      "label": "Heading color",
+	      "default": "#000000"
+	    },
+			{
+			   "type": "header",
+			   "content": "Accent images"
+			},
+			{
+			  "type": "image_picker",
+			  "id": "accent_image_1",
+			  "label": "Accent image 1"
+			},
+			{
+			  "type": "image_picker",
+			  "id": "accent_image_2",
+			  "label": "Accent image 2"
+			}		
+		],
+		"blocks": [
+	    {
+	      "type": "text",
+	      "name": "Product",
+	      "settings": [
+					{
+	        	"type": "image_picker",
+	        	"id": "image",
+	        	"label": "Image",
+						"info": "Upload a square image"
+	       	},
+					{
+					  "type": "text",
+					  "id": "title",
+					  "label": "Title"
+					},
+					{
+					  "type": "text",
+					  "id": "price",
+					  "label": "Price"
+					},
+					{
+					  "type": "url",
+					  "id": "url",
+					  "label": "URL"
+					}
+	      ]
+	    }
+		]
+	}	
+{% endschema %}		

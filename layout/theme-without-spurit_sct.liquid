@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!--[if IE 9 ]><html class="ie9 no-js"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!--[if IE]><!--><html class="ie" lang="en"><!--<![endif]-->
+
+<head> 
+  <title>{{ page_title }}{% if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}{% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+  <meta charset="utf-8" />
+	<meta http-equiv="content-language" content="en">
+	{% if template contains 'product' and product.tags contains 'Hidden' %}
+		<meta name="robots" content="noindex">
+	{% endif %}
+
+  {% if settings.favicon != blank %}
+    <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+  {% endif %}
+  
+  <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1' /><![endif]-->
+  <link rel="canonical" href="{{ canonical_url }}" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=2.0" />
+  {% include 'site-social-meta' %}
+
+  {{ 'style.scss.css' | asset_url | stylesheet_tag }}
+
+  <!-- SCRIPTS -->
+  {{ 'modernizr.min.js'  | asset_url | script_tag }}
+  {{ 'respond.min.js'  | asset_url | script_tag }}
+  {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+  {% if template contains 'customers' %}
+    {{ 'customer_area.js'  | shopify_asset_url | script_tag }}
+  {% endif %}
+  <!-- JQUERY -->
+  {{ 'https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js' | script_tag }}
+  <!-- jQuery Dependent -->
+  {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+  <script>window.lazySizesConfig = window.lazySizesConfig || {};</script>
+  <script src="{{ 'lazysizes.js' | asset_url }}" async=""></script>
+  {{ 'handlebars.min.js' | asset_url | script_tag }}
+  {{ 'valencia.js'  | asset_url | script_tag }}
+	{% if template contains "masonry" or page.handle contains "masonry" or page.handle contains "sun-school" or page.handle contains "ingredients" %}
+		{{ 'masonry.pkgd.min.js' | asset_url | script_tag }}
+	{% endif %}
+  {% render 'treedify' %}
+	{{ content_for_header  }}
+
+	{{ 'jquery.fancybox.min.css' | asset_url | stylesheet_tag }}
+	{{ 'jquery.fancybox.min.js' | asset_url | script_tag }}
+	
+	{% if template contains "faq" %}
+		{{ 'jquery-ui.min.css' | asset_url | stylesheet_tag }}
+		{{ 'jquery-ui.min.js' | asset_url | script_tag }}
+	{% endif %}
+	
+	{% include 'includes-bottom-head' %}
+
+	{{ shop.metafields.loox["global_html_head"] }}
+  {% render 'minmaxify-head' %}
+</head>
+{% capture body_class %}{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }} template-full-{{ template | handle}} image-hover-light cta-fill-{{settings.cta_button_style}} {% if settings.show_custom_cursor %}custom-cursor{% endif %} {% if settings.transition_images_fade %}enable-fade-in{% endif %} {% if settings.transition_grid_items %}show-grid-items-transition{% endif %} allow-focus-ring{% endcapture %}
+
+<body id="{{ page_title | handle }}" class="{{ body_class }}" >
+	{% include 'includes-top-body' %}
+
+  <div class="pageWrap">
+  	{% section 'header' %}
+    <div class="bodyWrap" role="main" id="MainContent">
+      {{ content_for_layout }}
+			<noscript class="endOfLayoutContentX" type="text/mark"></noscript>{% render 'treedify_script' %}
+    </div> <!-- END bodyWrap -->
+		{% section 'footer' %}
+
+    <script src="//cdn.codeblackbelt.com/js/modules/frequently-bought-together/main.min.js?shop=tubby-todd-bath-co.myshopify.com"></script>
+  </div> <!-- END pageWrap -->
+
+  
+ 	<!-- AJAX Mustache Templates -->
+  {% include 'ajax-cart' %}
+	{% include 'cart-popover' %}
+
+  {{ 'option_selection.js' | shopify_asset_url | script_tag }}
+  {{ 'shop.js' | asset_url | script_tag }}
+	{{ 'custom.js' | asset_url | script_tag }}
+  {% include 'load-spinner' %}
+  {% comment %}{% include 'search-autocomplete' %}{% endcomment %}
+  <script>Shopify.money_format = '{{ shop.money_format }}';</script>
+  
+  {% if settings.show_multiple_currencies %}
+    {% include 'currencies' %}
+  {% endif %}
+	{% include 'includes-bottom-body' %}
+  
+  <!-- ConversionRuler Script BEGIN -->
+    <script>(function (w, id, q) {var s='script',d=w.document,p=d.getElementsByTagName(s)[0],n=d.createElement(s);
+    w._crq=w._crq?w._crq:[];w._crq.push(q);n.src='//www.conversionruler.com/bin/js.php?siteid='+id;p.parentNode.insertBefore(n, p);
+    }(window,'7147',0));</script><noscript><div style="position: absolute; left: 0"><img
+    src="https://www.conversionruler.com/bin/tracker.php?siteid=7147&amp;nojs=1" alt="" width="1" height="1"
+  /></div></noscript>
+  <!-- ConversionRuler Script END -->
+  
+  
+{% include 'booster-discounts' %}
+</body>
+</html>

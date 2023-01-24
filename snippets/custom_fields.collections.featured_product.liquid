@@ -1,0 +1,9 @@
+{% if collection.metafields.custom_fields["featured_product"] != blank %}
+  <div class="custom-field custom-field__featured-product custom-field__type--product-reference">
+    <h3 class="custom-field--title">Featured Product</h3>
+    <div class="custom-field--value">  
+    {% assign product_ref = all_products[collection.metafields.custom_fields["featured_product"]] %}
+    {{ product_ref.title | link_to: product_ref.url }}
+    </div>
+  </div>
+{% endif %}

@@ -1,0 +1,55 @@
+{% assign cat_tag = section.settings.category_tag %}
+{% assign post_counter = 0 %}	
+{% assign articleColumns = 3 %}
+
+{% assign cat_title = section.settings.title %}
+{% if cat_title == blank %}{% assign cat_title = section.settings.category_tag %}{% endif %}
+
+
+{% if section.settings.show_feat_category %}
+	<div class="row contain-width-80 inline extra-margin-top">
+		<h2 class="text-extra-large text-brown normal upcase VAGRoundedNext-Medium text-half-spaced underlined margin-bottom"><span>{{ cat_title }}</span></h2>
+		{% for article in blog.articles %}	
+			{% for tag in article.tags %}
+				{% if tag contains section.settings.category_tag and post_counter < articleColumns %}	
+					{% assign post_counter = post_counter | plus: 1 %}
+					<div class="featured-category article-{{ post_counter }}">
+						<a href="{{ article.url }}" aria-label="{{ article.title | escape }}">
+							<div class="img-wrapper" style="background-image: url('{{ article.image | img_url: '800x' }}'); background-size: cover;"></div>
+						</a>
+						<p class="h3 text-large semi-bold"><a href="{{ article.url }}">{{ article.title }}</a></p>
+						<p class="excerpt">{{ article.excerpt }}</p>
+					</div>
+				{% endif %}	 
+			{% endfor %}				       
+    {% endfor %}
+		<div class="margin-top block">
+			<a class="read-more upcase text-half-spaced" href="https://tubbytodd.com/blogs/tubby-blog/tagged/{{ cat_tag }}">More {{ cat_title }}</a>
+		</div>	
+	</div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Featured category",
+		"settings": [
+	    {
+	      "type": "checkbox",
+	      "id": "show_feat_category",
+	      "label": "Show featured category?",
+	      "default": false
+	    },
+			{
+      	"type": "text",
+      	"id": "category_tag",
+      	"label": "Category tag",
+				"info": "Value must exactly match tag"
+     	},
+			{
+      	"type": "text",
+      	"id": "title",
+      	"label": "Title override"
+     	}
+    ]
+  }
+{% endschema %}

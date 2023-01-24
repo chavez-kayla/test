@@ -1,0 +1,25 @@
+<div id="CartPopoverCont" class="{% if settings.enable_ajax_cart_overlay %}js-cartToggle {% endif %}header-cartPopover"></div>
+
+<script id="CartPopover" type="text/x-handlebars-template">
+	<div role="alert" aria-live="polite" class="popover-inner">
+		<div class="h3" role="alert">{% raw %}{{item_count}}{% endraw %} {{ 'cart.labels.items_added' | t }}</div>
+		{% raw %}
+		<div class="popover-item-thumb" data-bg-src="{{img}}"></div>
+		<div class="popover-item-info">
+		  <span>{{name}}</span><br/>
+		  {{#if variation}}
+		  	<span>{{variation}}</span><br/>
+		  {{/if}}
+      <span>{{{price_formatted}}}</span>
+		</div>
+		{% endraw %}
+	</div>
+</script>
+
+{% if settings.enable_ajax_cart_overlay != true %}
+	<script>
+		$('body').on('click', '#CartPopoverCont', function (){
+			window.location.replace("/cart");
+		});
+	</script>
+{% endif %}

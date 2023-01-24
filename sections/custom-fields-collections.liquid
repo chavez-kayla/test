@@ -1,0 +1,86 @@
+{% render "blocks.custom_fields" with resource_type: "collections", blocks: section.blocks %}
+{% schema %}
+  {
+    "name": {
+        "en": "Custom Fields"
+    },
+    "settings": [
+        {
+            "type": "paragraph",
+            "content": "[View Documentation](https:\/\/custom-fields.docs.bonify.io\/)"
+        },
+        {
+            "type": "paragraph",
+            "content": "[Edit Custom Fields](https:\/\/customfields.bonify.io\/dashboard\/tubby-todd-bath-co.myshopify.com\/collections\/configure)"
+        }
+    ],
+    "templates": [
+        "collection"
+    ],
+    "presets": [
+        {
+            "name": "Custom Fields",
+            "blocks": []
+        }
+    ],
+    "blocks": [
+        {
+            "type": "cf_w_acc",
+            "name": {
+                "en": "Accordion "
+            },
+            "settings": [
+                {
+                    "type": "select",
+                    "id": "key",
+                    "label": "Select a Widget",
+                    "options": [
+                        {
+                            "value": "read_more_collection_content",
+                            "label": "Read More Collection Content"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "cf_f_text",
+            "name": {
+                "en": "Text"
+            },
+            "settings": [
+                {
+                    "type": "select",
+                    "id": "key",
+                    "label": "Select a Field",
+                    "options": [
+                        {
+                            "value": "featured_content_bg_color",
+                            "label": "Featured Content Background Color"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "cf_f_img",
+            "name": {
+                "en": "Image"
+            },
+            "settings": [
+                {
+                    "type": "select",
+                    "id": "key",
+                    "label": "Select a Field",
+                    "options": [
+                        {
+                            "value": "featured_image_banner",
+                            "label": "Featured Image Banner"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}

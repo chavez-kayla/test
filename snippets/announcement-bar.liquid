@@ -1,0 +1,22 @@
+<div role="alert" class="announcement_bar js-siteAlert siteAlert container-wrap" data-status="{{ section.settings.show_announcement }}" data-status-mobile="{{ section.settings.show_announcement_on_mobile }}">
+  <div class="container u-center">
+      <div class="row row-lg u-center">
+        <div class="announcement_campaign block u-center" data-campaign="default"{% if section.blocks.size > 0 %} style="display:none;"{% endif %}>
+					{% if section.settings.link != blank %}<a href="{{ section.settings.link }}" tabindex="1">{% endif %}
+            <span class="alert-title h4"><strong>{{ section.settings.text }}</strong></span>
+          {% if section.settings.link != blank %}</a>{% endif %}
+        </div>
+				{% if section.blocks.size %}
+					{% for campaign in section.blocks %}
+						{% if campaign.settings.title and campaign.settings.text %}
+							<div class="announcement_campaign block u-center" data-campaign="{{ campaign.settings.title | downcase }}" style="display:none;">
+								{% if campaign.settings.link != blank %}<a href="{{ campaign.settings.link }}" tabindex="1">{% endif %}
+			            <span class="alert-title h4"><strong>{{ campaign.settings.text }}</strong></span>
+			          {% if campaign.settings.link != blank %}</a>{% endif %}
+							</div>
+						{% endif %}
+					{% endfor %}
+				{% endif %}
+      </div>
+  </div>
+</div>

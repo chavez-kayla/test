@@ -1,0 +1,144 @@
+{% if section.settings.title != '' %}
+	<div class="page-title extra-padding-top extra-margin-bottom">     
+		<div class="container contain-width-80">
+			<div class="row row-lg padding-top">      
+		  	<h1 class="page-title__heading size--large" style="color: {{ section.settings.color }};">{{ section.settings.title }}</h1>
+			</div>
+		</div> 
+	</div>
+{% endif %}
+
+{% if section.settings.banner != blank %}
+	<div id="header_banner" class="featured_image_banner row contain-width-80">								
+		<div>
+			<img src="{{ section.settings.banner | img_url: '2048x' }}" alt="{% if section.settings.banner.alt != '' %}{{ section.settings.banner.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+		</div>
+	</div>
+{% endif %}
+
+{% if section.settings.banner_text != '' %}
+	<div class="page-title extra-padding-top extra-margin-bottom">
+		<div class="{% if section.settings.banner_contain %}container max-width-1000{% endif %}">
+			<div>
+		  	<div class="page-title__text rte text-extra-large extra-margin-bottom">
+					<div style="color:#496CA4;" class="banner-text text-large text-bold {% if section.settings.banner_padding %}extra-{% endif %}padding-top {% if section.settings.banner_padding %}extra-{% endif %}padding-bottom">{{ section.settings.banner_text | newline_to_br }}</div>
+				</div>
+			</div>
+		</div>        
+	</div>
+{% endif %}	
+
+{% if section.settings.subtitle != '' %}
+	<div class="container text-center margin-top contain-width-50">
+		<div class="text-extra-large">{{ section.settings.subtitle | newline_to_br }}</div>
+      
+	</div>
+{% endif %}
+
+{% if section.settings.intro != '' %}
+	<div class="page-title ribbon-title extra-padding-top extra-margin-bottom">
+		<div class="container contain-width-50">
+			<div class="row row-lg">
+		  	<div class="page-title__text rte text-extra-large extra-margin-bottom">
+					<div class="ribbon text-large text-bold padding-top padding-bottom">{{ section.settings.intro | newline_to_br }}</div>
+				</div>
+			</div>
+		</div>        
+	</div>
+{% endif %}	
+
+<style>
+	.custom-landing-page .ribbon {
+		background: {{ section.settings.ribbon_color }};
+		color: #ffffff;
+	}
+	.custom-landing-page .banner-text {
+		background: {{ section.settings.banner_color }};
+		color: #ffffff;
+	}
+	.container.max-width-1000 {
+		max-width: 1000px;
+	}
+  
+  .extra-padding-bottom{
+    padding-right:250px;
+    padding-left:250px;
+  }
+</style>	
+
+{% schema %}
+{
+  "name": "Intro Content",
+  "settings": [
+		{
+	    "type": "image_picker",
+	    "id": "banner",
+	    "label": "Banner image"
+	  },
+    {
+      "type": "checkbox",
+      "id": "banner_image_contain",
+      "label": "Contain banner image width?",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "banner_text",
+      "label": "Banner text",
+			"info": "Text with fullwidth background color"
+    },
+    {
+      "type": "checkbox",
+      "id": "banner_contain",
+      "label": "Contain banner text width?",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "banner_padding",
+      "label": "Add padding to banner text?",
+      "default": false
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subheading",
+			"info": "Displays underneath banner text"
+
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro text",
+			"info": "Styled as a ribbon"
+    },
+		{
+		   "type": "header",
+		   "content": "Colors"
+		},
+		{
+      "type": "color",
+      "id": "color",
+      "label": "Heading color",
+      "default": "#000"
+    },
+		{
+      "type": "color",
+      "id": "banner_color",
+      "label": "Banner text background color",
+      "default": "#81c2d4"
+    },
+		{
+      "type": "color",
+      "id": "ribbon_color",
+      "label": "Ribbon background color",
+      "default": "#faa177"
+    }
+  ]
+}
+{% endschema %}

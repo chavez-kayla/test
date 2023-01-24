@@ -1,0 +1,533 @@
+{% comment %} Settings {% endcomment %}
+{% assign show_title = section.settings.show_title %}
+{% assign show_subtitle = section.settings.show_subtitle %}
+{% assign default_subtitle = section.settings.default_subtitle %}
+{% assign grid = 3 %}
+{% assign productsRows = settings.products_rows | plus: 0 %}
+{% assign productsColumns = settings.products_columns | plus: 0 %}
+{% if collection.products.size == 5 %}{% assign productsColumns = 5 %}{% endif %}
+{% assign productLimit = productsColumns | times: productsRows %}
+{% assign columnsSize = productsColumns | replace: '1', '' %}
+{% assign color_swatches = settings.color_swatches %}
+{% assign show_reviews = settings.show_reviews %}
+
+{% comment %} Typography {% endcomment %}
+{% assign heading_size = section.settings.heading_size %}
+{% assign text_size = section.settings.text_size %}
+
+{% include 'privacy-check-start' %}
+
+{% comment %} Subtitle Captures {% endcomment %}
+{% capture subtitle %}
+	<h1 class="h2 subtitle padding-top no-padding-bottom no-margin-bottom">
+		{%- if collection.metafields.custom_fields["subtitle"] != blank -%}
+			{{ collection.metafields.custom_fields["subtitle"] }}
+		{%- else -%}
+			{{ default_subtitle }}
+		{%- endif -%}
+	</h1>
+{% endcapture %}
+
+{% capture divider %}
+	{% if collection.metafields.custom_fields["title_divider"] != blank %}
+		<div class="divider-image padding">
+			{% include 'cf-image' with image: collection.metafields.custom_fields["title_divider"] %}
+		</div>
+	{% endif %}
+{% endcapture %}
+
+<div data-section-id="{{ section.id }}" data-section-type="collection-template">
+  {% comment %}
+    Set collectionBlock size classes
+    These are applied in the collectionGrid-block.liquid file
+  {% endcomment %}
+  {% assign collectionBlock--size = 'lg_s1' | append: columnsSize %}
+	
+	{% if collection.metafields.custom_fields["featured_video_banner"] != blank or collection.metafields.custom_fields["featured_image_banner"] != blank %}
+		{% if collection.metafields.custom_fields["featured_banner_width"] == 1 %}<div class="container">{% endif %}
+			<div id="header_banner" class="featured_image_banner row{% if collection.metafields.custom_fields["featured_banner_width"] == 1 %} row-lg{% endif %}">			
+				{% if collection.metafields.custom_fields["featured_image_banner_link"] != blank %}<a href="{{ collection.metafields.custom_fields['featured_image_banner_link'] }}">{% endif %}
+				{% if collection.metafields.custom_fields["featured_video_banner"] != blank %}
+					<video controls muted autoplay playsinline loop="loop" preload="auto">
+						<source src="{{ collection.metafields.custom_fields['featured_video_banner'] }}" type="video/mp4; codecs=&quot;avc1.42E01E, mp4a.40.2&quot;">
+					</video>
+				{% elsif collection.metafields.custom_fields["featured_image_banner"] != blank %}
+					{% if collection.metafields.custom_fields["featured_image_banner_mobile"] != blank %}
+						<div class="mobile-only">
+							{{ collection.metafields.custom_fields["featured_image_banner_mobile"].value | img_tag }}
+						</div>
+						<div class="desktop-only">
+							{{ collection.metafields.custom_fields["featured_image_banner"].value | img_tag }}
+						</div>
+					{% else %}
+						<div>
+							{{ collection.metafields.custom_fields["featured_image_banner"].value | img_tag }}
+						</div>
+					{% endif %}
+				{% endif %}
+				{% if collection.metafields.custom_fields["featured_image_banner_link"] != blank %}</a>{% endif %}
+			</div>
+		{% if collection.metafields.custom_fields["featured_banner_width"] == 1 %}</div>{% endif %}
+	{% endif %}
+  
+	{% if show_title or show_subtitle or showDescription or collection.handle == 'all' %}
+    <div class="page-title">
+        {% if show_title %}
+					<div class="{% if collection.metafields.custom_fields["title_background_color"] != blank %} bg-color padding{% else %} container contain-width-80{% endif %}">
+	          <div class="row row-lg padding">
+							{% if collection.metafields.custom_fields["subtitle"] != blank and collection.metafields.custom_fields["subtitle_above"] != blank %}
+								{{ subtitle }}
+								{{ divider }}
+							{% endif %}
+	            {% if bannerSubheading != blank %}
+	              <h4 class="page-title__subheading subheading-text">{{ bannerSubheading }}</h4>
+	            {% endif %}
+	            <h1 class="page-title__heading size--{{ heading_size }}">{{collection.title}}
+	            {% for tag in collection.all_tags limit: productLimit %}
+	              {% if current_tags contains tag %}
+	              &#8250; {{ tag }}
+	              {% endif %}
+	            {% endfor %}
+	            </h1>
+							{% if collection.metafields.custom_fields["subtitle"] != blank and collection.metafields.custom_fields["subtitle_above"] == blank %}
+								{{ divider }}
+								{{ subtitle }}
+							{% endif %}
+	          </div>
+					</div>
+        {% endif %}
+        {% if collection.description != blank %}
+					<div class="container contain-width-80{% if collection.metafields.custom_fields["title_background_color"] != blank %} extra-padding{% endif %}">
+	          <div class="row row-lg">
+	            <div class="page-title__text mini-margin-top rte size--{{ text_size }}"><p>{{ collection.description }}</p></div>
+	          </div>
+					</div>
+        {% endif %}
+    </div>
+	{% endif %}
+	
+	{% if collection.metafields.custom_fields["featured_product_above"] != blank %}
+		{% if collection.metafields.custom_fields["featured_product_title"] != blank or collection.metafields.custom_fields["featured_product_text"] != blank %}
+			<div class="simple-image-text-module container-wrap featured-product" data-section-type="rich-text">
+				<div class="container pad-sm">
+					<div class="row row--split row-lg">
+						{% if collection.metafields.custom_fields["featured_product_image"] != blank %}
+							<div class="image no-padding-right">
+								<a href="{{ collection.metafields.custom_fields["featured_product_image"] }}" class="collection-image-lightbox">
+									{{ collection.metafields.custom_fields["featured_product_image"].value | img_tag: collection.metafields.custom_fields["featured_product_title"] }}
+								</a>
+							</div>
+						{% endif %}
+						<div class="rich-content no-button align--left lg_align--left extra-padding">
+							<div class="max-width">
+								{% if collection.metafields.custom_fields["featured_product_tagline"] != blank %}<div class="extra-large">{{ collection.metafields.custom_fields["featured_product_tagline"] }}</div>{% endif %}
+								{% if collection.metafields.custom_fields["featured_product_title"] != blank %}
+									<h2 class="size--xlarge text-bold">{{ collection.metafields.custom_fields["featured_product_title"] | newline_to_br }}</h2>
+								{% endif %}
+								{% if collection.metafields.custom_fields["featured_product_text"] != blank %}
+									<div class="extra-large">{{ collection.metafields.custom_fields["featured_product_text"] }}</div>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+	{% endif %}
+
+	<section class="collectionGrid container-wrap" data-show-quickview="{{ settings.show_quick_view }}">
+	  <div class="container">
+	    {% if collection.all_products_count == 0 %}
+	      <div class="collection-no-products row row-lg inline u-center empty-collection">
+	        <h4>{{ 'collections.errors.no_products' | t }}</h4>
+	        <a class="button" href="/collections/all">{{ 'collections.errors.continue_shopping' | t }}</a>
+	      </div>
+	    {% endif %}
+    
+	    {% paginate collection.products by productLimit %}
+			<div id="MainInnerContent">
+				<div class="js-collectionGrid collectionGrid-row row inline row-lg EndlessClick" data-show_reviews="{{ show_reviews }}" data-show_quantity="{{ settings.show_quantity }}" data-color_swatches="{{ color_swatches }}">              
+					{% for product in collection.products %}
+						{% unless collection.metafields.custom_fields["sku_restrictions"] != blank %}
+							{% unless product.type == "Component" or product.type == "Add-On" or product.tags contains "Hidden" %}
+								{% include 'collectionGrid-block' %}
+							{% endunless %}
+						{% else %}
+							{% include 'get-sale-skus-this-product' %}
+							{% if sale_skus_this_product != blank %}
+								{% for variant in product.variants %}
+									{% if sale_skus_this_product contains variant.sku %}
+										{% include 'collectionGrid-block-variant' %}
+									{% endif %}
+								{% endfor %}
+							{% endif %}
+						{% endunless %}
+					{% endfor %}
+					{% for i in (1..3) %}
+						<div class="gridSpacer item block s1 sm_s12 {% unless template == 'collection' %}lg_s1{{ columnsSize }}{% else %}{{ collectionBlock--size }}{% endunless %}"></div>
+					{% endfor %}
+
+					{% if paginate.next %}
+						<div class="pagination u-center">
+							<a href="{{ paginate.next.url }}" class="loadMore button">{{ 'collections.pagination.load_more' | t }}</a>
+							<div class="load-more-icon"></div>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+			{% endpaginate %}
+		</div>
+	</section>
+	
+	
+	{% if collection.metafields.custom_fields["featured_product_above"] == blank %}
+		{% if collection.metafields.custom_fields["featured_product_title"] != blank or collection.metafields.custom_fields["featured_product_text"] != blank %}
+			<div class="simple-image-text-module container-wrap featured-product" data-section-type="rich-text">
+				<div class="container pad-sm">
+					<div class="row row--split row-lg">
+						{% if collection.metafields.custom_fields["featured_product_image"] != blank %}
+							<div class="image no-padding-right">
+								<a href="{{ collection.metafields.custom_fields["featured_product_image"] }}" class="collection-image-lightbox">
+									{{ collection.metafields.custom_fields["featured_product_image"].value | img_tag: collection.metafields.custom_fields["featured_product_title"] }}
+								</a>
+							</div>
+						{% endif %}
+						<div class="rich-content no-button align--left lg_align--left extra-padding">
+							<div class="max-width">
+								{% if collection.metafields.custom_fields["featured_product_tagline"] != blank %}<div class="extra-large">{{ collection.metafields.custom_fields["featured_product_tagline"] }}</div>{% endif %}
+								{% if collection.metafields.custom_fields["featured_product_title"] != blank %}
+									<h2 class="size--xlarge text-bold">{{ collection.metafields.custom_fields["featured_product_title"] | newline_to_br }}</h2>
+								{% endif %}
+								{% if collection.metafields.custom_fields["featured_product_text"] != blank %}
+									<div class="extra-large">{{ collection.metafields.custom_fields["featured_product_text"] }}</div>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+	{% endif %}
+		
+	{% if collection.metafields.custom_fields["featured_content_title"] != blank or collection.metafields.custom_fields["featured_content_text"] != blank %}
+		<div class="simple-image-text-module container-wrap featured-content" data-section-type="rich-text">
+			<div class="container pad-sm">
+				<div class="color-band"></div>
+				<div class="row row--split row-lg row-top">
+					<div class="rich-content no-button align--left lg_align--left extra-padding">
+						<div class="max-width">
+							{% if collection.metafields.custom_fields["featured_content_title"] != blank %}
+								<h2 class="size--xlarge text-bold text-white">{{ collection.metafields.custom_fields["featured_content_title"] }}</h2>
+							{% endif %}
+							{% if collection.metafields.custom_fields["featured_content_text"] != blank %}
+								<div class="extra-large text-white">{{ collection.metafields.custom_fields["featured_content_text"] }}</div>
+							{% endif %}
+						</div>
+					</div>
+					{% if collection.metafields.custom_fields["featured_content_video"] != blank %}
+						<div class="featured_video image desktop-only">
+							{{ collection.metafields.custom_fields["featured_content_video"] }}
+						</div>
+					{% elsif collection.metafields.custom_fields["featured_content_image"] != blank %}
+						<div class="image padding-top">
+							<a href="{{ collection.metafields.custom_fields["featured_content_image"] }}" class="product-image-lightbox">
+								{{ collection.metafields.custom_fields["featured_content_image"].value | img_tag: collection.metafields.custom_fields["featured_content_title"] }}
+							</a>
+						</div>
+					{% endif %}
+				</div>
+				{% if collection.metafields.custom_fields["featured_content_video"] != blank %}
+					<div class="featured_video mobile-only">
+						{{ collection.metafields.custom_fields["featured_content_video"] }}
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	{% endif %}
+
+	{% if collection.metafields.custom_fields["featured_footer_banner"] != blank %}
+		<div id="footer_banner" class="row footer">
+			{% if collection.metafields.custom_fields["featured_footer_banner_text"] != blank %}
+				<div class="rich-content no-button extra-padding text-center">
+					<div class="max-width">
+						<div class="extra-large">{{ collection.metafields.custom_fields["featured_footer_banner_text"] }}</div>
+					</div>
+				</div>
+			{% endif %}
+			<div class="mobile-only">
+				{{ collection.metafields.custom_fields["featured_footer_banner"] | img_tag: collection.metafields.custom_fields["featured_content_title"] }}
+			</div>
+		</div>
+	{% endif %}
+	
+</div>
+
+{% assign featured_color_product = collection.metafields.custom_fields["featured_product_bg_color"] | strip %}
+{% if featured_color_product != blank and featured_color_product contains "#" and featured_color_product.size == 7 %}
+	<style>
+		.featured-product .container .rich-content, .featured-product .container .rich-content h2, .featured-product .container .rich-content a {
+			background-color: {{ featured_color_product }};
+		}
+	</style>
+{% endif %}
+
+{% assign featured_text_color_product = collection.metafields.custom_fields["featured_product_text_color"] | strip %}
+{% if featured_text_color_product != blank and featured_text_color_product contains "#" and featured_text_color_product.size == 7 %}
+	<style>
+		.featured-product .container .rich-content, .featured-product .container .rich-content h2, .featured-product .container .rich-content p, .featured-product .container .rich-content a {
+			color: {{ featured_text_color_product }} !important;
+		}
+	</style>
+{% endif %}
+
+{% assign featured_text_color_content = collection.metafields.custom_fields["featured_content_text_color"] | strip %}
+{% if featured_text_color_content != blank and featured_text_color_content contains "#" and featured_text_color_content.size == 7 %}
+	<style>
+		.featured-content .container .rich-content, .featured-content .container .rich-content h2, .featured-content .container .rich-content p, .featured-content .container .rich-content a {
+			color: {{ featured_text_color_content }}  !important;
+		}
+	</style>
+{% endif %}
+
+{% assign featured_color_content = collection.metafields.custom_fields["featured_content_bg_color"] | strip %}
+{% if featured_color_content != blank and featured_color_content contains "#" and featured_color_content.size == 7 %}
+	<style>
+		.featured-content .container .color-band {
+			background-color: {{ featured_color_content }} !important;
+		}
+	</style>
+{% endif %}
+
+{% assign title_color = collection.metafields.custom_fields["main_title_color"] | strip %}
+{% if title_color != blank and title_color contains "#" and title_color.size == 7 %}
+	<style>
+		.page-title h1.page-title__heading {
+			color: {{ title_color }} !important;
+		}
+	</style>
+{% endif %}
+
+{% assign product_title_color = collection.metafields.custom_fields["featured_product_title_color"] | strip %}
+{% if product_title_color != blank and product_title_color contains "#" and product_title_color.size == 7 %}
+	<style>
+		.featured-product .container .rich-content h2 {
+			color: {{ product_title_color }} !important;
+		}
+	</style>
+{% endif %}
+
+{% assign featured_content_title_color = collection.metafields.custom_fields["featured_content_title_color"] | strip %}
+{% if featured_content_title_color != blank and featured_content_title_color contains "#" and featured_content_title_color.size == 7 %}
+	<style>
+		.featured-content .container .row .rich-content h2.size--xlarge {
+			color: {{ featured_content_title_color }} !important;
+		}
+	</style>
+{% endif %}
+
+
+{% assign title_bg_color = collection.metafields.custom_fields["title_background_color"] | strip %}
+{% if title_bg_color != blank and title_bg_color contains "#" and title_bg_color.size == 7 %}
+	<style>
+		.page-title .bg-color {
+			background-color: {{ title_bg_color }} !important;
+		}
+	</style>
+{% endif %}
+
+{% assign featured_color_height = collection.metafields.custom_fields["featured_content_band_height"] | strip %}
+{% if featured_color_height != blank and featured_color_height contains "%" %}
+	<style>
+		.featured-content .container .color-band {
+			height: {{ featured_color_height }};
+		}
+	</style>
+{% else %}	
+	<style>
+		.featured-content .container .color-band {
+			height: 50%;
+		}
+	</style>
+{% endif %}
+
+
+{% assign footer_background = collection.metafields.custom_fields["featured_footer_banner"] | strip %}
+{% if footer_background != blank %}
+	<style>
+		#footer_banner {
+			background-image: url('{{ footer_background }}');
+		}
+	</style>
+{% endif %}
+
+<style>
+	.template-full-collection-featured-content .bodyWrap{
+		margin-bottom:0px;
+	}
+	.template-full-collection-featured-content #header_banner video {
+		width: 100%;
+	}
+	.template-full-collection-featured-content .collectionBlock .collectionBlock-image{
+		background-size: cover;
+		padding-top: 100%;
+	}
+	.template-full-collection-featured-content .featured-product .container .rich-content a{
+			display:block;
+	}
+	.template-full-collection-featured-content .container .rich-content a, .template-full-collection-featured-content #footer_banner .rich-content a{
+		text-transform:uppercase;
+		font-weight: bold;
+		color: #222;
+		padding-top:1.0em;
+	}
+	.template-full-collection-featured-content .subtitle {
+		border-bottom: 0px;
+	}
+	.template-full-collection-featured-content #footer_banner .rich-content a {
+		font-size: 1.4em;
+	}
+	.featured-content .container {
+		position: relative;
+	}
+	.featured-content .container .color-band {
+		background-color: #CCAB8B;
+		display: block;
+		width: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	.divider-image img {
+		width: 25%;
+	}
+	h1.h2.subtitle {
+		font-size: 1.8em;
+    font-weight: 400;
+	}
+	#footer_banner{
+		height: 50vw;
+    background-size: cover;
+    background-repeat: no-repeat;
+	}
+	.mobile-only img{
+		max-width:100%;
+	}
+	@media screen and (min-width: 769px){
+		.template-full-collection-featured-content .bodyWrap-spacer{
+			padding-top:125px;
+		}
+		#header_banner {
+			display: flex;
+			max-height: 65vh;
+	    overflow: hidden;
+		}
+		#header_banner video {
+			width: 100%;
+			height: 100%;
+			align-self: center;
+		}
+		.template-full-collection-featured-content .simple-image-text-module .row--split .image.padding-top {
+			padding-top: 40px;
+		}
+	}
+	@media screen and (min-width: 768px) and (max-width: 1100px){
+		.featured-content .container .color-band{height:70% !important;}
+	}
+	@media screen and (max-width: 1024px){
+		#footer_banner.footer{background:#ffffff; background-image:none !important;}
+	}
+	@media screen and (max-width: 768px) {
+		.template-full-collection-featured-content #footer_banner .rich-content{padding-top: 0px !important;}
+		.mobile-only{display:block;}
+		.featured-content .container .color-band{height:80% !important;}
+		.divider-image img {
+			width: 75%;
+		}
+	}	
+	@media screen and (max-width: 550px){
+		h1.page-title__heading.size--normal{
+			margin-bottom:0;
+		}
+	}
+	@media only screen and (min-width: 1800px) {
+		.template-full-collection-featured-content .simple-image-text-module.container-wrap.featured-content .container {
+			max-width: 100%;
+		}
+		.template-full-collection-featured-content .simple-image-text-module.container-wrap.featured-content .container .row {
+			max-width: 70%;
+		}
+	}
+</style>
+
+{% include 'privacy-check-end' %}
+
+
+{% schema %}
+   {
+  "name": "Collection pages",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Collection settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subtitle",
+      "label": "Show subtitle",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sale_badge",
+      "label": "Show sale badge",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scents_badge",
+      "label": "Show more scents badge",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "default_subtitle",
+      "label": "Default subtitle",
+      "info": "Can be overwritten by collection custom field"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": "normal",
+      "options": [
+        { "label": "Small", "value": "small" },
+        { "label": "Normal", "value": "normal" },
+        { "label": "Large", "value": "large" },
+        { "label": "Extra large", "value": "xlarge" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "text_size",
+      "label": "Text size",
+      "default": "normal",
+      "options": [
+        { "label": "Small", "value": "small" },
+        { "label": "Normal", "value": "normal" },
+        { "label": "Large", "value": "large" },
+        { "label": "Extra large", "value": "xlarge" }
+      ]
+    }
+  ]
+}
+{% endschema %}

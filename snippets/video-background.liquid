@@ -1,0 +1,286 @@
+        {% comment %} Check if Image Height setting is selected {% endcomment %}
+        {% assign original_height = false %}
+        {% if section.settings.slide_height == 'original-height' %}
+        {% assign original_height = true %}
+        {% endif %}
+		
+		{% comment %} Layout {% endcomment %}
+        {% assign alignment = section.settings.alignment %}
+        {% assign contentWidth = section.settings.content_width %}
+
+
+		{%- if section.blocks.size > 0 -%}
+		{%- for block in section.blocks -%}
+        {% assign alignment = block.settings.alignment %}
+		{%- assign img_url = block.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}		
+
+		{% comment %} Layout {% endcomment %}
+		{% comment %} Colors {% endcomment %}
+		{% assign color_style = block.settings.color_style %}
+
+		{% assign buttonPrimaryText = block.settings.cta_color %}
+		{% assign buttonPrimaryBackground = block.settings.cta_bg %}
+		{% assign buttonPrimaryBorder = block.settings.cta_border | default: 'transparent' %}
+
+		{% assign buttonSecondaryText = block.settings.cta_2_color %}
+		{% assign buttonSecondaryBackground = block.settings.cta_2_bg %}
+		{% assign buttonSecondaryBorder = block.settings.cta_2_border | default: 'transparent' %}
+
+		{% comment %} Typography {% endcomment %}
+		{% assign heading_size = block.settings.heading_size %}
+		{% assign text_size = block.settings.text_size %}
+
+		{% comment %} Content {% endcomment %}
+		{% assign heading = block.settings.title  %}
+		{% assign subheading = block.settings.subheading  %}
+		{% assign text = block.settings.text %}
+		{% assign cta = block.settings.cta %}
+		{% assign link = block.settings.link %}
+		{% assign cta_2 = block.settings.cta_2 %}
+		{% assign link_2 = block.settings.link_2 %}
+		{% if block.settings.image %}
+		{% assign has_bg = true %}
+		{% else %}
+		{% assign has_bg = false %}
+		{% endif %}
+
+	<div class="hero-slide js-slide hero-slide--{{ alignment }} hero-slide--style-{{ color_style }}" {{ block.shopify_attributes }} data-block="slide" data-slick-index="{{ forloop.index }}" data-style="{{ color_style }}">
+		<div class="slide-inner">
+		{% if block.type == 'video' %}
+			<div class="videoBox">
+				{% unless heading == blank and subheading == blank and text == blank and cta == blank %}
+					{% if original_height %}
+					<div class="slide-text">
+					{% endif %}
+						<div class="slide-content-container container">
+							<div class="row row-padded">
+								<div class="slide-content {% unless has_bg %}no-background{% endunless %} slide-content--{{ contentWidth }}">
+									{% if subheading != blank %}
+										<div id="slide-sub" class="slide-content__subheading subheading-text">{{ subheading }}</div>
+									{% endif %}
+
+									{% if heading != blank %}
+										<h1 id="slide-head" class="slide-content__heading size--{{ heading_size }}">{{ heading }}</h1>
+									{% endif %}
+
+									{% if text != blank %}
+										<div id="slide-sub2" class="slide-content__text size--{{ text_size }}">{{ text }}</div>
+									{% endif %}
+
+									{% if cta != blank %}
+										<a tabindex="0" aria-describedby="slide-head slide-sub2" {% if link != blank %}href="{{ link }}"{% endif %} class="button button--{{ block.settings.button_size }} button--primary" aria-label = "{{ cta }}" title="{{ cta }}" style="color: {{ buttonPrimaryText }}; background-color: {{ buttonPrimaryBackground }}; border-color: {{ buttonPrimaryBorder }};font-size:24px">{{ cta }}</a>
+									{% endif %}
+
+									{% if cta_2 != blank %}
+										<a tabindex="0" aria-describedby="slide-head slide-sub2" {% if link_2 != blank %}href="{{ link_2 }}"{% endif %} class="button button--{{ block.settings.button_size }} button--secondary" aria-label = "{{ cta_2 }}" title="{{ cta_2 }}" style="color: {{ buttonSecondaryText }}; background-color: {{ buttonSecondaryBackground }}; border-color: {{ buttonSecondaryBorder }};">{{ cta_2 }}</a>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					{% if original_height %}
+					</div>
+					{% endif %}
+				{% endunless %}
+					{%- if block.settings.video_link != blank -%}
+					<div class="fullscreen-video-wrap">
+						<video class="video-js" loop autoplay preload="none" muted playsinline
+						poster="https:{{ block.settings.video_image | img_url: 'master' }}" alt="{{ video_image.alt | escape }}">
+							<source src="{{ block.settings.video_link }}" type="video/mp4" alt="{{ video_image.alt | escape }}">
+						</video>
+					</div>
+				{% endif %}
+			</div>
+			{% else %}
+		{% endif %}
+	{%- endfor -%}
+      </div>
+</div>
+  
+
+
+{% else %}
+	 <div class="placeholderNoblocks">
+      	This section doesn’t currently include any content. Add content to this section using the sidebar.
+    </div>
+{%- endif -%}
+
+
+<style>
+  
+  a.button--primary{
+    margin: 15px 0px 0px 10px;
+    padding: 12px 10px;
+  }
+  	
+  #slide-head{
+    font-size:48px;
+  }
+	#slide-sub2 p{
+       font-size: 21px;
+     }
+	.main-content .videoBackground {
+		margin-top: -55px;
+	}
+	.videoBackground {
+		height: 100%;
+		position: relative;
+	}
+	.videoBackground .fullscreen-video-wrap {
+		position: absolute;
+		top: 0;
+		left: 0;
+		min-width: 100%;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+	.videoBackground .fullscreen-video-wrap .video-js {
+		position: absolute;
+		top: 0;
+		left: 0;
+		min-height: 100%;
+		min-width: 100%;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	.videoBackground .fullscreen-video-wrap video {
+		min-height: 100%;
+		min-width: 100%;
+		object-fit: cover;
+	}
+	.videoBackground .videoBox {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		flex-direction: column;
+		/*padding: 100px 20px 80px;*/
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		min-height: 500px;
+      	max-height: 1100px;
+        height: calc(100vh - 165px);
+		position: relative;
+	}
+	.videoBackground .imageBox {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		flex-direction: column;
+		padding: 100px 20px 80px;
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		position: relative;
+		min-height: calc(100vh - 165px);
+		height: auto;
+	}
+	.videoBackground .videoBoxInfo, .videoBackground .imageBoxInfo {
+		z-index: 2;
+		text-align: center;
+	}
+	.videoBackground .overlay {
+		content: "";
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		background: #000;
+		z-index: 1;
+	}
+	.videoBackground .videoBoxInfoBtn, .videoBackground .imageBoxInfoBtn {
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-webkit-user-select: none;
+		user-select: none;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+		display: inline-block;
+		width: auto;
+		text-decoration: none;
+		text-align: center;
+		vertical-align: middle;
+		cursor: pointer;
+		border: 1px solid transparent;
+		border-radius: 2px;
+		padding: 8px 15px;
+		font-style: normal;
+		font-weight: 800;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		white-space: normal;
+		font-size: 1.7em;
+        font-weight:800;
+		margin-top: 10px;
+	}
+	.videoBackground .videoBoxInfoTitle, .videoBackground .imageBoxInfoTitle {
+		color: #FFF;
+		font-size: 50px;
+		line-height: 40px;
+	}
+	.videoBackground .videoBoxInfoDescription, .videoBackground .imageBoxInfoDescription {
+		max-width: 500px;
+		margin: 0 auto;
+	}
+	.videoBackground .videoBoxInfoDescription p, .videoBackground .imageBoxInfoDescription p {
+		font-size: 21px;
+		line-height: 28px;
+	}
+	.videoBackground .placeholderNoblocks {
+		text-align: center;
+		max-width: 500px;
+		margin: 0 auto;
+	}
+    @media screen and (max-width: 767px) {
+		.main-content .videoBackground {
+			margin-top: -35px;
+		}
+		.videoBackground .fullscreen-video-wrap {
+			z-index: 3;
+		}
+		.videoBackground .videoBox {
+          	min-height: 435px;
+          	height: 100%;
+          	position: relative;
+      	}
+		.videoBackground .fullscreen-video-wrap {
+			/*position: relative;
+			min-height: 300px;*/
+			background-size: cover;
+		}
+		.videoBackground {
+			width: 100%;
+		}
+      .videoBoxInfo {
+        padding: 40px 0px 40px 0px;
+      }
+      .videoBackground .fullscreen-video-wrap .video-js{
+        padding-bottom:150px;
+      }
+    }
+
+   @media screen and (max-width: 458px){
+     #slide-head{
+        font-size:27px;
+      }
+     #slide-sub2 p{
+       font-size: 21px;
+     }
+     .slide-content {
+	   position:relative;
+       left:15px;
+       text-align:center;
+       margin-bottom:50px;
+     }
+	a.button--primary{
+    margin: 0px 0px 0px 0px;
+    padding: 12px 20px;
+  }
+  }
+</style>
+
+
+{% comment %}<div class="overlay" style="opacity: 0.{{ block.settings.overlay_opacity }}"></div>{% endcomment %}

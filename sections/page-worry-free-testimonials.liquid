@@ -1,0 +1,144 @@
+{% if section.settings.show_testimonials != blank  %}
+	<div class="testimonial-block extra-padding">
+		{% if section.settings.title != '' or section.settings.intro != '' %}
+			<div class="page-title">     
+				<div class=" container contain-width-80">
+					<div class="row row-lg padding">      
+				  	<h3 class="page-title__heading size--normal">{{ section.settings.title }}</h3>
+					</div>
+				</div>
+				{% if section.settings.section.settings.intro != '' %}
+					<div class="container contain-width-80">
+						<div class="row row-lg">
+					  	<div class="page-title__text mini-margin-top rte size--normal">
+								<p>{{ section.settings.intro }}</p>
+							</div>
+						</div>
+					</div> 
+				{% endif %}       
+			</div>
+		{% endif %}
+
+
+		<div class="row row-lg padding inline">
+			{% for block in section.blocks %}
+				<div class="s6 sm_s12 lg_s13 block padding-left padding-right">
+					{% if block.settings.image != blank %}
+						<div class="image centered padding">
+							<img src="{{ block.settings.image | img_url: '600x' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+						</div>	
+					{% endif %}
+					<div class="content">
+						{% if block.settings.title != blank %}
+							<p>{{ block.settings.title }}</p>
+						{% endif %}
+						{% if block.settings.text != blank %}
+							<p>{{ block.settings.text }}</p>
+						{% endif %}
+						{% if block.settings.testimonial != blank %}
+							<p class="bold">What's your favorite way to share Tubby Todd?</p>
+							<p>{{ block.settings.testimonial }}</p>
+						{% endif %}
+					</div>	
+				</div>	
+			{% endfor %}
+		</div>
+		{% if section.settings.button_text != '' and section.settings.button_link != '' %}
+			<div class="row row-med u-center margin-top">
+				<a href="{{ section.settings.button_link }}" class="button button--primary inline upcase" title="{{ section.settings.button_text | strip_html }}">{{ section.settings.button_text | strip_html }}</a>
+			</div>
+		{% endif %}
+	</div>
+{% endif %}
+
+<style>
+	.testimonial-block {
+		background-color: {{ section.settings.bg_color }};
+		color: {{ section.settings.color }}; 
+	}
+	.testimonial-block img {
+		border-radius: 50%;
+		-webkit-border-radius: 50%;
+		-moz-border-radius: 50%;
+		width: 90%;
+	}
+</style>
+
+
+{% schema %}
+{
+  "name": "Worry Free Testimonials",
+  "settings": [
+		{
+		  "type": "checkbox",
+		  "id": "show_testimonials",
+		  "label": "Show testimonials?",
+		  "default": true
+		},
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro text"
+    },
+		{
+		   "type": "text",
+		   "id": "button_text",
+		   "label": "Button text"
+		},
+		{
+		   "type": "url",
+		   "id": "button_link",
+		   "label": "Button link"
+		},
+		{
+		   "type":      "color",
+		   "id":        "color",
+		   "label":     "Text color",
+		   "default":   "#000000"
+		},
+		{
+		   "type":      "color",
+		   "id":        "bg_color",
+		   "label":     "Background color",
+		   "default":   "#f4d2b9"
+		},
+    {
+      "type": "paragraph",
+      "content": "Add content blocks below"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Testimonial",
+      "settings": [
+				{
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+				{
+        	"type": "richtext",
+        	"id": "title",
+        	"label": "Name"
+       	},
+				{
+				   "type": "richtext",
+				   "id": "text",
+				   "label": "About text"
+				},
+				{
+				   "type": "richtext",
+				   "id": "testimonial",
+				   "label": "Testimonial"
+				}
+      ]
+    }
+  ]
+}
+{% endschema %}

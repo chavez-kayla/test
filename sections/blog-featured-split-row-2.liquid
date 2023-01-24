@@ -1,0 +1,141 @@
+{% assign featured_article_1 = '' %}
+{% assign featured_article_2 = '' %}
+{% if section.settings.feat_row_article_override_1 != blank %}
+	{% assign featured_article_1 = section.settings.feat_row_article_override_1 %}
+{% endif %}
+{% if section.settings.feat_row_article_override_2 != blank %}
+	{% assign featured_article_2 = section.settings.feat_row_article_override_2 %}
+{% endif %}
+{% if section.settings.feat_row_article_override_1 == blank or section.settings.feat_row_article_override_2 == blank %}
+	{% for article in blog.articles %}
+		{% for tag in article.tags %}
+	 		{% if featured_article_1 == blank and tag contains section.settings.feat_row_category_tag_1 %}
+				{% assign featured_article_1 = article %}
+			{% endif %}
+	 		{% if featured_article_2 == blank and tag contains section.settings.feat_row_category_tag_2 %}
+				{% assign featured_article_2 = article %}
+			{% endif %}
+		{% endfor %}
+	{% endfor %}
+{% endif %}
+
+<div class="container-wrap blog-listing">
+	<!-- article featured split -->
+	{% if section.settings.show_feat_row_of_2 %}
+		{% if featured_article_1 != blank %}
+			{% assign cat_title_1 = section.settings.feat_row_title_1 %}
+			{% if cat_title_1 == blank %}{% assign cat_title_1 = section.settings.feat_row_category_tag_1 %}{% endif %}
+			<div class="article-featured-split row contain-width-80 inline extra-padding-top">
+				<div class="block s1 med_s12 lg_s12 padding">
+					<div class="inner">
+						<h2 class="text-brown upcase VAGRoundedNext-Medium text-half-spaced underlined margin-bottom"><span>{{ cat_title_1 }}</span></h2>
+				    <div class="feat-row">
+							<a href="{{ featured_article_1.url }}" aria-label="Read {{ featured_article_1.title | escape }}">
+								<div class="img-color-wrapper">
+								<div class="img-wrapper" {% if section.settings.feat_row_post_image_1 == blank %}style="padding-top: 100%; background-image: url('{{ featured_article_1.image | img_url: '800x' }}'); background-size: cover;" {% endif %}>
+									{% if section.settings.feat_row_post_image_1 != blank %}
+										<img src="{{ section.settings.feat_row_post_image_1 | img_url: '800x' }}" alt="{{ featured_article_1.title | escape }}">
+									{% endif %}
+								</div>
+							</div>
+							</a>
+							<a href="{{ featured_article_1.url }}"><p class="h3 extra-margin-top">{{ featured_article_1.title }}</p></a>
+							<p class="excerpt">{{ featured_article_1.excerpt }}</p>
+							<a href="{{ featured_article_1.url }}" aria-label="Read More {{ featured_article_1.title | escape }}" class="read-more upcase">Read more</a>
+						</div>
+					</div>
+				</div>
+			{% endif %}
+			{% if featured_article_2 != blank %}
+				{% assign cat_title_2 = section.settings.feat_row_title_2 %}
+				{% if cat_title_2 == blank %}{% assign cat_title_2 = section.settings.feat_row_category_tag_2 %}{% endif %}
+				<div class="block s1 med_s12 lg_s12 padding">
+					<div class="inner">
+						<h2 class="text-brown upcase VAGRoundedNext-Medium text-half-spaced underlined margin-bottom"><span>{{ cat_title_2 }}</span></h2>
+				    <div class="feat-row">
+							<a href="{{ featured_article_2.url }}" aria-label="Read {{ featured_article_2.title | escape }}">
+								<div class="img-wrapper margin-bottom" {% if section.settings.feat_row_post_image_2 == blank %}style="padding-top: 100%; background-image: url('{{ featured_article_2.image | img_url: '800x' }}'); background-size: cover;"{% endif %}>
+									{% if section.settings.feat_row_post_image_2 != blank %}
+										<img src="{{ section.settings.feat_row_post_image_2 | img_url: '800x' }}" alt="{{ featured_article_2.title | escape }}">
+									{% endif %}
+								</div>
+							</a>
+							<a href="{{ featured_article_1.url }}"><p class="h3 extra-margin-top">{{ featured_article_2.title }}</p></a>
+							<p class="excerpt">{{ featured_article_2.excerpt }}</p>
+							<a href="{{ featured_article_2.url }}" aria-label="Read More {{ featured_article_2.title | escape }}" class="read-more upcase">Read more</a>
+						</div> 
+					</div>
+				</div>
+			</div>
+		{% endif %}
+	{% endif %}
+	<!-- end article featured split -->
+</div>
+
+{% schema %}
+  {
+    "name": "Split row 2",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Left Side"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_feat_row_of_2",
+        "label": "Show featured row of 2 posts?",
+        "default": false
+      },
+			{
+			  "type": "image_picker",
+			  "id": "feat_row_post_image_1",
+			  "label": "Post 1 image",
+				"info": "Will appear instead of featured image if specified"
+			},
+			{
+      	"type": "text",
+      	"id": "feat_row_category_tag_1",
+      	"label": "Post 1 category tag",
+				"info": "Value must exactly match tag"
+     	},
+			{
+      	"type": "text",
+      	"id": "feat_row_title_1",
+      	"label": "Post 1 title override"
+     	},
+			{
+      	"type": "article",
+      	"id": "feat_row_article_override_1",
+      	"label": "Post 1 article override",
+				"info": "Will show this post instead of the most recent post in category. Necessary if most recent post in category is over 50 posts ago."
+     	},
+      {
+        "type": "header",
+        "content": "Right Side"
+      },
+			{
+			  "type": "image_picker",
+			  "id": "feat_row_post_image_2",
+			  "label": "Post 1 image",
+				"info": "Will appear instead of featured image if specified"
+			},
+			{
+      	"type": "text",
+      	"id": "feat_row_category_tag_2",
+      	"label": "Post 2 category tag",
+				"info": "Value must exactly match tag"
+     	},
+			{
+      	"type": "text",
+      	"id": "feat_row_title_2",
+      	"label": "Post 2 title override"
+     	},
+			{
+      	"type": "article",
+      	"id": "feat_row_article_override_2",
+      	"label": "Post 2 article override",
+				"info": "Will show this post instead of the most recent post in category. Necessary if most recent post in category is over 50 posts ago."
+     	}
+		]
+	}	
+{% endschema %}

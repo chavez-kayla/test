@@ -1,0 +1,130 @@
+{% assign free_product = all_products[settings.cart_gift_popup_product] %}
+{% assign free_gift_threshold = settings.cart_gift_popup_threshold | remove: '$' | remove: '.00' | times: 100 %}
+{% assign threshold_money = free_gift_threshold | money | remove: '.00' %}
+{% assign free_gift_qualifying_items = settings.cart_gift_popup_qualifying_items | replace: ' ', '' | split: ',' %}
+{% assign cart_contains_qualifying_item = false %}
+
+{% assign free_gifts_in_cart = 0 %}
+{% for item in cart.items %}
+  {% if item.product_id == free_product.id and item.properties != empty %}
+		{% for p in item.properties %}
+			{% if p.first == "_Sale" and p.last == "GWP" %}
+				{% assign free_gifts_in_cart = item.quantity %}
+				{% assign freeProductPrice = item.original_price %}
+			{% endif %}
+		{% endfor %}
+  {% endif %}
+	{% if free_gift_qualifying_items != empty %}
+		{% if free_gift_qualifying_items contains item.sku %}
+			{% assign cart_contains_qualifying_item = true %}
+		{% endif %}
+	{% endif %}
+{% endfor %}
+
+{% assign subtotal_price = cart.original_total_price %}
+{% if free_gifts_in_cart > 0 %}
+	{% assign subtotal_price = subtotal_price | minus: freeProductPrice %}
+{% endif %}
+
+{% assign show_cart_popup = false %}
+{% if free_gifts_in_cart == 0 and free_product != empty %}
+	{% if free_gift_qualifying_items != empty and cart_contains_qualifying_item %}
+		{% assign show_cart_popup = true %}
+	{% endif %}
+	{% if free_gift_threshold > 0 and subtotal_price >= free_gift_threshold %}
+		{% assign show_cart_popup = true %}
+	{% elsif free_gift_threshold != blank and subtotal_price < free_gift_threshold %}
+		{% assign show_cart_popup = false %}
+	{% endif %}
+{% endif %}
+
+{% if show_cart_popup %}
+	<div id="free_gift_popup" style="display:none;">
+		<div class="row inline">
+			{% if settings.cart_gift_popup_product_title != blank %}
+				<h1 class="text-center color-primary">{{ settings.cart_gift_popup_product_title | replace: '[money]', threshold_money }}</h1>
+			{% endif %}
+		</div>
+		<div class="row inline">
+			<div class="block s1 lg_s12">
+				{{ free_product.featured_image | img_url: '500x' | img_tag: free_product.title }}
+			</div>
+			{% if free_product.variants.size > 1 %}
+				<div class="block s1 lg_s12 text-center">
+					{% if settings.cart_gift_popup_product_instructions != blank %}
+						<h4>{{ settings.cart_gift_popup_product_instructions }}</h4>
+					{% endif %}
+					<div class="productForm">
+						{% include 'variant-switcher', product: free_product %}
+						<a href="javascript:void(0)" class="add-to-cart button mini-margin-bottom">Add To Cart</a>
+						<a href="javascript:void(0)" onclick="$.fancybox.close();" class="button button--light no-margin-left">No Thanks</a>
+					</div>
+				</div>
+			{% else %}
+				<div class="block s1 lg_s12 text-center">
+					{% if settings.cart_gift_popup_product_label != blank %}
+						<p class="text-center">{{ settings.cart_gift_popup_product_label | replace: '[money]', threshold_money }}</p>
+					{% endif %}
+					<div class="productForm">
+						<input type="hidden" class="variant_switcher" value="{{ free_product.variants.first.id }}" />
+						<a href="javascript:void(0)" class="add-to-cart button mini-margin-bottom">Add To Cart</a>
+						<a href="javascript:void(0)" onclick="$.fancybox.close();" class="button button--light no-margin-left">No Thanks</a>
+					</div>
+				</div>
+			{% endif %}
+		</div>
+  {% if settings.cart_gift_popup_product_label != blank and free_product.variants.size > 1 %}
+				<p class="text-center">{{ settings.cart_gift_popup_product_label | replace: '[money]', threshold_money }}</p>
+			{% endif %}
+	</div>
+	<script>
+		$(document).ready(function() {
+			{% if settings.enable_cart_gift %}
+				var popup_delay = 3000;
+			{% else %}
+				var popup_delay = 0;
+			{% endif %}
+			
+			setTimeout(function() {
+				$.fancybox.open({
+					src  : '#free_gift_popup',
+					type : 'inline',
+					opts : {
+						animationEffect: 'fade',
+						touch: false
+					}
+				});
+			}, popup_delay);
+			
+			$('#free_gift_popup .add-to-cart').on('click', function() {
+				var variant_id = $('#free_gift_popup .variant_switcher').val();				
+				var data = {
+				  quantity: 1,
+				  id: variant_id,
+				  properties: {
+				    '_Sale': 'GWP',
+						'_Source': 'Popup'
+				  }
+				}				
+				var params = {
+			    type: 'POST',
+			    url: '/cart/add.js',
+			    data: data,
+			    dataType: 'json',
+			    success: function(line_item) { 
+						location.reload()
+			    },
+			    error: function(XMLHttpRequest, textStatus) {
+						$.fancybox.close();
+			    }
+			  };
+				jQuery.ajax(params);
+				
+			});			
+		});
+	</script>
+{% elsif free_gifts_in_cart > 0 and subtotal_price >= free_gift_threshold and free_product != empty %}
+	{%- if is_mixed_cart and settings.cart_gift_popup_subscribe_note != blank -%}
+		<p><span class="order-notes__label text-light">{{ settings.cart_gift_popup_subscribe_note }}</span></p>
+	{%- endif -%}
+{% endif %}

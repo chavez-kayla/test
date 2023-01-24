@@ -1,0 +1,142 @@
+<div data-section-id="{{ section.id }}" data-section-type="page-template">
+	<!-- Hero -->
+	{% if page.metafields.custom_fields["featured_contact_page_banner"] != blank %}
+		<div id="header_banner" class="featured_image_banner row">			
+			<div>
+				<img src="{% include 'cf-image' with image: page.metafields.custom_fields["featured_contact_page_banner"], print: 'url' %}">
+			</div>
+		</div>
+	{% endif %}
+  
+   <div class="page-title">
+		<div class="container contain-width-80">
+      <div class="row row-lg padding">
+        <h1 class="page-title__heading size--{{ heading_size }} padding-top">{{ page.title }}</h1>
+      </div>
+		</div>
+     {% if page.content != blank %}
+			<div class="container contain-width-80">
+        <div class="row row-lg">
+          <div class="page-title__text mini-margin-top rte size--large"><p>{{ page.content | strip_html }}</p></div>
+        </div>
+			</div>
+     {% endif %}
+   </div>
+
+		<!-- Featured Content 1 -->
+		{% if page.metafields.custom_fields["featured_content_title_1"] != blank or page.metafields.custom_fields["featured_content_text_1"] != blank %}
+			<div class="simple-image-text-module container-wrap featured-product" data-section-type="rich-text">
+				<div class="container pad-sm">
+					<div class="row row--split row-lg">
+						{% if page.metafields.custom_fields["featured_content_image_1"] != blank %}
+							<div class="image no-padding-right">
+								<a href="{{ page.metafields.custom_fields["featured_content_image_1"] }}" class="product-image-lightbox">
+									{{ page.metafields.custom_fields["featured_content_image_1"] | img_tag: page.metafields.custom_fields["featured_content_title_1"] }}
+								</a>
+							</div>
+						{% endif %}
+						<div class="rich-content no-button align--left lg_align--left extra-padding">
+							<div class="max-width">
+								{% if page.metafields.custom_fields["featured_content_title_1"] != blank %}
+									<h2 class="size--xlarge text-bold">{{ page.metafields.custom_fields["featured_content_title_1"] }}</h2>
+								{% endif %}
+								{% if page.metafields.custom_fields["featured_content_text_1"] != blank %}
+									<div class="extra-large">{{ page.metafields.custom_fields["featured_content_text_1"] }}</div>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+		
+		<!-- Featured Content 2 -->
+		{% if page.metafields.custom_fields["featured_content_2_title"] != blank or page.metafields.custom_fields["featured_content_2_text"] != blank %}
+			<div class="simple-image-text-module container-wrap featured-product featured-product-2" data-section-type="rich-text">
+				<div class="container pad-sm">
+					<div class="row row--split row-lg">
+						{% if page.metafields.custom_fields["featured_content_2_image"] != blank %}
+							<div class="image no-padding-left mobile-only">
+								<a href="{{ page.metafields.custom_fields["featured_content_2_image"] }}" class="product-image-lightbox">
+									{{ page.metafields.custom_fields["featured_content_2_image"] | img_tag: page.metafields.custom_fields["featured_content_2_title"] }}
+								</a>
+							</div>
+						{% endif %}
+						<div class="rich-content no-button align--left lg_align--left extra-padding">
+							<div class="max-width">
+								{% if page.metafields.custom_fields["featured_content_2_title"] != blank %}
+									<h2 class="size--xlarge text-bold">{{ page.metafields.custom_fields["featured_content_2_title"] }}</h2>
+								{% endif %}
+								{% if page.metafields.custom_fields["featured_content_2_text"] != blank %}
+									<div class="extra-large">{{ page.metafields.custom_fields["featured_content_2_text"] }}</div>
+								{% endif %}
+							</div>
+						</div>
+						{% if page.metafields.custom_fields["featured_content_2_image"] != blank %}
+							<div class="image no-padding-left desktop-only">
+								<a href="{{ page.metafields.custom_fields["featured_content_2_image"] }}" class="product-image-lightbox">
+									{{ page.metafields.custom_fields["featured_content_2_image"] | img_tag: page.metafields.custom_fields["featured_content_2_title"] }}
+								</a>
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		{% endif %}
+		
+		<!-- Featured Form -->
+		{% if page.metafields.custom_fields["featured_contact_form"] != blank %}
+			<div class="container contain-width-80">
+	      <div class="row row-lg padding">
+					{{ page.metafields.custom_fields["featured_contact_form"] }}
+				</div>
+			</div>	
+		{% endif %}
+		
+
+</div>
+
+{% assign featured_bg_1 = page.metafields.custom_fields["featured_content_bg_color_1"] | strip %}
+{% if featured_bg_1 != blank and featured_bg_1 contains "#" and featured_bg_1.size == 7 %}
+	<style>
+		.featured-product .container .rich-content, .featured-product .container .rich-content h2, .featured-product .container .rich-content a {
+			background-color: {{ featured_bg_1 }};
+		}
+	</style>
+{% endif %}
+
+{% assign featured_text_color_1 = page.metafields.custom_fields["featured_content_text_color_1"] | strip %}
+{% if featured_text_color_1 != blank and featured_text_color_1 contains "#" and featured_text_color_1.size == 7 %}
+	<style>
+		.featured-product .container .rich-content, .featured-product .container .rich-content h2, .featured-product .container .rich-content p, .featured-product .container .rich-content a {
+			color: {{ featured_text_color_1 }} !important;
+		}
+	</style>
+{% endif %}
+
+{% assign featured_bg_2 = page.metafields.custom_fields["featured_content_2_bg_col"] | strip %}
+{% if featured_bg_2 != blank and featured_bg_2 contains "#" and featured_bg_2.size == 7 %}
+	<style>
+		.featured-product-2 .container .rich-content, .featured-product-2 .container .rich-content h2, .featured-product-2 .container .rich-content a {
+			background-color: {{ featured_bg_2 }} !important;
+		}
+	</style>
+{% endif %}
+
+{% assign featured_text_2_color = page.metafields.custom_fields["featured_content_2_text_color"] | strip %}
+{% if featured_text_color_2 != blank and featured_text_color_2 contains "#" and featured_text_color_2.size == 7 %}
+	<style>
+		.featured-product-2 .container .rich-content, .featured-product-2 .container .rich-content h2, .featured-product-2 .container .rich-content p, .featured-product-2 .container .rich-content a {
+			color: {{ featured_text_color_2 }} !important;
+		}
+	</style>
+{% endif %}
+
+<style>
+	.no-padding-left {
+		padding-left: 0px !important;
+	}
+	.template-full-page-featured-contact .bodyWrap-spacer {
+		padding-top: 125px;
+	}
+</style>

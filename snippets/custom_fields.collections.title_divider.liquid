@@ -1,0 +1,8 @@
+{% if collection.metafields.custom_fields["title_divider"] != blank %}
+  <div class="custom-field custom-field__title-divider custom-field__type--image">
+    <h3 class="custom-field--title">Title Divider</h3>
+    <div class="custom-field--value">  
+      {% render 'cf-image' with image: collection.metafields.custom_fields["title_divider"] %}
+    </div>
+  </div>
+{% endif %}

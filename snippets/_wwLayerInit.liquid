@@ -1,0 +1,105 @@
+{% capture renderedLiquidObject %}
+{
+    {% render "_wwLayer-liquidRenderer" %}
+}
+{% endcapture %}
+{% capture pageType %}{% if order %}order-summary{% elsif checkout %}checkout{% else %}{{ request.page_type }}{% endif %}{% endcapture %}
+
+
+
+
+{% assign  schemaPropertyField = "" %}
+{% assign liquidDeterminedEvent = "" %}
+
+{% capture templateFields %}
+{% case pageType %}
+    {% when "customers/account" %}
+    {% assign schemaPropertyField = "ShopifyCustomer" %}
+    {% assign liquidDeterminedEvent = "VIEW_ACCOUNT" %}
+    full_name,first_name,last_name,tags,orders_count,total_spent,has_account
+    {% when "product" %}
+    {% assign schemaPropertyField = "ShopifyProduct" %}
+    {% assign liquidDeterminedEvent = "VIEW_PRODUCT" %}
+    available,product_title,product_id,product_handle,product_type,tags,product_image,images,url,requires_selling_plan,selected_variant_id,selected_selling_plan,selected_purchase_type,product_options,variants
+    {% when "collection" %}
+    {% assign schemaPropertyField = "ShopifyCollection" %}
+    {% assign liquidDeterminedEvent = "VIEW_COLLECTION" %}
+    collection_title
+    {% when "article" %}
+    {% assign schemaPropertyField = "ShopifyArticle" %}
+    {% assign liquidDeterminedEvent = "VIEW_ARTICLE" %}
+    article_title
+    {% when "blog" %}
+    {% assign schemaPropertyField = "ShopifyBlog" %}
+    {% assign liquidDeterminedEvent = "VIEW_BLOG" %}
+    blog_title
+    {% when "cart" %}
+    {% assign liquidDeterminedEvent = "VIEW_CART" %}
+    {% when "checkout" %}
+    {% assign liquidDeterminedEvent = "REACH_CHECKOUT" %}
+    {% when "order-summary" %}
+    {% assign schemaPropertyField = "ShopifyOrder" %}
+    {% assign liquidDeterminedEvent = "COMPLETE_CHECKOUT" %}
+    order_id,order_name,order_number,financial_status,isCustomersFirstOrder,customer_tags,discounts_used,items,shippingAddress_address1,shippingAddress_address2,shippingAddress_city,shippingAddress_province_code,shippingAddress_zip,shippingAddress_country_code,billingAddress_address1,billingAddress_address2,billingAddress_city,billingAddress_province_code,billingAddress_zip,billingAddress_country_code
+{% endcase %}
+{% endcapture %}
+
+<script>
+    var liquidBlob = {{ renderedLiquidObject | strip_newlines | strip }};
+    var liquidBlob_RouteFields = "{{ templateFields | strip_newlines | strip }}";
+    var schemaPropertyField = "{{ schemaPropertyField }}";
+    var liquidDeterminedEvent = "{{ liquidDeterminedEvent }}";
+    var wwPageType = "{{ pageType }}";
+    console.log(liquidBlob)
+    var wwGetFromLiquidBlob = function(stringOfFields) {
+        var fieldsToGet = stringOfFields.split(",");
+        var outputObj = {};
+        for (var i in fieldsToGet) {
+            var fieldName = fieldsToGet[i];
+            if (liquidBlob[fieldName]) {
+                outputObj[fieldName] = liquidBlob[fieldName]
+            }
+        }
+        return outputObj;
+    };
+    window.wwPageType = wwPageType;
+    window.wwLayer = window.wwLayer || [];
+    window.wwLayer.push({
+        _type: "data",
+        key: "ShopifySession",
+        value: wwGetFromLiquidBlob("shop_url,myshopify_url,template_name,template_suffix,customer_id,customer_phone,customer_email,customer_accepts_marketing,currency_code,currency_rate,locale,request_country_code,url,isShopifyPlus,pageType")
+    });
+    window.wwLayer.push({
+        _type: "event",
+        key: "VIEW_PAGE",
+        value: {}
+    });
+    // on specific routes
+    if (schemaPropertyField) {
+        window.wwLayer.push({
+            _type: "data",
+            key: schemaPropertyField,
+            value: wwGetFromLiquidBlob(liquidBlob_RouteFields)
+        });
+    }
+    if (wwPageType === "order-summary") {
+        window.wwLayer.push({_type: "config", value: { loadCartWithInit: false } });
+        window.wwLayer.push({
+            _type: "data",
+            key: "ShopifyCart",
+            value: wwGetFromLiquidBlob("items,currency_code")
+        });
+        window.wwLayer.push({
+            _type: "data",
+            key: "ShopifyCustomer",
+            value: wwGetFromLiquidBlob("full_name,first_name,last_name,tags,orders_count,total_spent,has_account")
+        });
+    }
+    if (liquidDeterminedEvent) {
+        window.wwLayer.push({
+            _type: "event",
+            key: liquidDeterminedEvent,
+            value: {}
+        });
+    }
+</script>

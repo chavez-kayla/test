@@ -1,0 +1,57 @@
+{% assign lastElementClass = '' %}
+
+{% if showFeatured %}
+	{% assign lastRowItems = articleLimit | minus: articleColumns | plus: 1 %}
+	{% if forloop.index > lastRowItems %}
+		{% assign lastElementClass = 'visually-hidden' %}
+	{% endif %}
+{% endif %}
+
+{% capture article_excerpt %}
+	{{ article.excerpt_or_content | strip_html | strip | truncatewords: 50 }}
+{% endcapture %}
+
+{% assign feat_img = '' %}
+{% if article.image %}
+	{% assign feat_img = article.image %}
+{% elsif section.settings.default_post_image != blank %}
+	{% assign feat_img = section.settings.default_post_image %}
+{% endif %}
+
+<a href="{{ article.url }}" aria-label="{{ article.title }}" title="{{ article.title }}" class="blogModule-posts-post block s1 med_s12 lg_s1{{ columnsSize }} {% unless article.image or section.settings.default_post_image %}blogModule-posts-post--no-image{% else %}blogModule-posts-post--has-image{% endunless %} {{ lastElementClass }} {% if settings.transition_grid_items %}will-animate{% endif %}" data-animation="fadeInUp">
+	<div class="carousel-slide-image lazyload fade-in"
+	{% if article.image or section.settings.default_post_image %}
+	data-bgset="{% include 'bgset', image: feat_img %}"
+	data-sizes="auto"
+	data-parent-fit="cover"
+	{% endif %}></div>
+	<noscript>
+		<div class="carousel-slide-image" style="background-image:url('{{ feat_img | img_url: '2048x' }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;"></div>
+	</noscript>
+
+	<div class="carousel-slide-info">
+		{%- if section.settings.tags -%}
+			{% assign tag_list = article.tags | join: ', ' %}
+			{% assign cat_tag_comma = block.settings.category_tag | append: ', ' %}
+			{% assign final_tag_list = tag_list | remove: cat_tag_comma | remove: block.settings.category_tag %}
+			{% assign article_tag_count = article.tags.size | minus: 1 %}
+			{% if article_tag_count == 1 %}
+				{% assign final_tag_list = final_tag_list | remove: ',' %}
+			{% endif %}
+			{{ tag_array_count }}
+			<p class="post-tags">{{ final_tag_list | upcase }}</p>
+		{%- endif -%}
+		<p class="h3">{{ article.title }}</p>
+		<p class="excerpt">{{ article_excerpt }}</p>
+		
+		{%- if section.settings.grid_post_date -%}
+			<p class="post-date desktop-only">{{ article.published_at | date: '%B %d, %Y' }}</p>
+		{%- endif -%}
+		
+		<p class="read-more">READ MORE</p>
+
+	{%- if section.settings.author -%}
+		<p class="post-author">{{ article.user.first_name }} {{ article.user.last_name }}</p>
+	{%- endif -%}
+	</div>
+</a>

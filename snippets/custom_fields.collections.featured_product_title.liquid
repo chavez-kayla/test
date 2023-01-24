@@ -1,0 +1,8 @@
+{% if collection.metafields.custom_fields["featured_product_title"] != blank %}
+  <div class="custom-field custom-field__featured-product-title custom-field__type--text">
+    <h3 class="custom-field--title">Featured Product Title</h3>
+    <div class="custom-field--value">
+      {{ collection.metafields.custom_fields["featured_product_title"] }}
+    </div>
+  </div>
+{% endif %}

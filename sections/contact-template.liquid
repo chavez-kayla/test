@@ -1,0 +1,44 @@
+{% comment %} Settings {% endcomment %}
+{% assign banner = section.settings.banner %}
+
+{% assign contact_heading = page.title %}
+{% assign contact_content = page.content %}
+
+{% include 'contact-section' %}
+{% schema %}
+	{
+		"name": "Contact pages",
+		"settings": 
+		[  
+			{
+				"type": "header",
+				"content": "Banner image"
+			},
+			{
+				"type": "image_picker",
+				"id": "banner",
+				"label": "Image"
+			},
+          {
+				"type": "text",
+				"id": "title-1",
+				"label": "Heading 1"
+			},
+          {
+				"type": "richtext",
+				"id": "text-1",
+				"label": "Text 1"
+			},
+          {
+				"type": "text",
+				"id": "title-2",
+				"label": "Heading 2"
+			},
+          {
+				"type": "richtext",
+				"id": "text-2",
+				"label": "Text 2"
+			}
+		]
+	}
+{% endschema %}

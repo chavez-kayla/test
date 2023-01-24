@@ -1,0 +1,296 @@
+{% if product.metafields.custom_fields["featured_image_banner"] != blank or product.metafields.custom_fields["whats_included_title"] != blank or product.metafields.custom_fields["featured_content_1_title"] != blank or product.metafields.custom_fields["featured_content_2_title"] != blank %}
+	<div id="featured_content" class="row jumbo-section">
+	
+		{% if product.metafields.custom_fields["featured_image_banner"] != blank %}
+			<div class="featured_image_banner">
+				{% if product.metafields.custom_fields["featured_image_banner_alt"] != blank %}
+					{% assign featured_banner_alt = product.metafields.custom_fields["featured_image_banner_alt"] | escape %}
+				{% else %}
+					{% assign featured_banner_alt = product.title %}
+				{% endif %}
+				{% if product.metafields.custom_fields["featured_image_banner_link"] != blank %}
+					<a href="{{ product.metafields.custom_fields['featured_image_banner_link'] }}">
+				{% endif %}
+				{% if product.metafields.custom_fields["featured_image_banner_mobile"] != blank %}
+					<div class="mobile-only">
+						{{ product.metafields.custom_fields["featured_image_banner_mobile"]| img_tag: featured_banner_alt }}
+					</div>
+					<div class="desktop-only">
+						{{ product.metafields.custom_fields["featured_image_banner"] | img_tag: featured_banner_alt }}
+					</div>
+				{% else %}
+					<div>
+						{{ product.metafields.custom_fields["featured_image_banner"] | img_tag: featured_banner_alt }}
+					</div>
+				{% endif %}
+				{% if product.metafields.custom_fields["featured_image_banner_link"] != blank %}
+					</a>
+				{% endif %}
+			</div>
+		{% endif %}
+	
+		{% if product.metafields.custom_fields["whats_included_title"] != blank or product.metafields.custom_fields["whats_included_text"] != blank %}
+			<div class="simple-image-text-module container-wrap included" data-section-type="rich-text">
+				<div class="container pad-sm">
+					<div class="row row--split row-lg">
+						{% if product.metafields.custom_fields["whats_included_image"] != blank %}
+							<div class="image no-padding-right">
+								<a href="{{ product.metafields.custom_fields["whats_included_image"] }}" class="product-image-lightbox">
+									{{ product.metafields.custom_fields["whats_included_image"].value | img_tag: product.metafields.custom_fields["whats_included_title"] }}
+								</a>
+							</div>
+						{% endif %}
+						<div class="rich-content no-button align--left lg_align--left jumbo-padding">
+							<div class="max-width">
+								<p class="extra-large">{{ product.title }}</p>
+								{% if product.metafields.custom_fields["whats_included_title"] != blank %}
+									<h2 class="size--xlarge text-bold">{{ product.metafields.custom_fields["whats_included_title"] }}</h2>
+								{% endif %}
+								{% if product.metafields.custom_fields["whats_included_text"] != blank %}
+									<div class="extra-large">{{ product.metafields.custom_fields["whats_included_text"] }}</div>
+								{% endif %}
+							</div>
+							{% if product.metafields.custom_fields["whats_included_accent_image"] != blank %}
+								<div class="accent-image desktop-only">
+									<a href="{{ product.metafields.custom_fields["whats_included_accent_image"] }}" class="product-image-lightbox">
+										{{ product.metafields.custom_fields["whats_included_accent_image"].value | img_tag: product.metafields.custom_fields["whats_included_title"] }}
+									</a>
+								</div>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+	
+		{% if product.metafields.custom_fields["whats_included_items"] != blank %}
+			<div class="simple-image-text-module container-wrap">
+			  <div class="container pad-sm">
+					<div class="row row-lg padding-top">
+				    <h2 class="size--xlarge text-bold text-center">{{ product.metafields.custom_fields["whats_included_items_title"] }}</h2>
+						<div class="included-row">
+							{% assign separator = "|###|" %}
+							{% assign item_title_array = product.metafields.custom_fields["item_title"] | split: separator %}
+							{% assign item_image_array = product.metafields.custom_fields["item_image"] | split: separator %}
+							{% assign item_url_array = product.metafields.custom_fields["item_url"] | split: separator %}
+							{% assign fc_keys = product.metafields.custom_fields["whats_included_items"] | split: "," %}
+							{% for i in fc_keys %}
+							  {% assign index = i | plus: 0 %}
+								<div class="block sm_s1 {% if fc_keys.size == 4 %}med_s14 lg_s14{% else %}med_s13 lg_s13{% endif %} text-center fc-index--{{ index }}">
+									{% if item_title_array[index] != blank %}
+										{% if item_url_array[index] != blank %}<a href="{{ item_url_array[index] }}">{% endif %}
+											<p class="extra-large text-center text-semi-bold">+<br>{{ item_title_array[index] }}</p>
+										{% if item_url_array[index] != blank %}</a>{% endif %}
+									{% endif %}
+									{% if item_image_array[index] != blank %}
+										{% if item_url_array[index] != blank %}<a href="{{ item_url_array[index] }}">{% endif %}
+											<div class="image padding">
+												<img src="{{ item_image_array[index] }}" alt="{{ item_title_array[index] }}">
+											</div>
+										{% if item_url_array[index] != blank %}</a>{% endif %}
+									{% endif %}
+							  </div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>		
+		{% endif %}
+	
+		{% if product.metafields.custom_fields["featured_content_bg_color"] != blank %}<div class="featured-content-wrapper padding">{% endif %}
+			{% if product.metafields.custom_fields["featured_content_1_title"] != blank or product.metafields.custom_fields["featured_content_1_text"] != blank %}
+				<div class="simple-image-text-module container-wrap featured-content" data-section-type="rich-text">
+					<div class="container pad-sm">
+						<div class="row row--split row-lg">
+							{% if product.metafields.custom_fields["featured_video"] != blank %}
+								<div class="featured_video image desktop-only">
+									{{ product.metafields.custom_fields["featured_video"] }}
+								</div>
+							{% elsif product.metafields.custom_fields["featured_content_1_image"] != blank %}
+								<div class="image padding-bottom">
+									{% if product.metafields.custom_fields["featured_content_1_image_hover"] != blank %}
+										<div class="reveal">
+											<a href="{{ product.metafields.custom_fields["featured_content_1_image"] }}" class="product-image-lightbox">
+												{{ product.metafields.custom_fields["featured_content_1_image"].value | img_tag: product.metafields.custom_fields["featured_content_1_title"] }}
+												<div class="hidden">
+													{{ product.metafields.custom_fields["featured_content_1_image_hover"].value | img_tag: product.metafields.custom_fields["featured_content_1_title"] }}
+												</div>
+											</a>
+										</div>
+									{% else %}
+										<a href="{{ product.metafields.custom_fields["featured_content_1_image"] }}" class="product-image-lightbox">
+											{{ product.metafields.custom_fields["featured_content_1_image"]| img_tag: product.metafields.custom_fields["featured_content_1_title"] }}
+										</a>
+									{% endif %}
+								</div>
+							{% endif %}
+							<div class="rich-content no-button align--left lg_align--left">
+								<div class="max-width">
+									{% if product.metafields.custom_fields["featured_content_1_title"] != blank %}
+										<h2 class="size--xlarge text-extra-bold">{{ product.metafields.custom_fields["featured_content_1_title"] }}</h2>
+									{% endif %}
+									{% if product.metafields.custom_fields["featured_content_1_text"] != blank %}
+										<div class="text-normal">{{ product.metafields.custom_fields["featured_content_1_text"] | remove: '<p>&nbsp;</p>' }}</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+						{% if product.metafields.custom_fields["featured_video"] != blank %}
+							<div class="featured_video mobile-only">
+								{{ product.metafields.custom_fields["featured_video"] }}
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			{% endif %}
+	
+			{% if product.metafields.custom_fields["featured_content_2_title"] != blank or product.metafields.custom_fields["featured_content_2_text"] != blank %}
+				<div class="simple-image-text-module container-wrap featured-content{% if product.metafields.custom_fields["featured_content_2_bg_color"] != blank %} padding{% endif %}"{% if product.metafields.custom_fields["featured_content_2_bg_color"] != blank %} style="background-color: {{ product.metafields.custom_fields["featured_content_2_bg_color"] }};"{% endif %} data-section-type="rich-text">
+					<div class="container pad-sm">
+						<div class="row row--split row-lg">
+							<div class="rich-content no-button align--left lg_align--left">
+								<div class="max-width">
+									{% if product.metafields.custom_fields["featured_content_2_title"] != blank %}
+										<h2 class="size--xlarge text-extra-bold">{{ product.metafields.custom_fields["featured_content_2_title"] }}</h2>
+									{% endif %}
+									{% if product.metafields.custom_fields["featured_content_2_text"] != blank %}
+										<div class="text-normal">{{ product.metafields.custom_fields["featured_content_2_text"] | remove: '<p>&nbsp;</p>' }}</div>
+									{% endif %}
+								</div>
+							</div>
+							{% if product.metafields.custom_fields["featured_content_2_image"] != blank %}
+								<div class="image">
+									{% if product.metafields.custom_fields["featured_content_2_image_hover"] != blank %}
+										<div class="reveal">
+											<a href="{{ product.metafields.custom_fields["featured_content_2_image"] }}" class="product-image-lightbox">
+												{{ product.metafields.custom_fields["featured_content_2_image"].value | img_tag: product.metafields.custom_fields["featured_content_2_title"] }}
+												<div class="hidden">
+													{{ product.metafields.custom_fields["featured_content_2_image_hover"].value | img_tag: product.metafields.custom_fields["featured_content_2_title"] }}
+												</div>
+											</a>
+										</div>
+									{% else %}
+										<a href="{{ product.metafields.custom_fields["featured_content_2_image"] }}" class="product-image-lightbox">
+											{{ product.metafields.custom_fields["featured_content_2_image"] | img_tag: product.metafields.custom_fields["featured_content_2_title"] }}
+										</a>
+									{% endif %}
+								</div>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			{% endif %}
+		{% if product.metafields.custom_fields["featured_content_bg_color"] != blank %}</div>{% endif %}
+	</div>
+	
+	{% if product.metafields.custom_fields["featured_footer_image_banner"] != blank %}
+		{% if product.metafields.custom_fields["featured_footer_banner_alt"] != blank %}
+			{% assign footer_banner_alt = product.metafields.custom_fields["featured_footer_banner_alt"] | escape %}
+		{% else %}
+			{% assign footer_banner_alt = "More info about " | append: product.title %}
+		{% endif %}
+		<div class="featured_image_banner">
+			{% if product.metafields.custom_fields["featured_footer_banner_link"] != blank %}
+				<a href="{{ product.metafields.custom_fields['featured_footer_banner_link'] }}">
+			{% endif %}
+			{% if product.metafields.custom_fields["featured_footer_banner_mobile"] != blank %}
+				<div class="mobile-only">
+					{{ product.metafields.custom_fields["featured_footer_banner_mobile"].value | img_tag: footer_banner_alt }}
+				</div>
+				<div class="desktop-only">
+					{{ product.metafields.custom_fields["featured_footer_image_banner"].value | img_tag: footer_banner_alt }}
+				</div>
+			{% else %}
+				<div>
+					{{ product.metafields.custom_fields["featured_footer_image_banner"].value | img_tag: footer_banner_alt }}
+				</div>
+			{% endif %}
+			{% if product.metafields.custom_fields["featured_footer_banner_link"] != blank %}
+				</a>
+			{% endif %}
+		</div>
+	{% endif %}
+
+	<!-- Assign metafield colors -->
+	{% assign featured_bg = product.metafields.custom_fields["featured_content_bg_color"] | strip %}
+	{% if featured_bg != blank and featured_bg contains "#" and featured_bg.size == 7 %}
+		<style>
+			#featured_content .featured-content-wrapper {
+				background: {{ featured_bg }};
+			}
+		</style>
+	{% endif %}
+
+	{% assign featured_color = product.metafields.custom_fields["featured_content_color"] | strip %}
+	{% if featured_color != blank and featured_color contains "#" and featured_color.size == 7 %}
+		<style>
+			.product-content div#featured_content .rich-content h2 {
+				color: {{ featured_color }};
+			}
+		</style>
+	{% endif %}
+
+	{% assign whats_included_color = product.metafields.custom_fields["whats_included_color"] | strip %}
+	{% if whats_included_color != blank and whats_included_color contains "#" and whats_included_color.size == 7 %}
+		<style>
+			.product-content div#featured_content .included .rich-content h2 {
+				color: {{ whats_included_color }};
+			}
+		</style>
+	{% endif %}
+
+	{% assign whats_included_bg = product.metafields.custom_fields["whats_included_bg_color"] | strip %}
+	{% if whats_included_bg != blank and whats_included_bg contains "#" and whats_included_bg.size == 7 %}
+		<style>
+			.product-content div#featured_content .included .rich-content {
+				background: {{ whats_included_bg }};
+			}
+		</style>
+	{% endif %}
+
+	<style>
+	.included .rich-content{
+		position:relative;
+	}
+	.included-row img {
+		max-width:65%;
+	}
+	.included-row a {
+		text-decoration:none;
+		color:#222;
+	}
+	.included .accent-image {
+		position: absolute;
+		right: 3%;
+		bottom: -135px;
+		z-index: 999;
+	}
+	.included .accent-image img {
+		max-width:200px;
+		border-radius: 50%;
+		-webkit-border-radius: 50%;
+		-moz-border-radius: 50%;
+	  border: 10px solid #ffffff;
+	}
+	@media only screen and (min-width:768px) and (max-width:1024px){
+		.product-content #featured_content .simple-image-text-module .row--split .image { width: 50%; }
+		.product-content #featured_content .simple-image-text-module .row--split .rich-content { padding: 30px; }
+	}
+	@media only screen and (max-width:768px){
+		.product-content div#featured_content .included .rich-content {  padding: 50px !important; }
+	}
+	@media only screen and (max-width:767px){
+		{% if whats_included_bg != blank and whats_included_bg contains "#" and whats_included_bg.size == 7 %}
+				.product-content div#featured_content .included .row {
+					background: {{ whats_included_bg }};
+				}
+		{% endif %}
+	}
+	@media only screen and (max-width:550px) {
+		.product-content div#featured_content .included .rich-content {
+			padding:30px !important;
+			margin-bottom:0px;
+		}
+	}
+	</style>
+{% endif %}

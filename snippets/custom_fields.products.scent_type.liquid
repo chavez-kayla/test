@@ -1,0 +1,8 @@
+{% if product.metafields.custom_fields["scent_type"] != blank %}
+  <div class="custom-field custom-field__scent-type custom-field__type--text">
+    <h3 class="custom-field--title">Scent Type</h3>
+    <div class="custom-field--value">
+      {{ product.metafields.custom_fields["scent_type"] }}
+    </div>
+  </div>
+{% endif %}

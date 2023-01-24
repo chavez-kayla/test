@@ -1,0 +1,8 @@
+{% if product.metafields.custom_fields["fragrance_family"] != blank %}
+  <div class="custom-field custom-field__fragrance-family custom-field__type--text">
+    <h3 class="custom-field--title">Fragrance Family</h3>
+    <div class="custom-field--value">
+      {{ product.metafields.custom_fields["fragrance_family"] }}
+    </div>
+  </div>
+{% endif %}

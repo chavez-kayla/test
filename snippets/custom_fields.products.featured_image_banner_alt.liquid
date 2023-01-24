@@ -1,0 +1,8 @@
+{% if product.metafields.custom_fields["featured_image_banner_alt"] != blank %}
+  <div class="custom-field custom-field__featured-image-banner-alt custom-field__type--text">
+    <h3 class="custom-field--title">Featured Image Banner Alt Text</h3>
+    <div class="custom-field--value">
+      {{ product.metafields.custom_fields["featured_image_banner_alt"] }}
+    </div>
+  </div>
+{% endif %}

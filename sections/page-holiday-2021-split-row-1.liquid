@@ -1,0 +1,147 @@
+<div class="simple-image-text-module container-wrap featured-product" data-section-type="rich-text">
+	<div class="container" style="background-color: {{ section.settings.bg_color }};">
+		<div class="row row--split">
+			<div class="rich-content no-button align--left lg_align--left padding" style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.heading_color }};">
+				<div class="max-width padding-top">	
+					<h2 class="size--xlarge text-bold" style="color: {{ section.settings.heading_color }};">{{ section.settings.title }}</h2>
+					<div class="extra-large">
+						<p style="color: {{ section.settings.heading_color }};">{{ section.settings.text | newline_to_br }}</p>
+					</div>
+					{% if section.settings.button_text != '' and section.settings.button_link %}
+						<div class="row margin-top extra-margin-bottom">
+							<a href="{{ section.settings.button_link }}" class="button transparent inline upcase" title="{{ section.settings.button_text | strip_html }}">{{ section.settings.button_text | strip_html }}</a>
+						</div>
+					{% endif %}
+					{% if section.settings.accent-image-1 != blank %}
+						<img src="{{ section.settings.accent-image-1 | img_url:'500x' }}" class="accent-image-1" alt="{% if section.settings.accent-image-1.alt != '' %}{{ section.settings.accent-image-1.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+					{% endif %}
+					{% if section.settings.accent-image-2 != blank %}
+						<img src="{{ section.settings.accent-image-2 | img_url:'500x' }}" class="accent-image-2" alt="{% if section.settings.accent-image-2.alt != '' %}{{ section.settings.accent-image-2.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+					{% endif %}
+				</div>
+			</div>
+			<div class="image no-padding-left">
+				{% if section.settings.video_embed != blank %}
+					{{ section.settings.video_embed }}
+				{% elsif section.settings.video_url != '' %}
+					<a href="//fast.wistia.net/embed/iframe/{{section.settings.video_url}}?autoPlay=true" data-fancybox data-type="iframe" data-width=500 data-height=411 >
+					  <img style="display: block;" src="{{ section.settings.image | img_url: '1024x' }}" alt="{% if section.settings.image.alt != '' %}{{ section.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}" />
+					</a>       
+				{% else %}
+					<a href="{% if section.settings.button_link %}{{ section.settings.button_link }}{% else %}{{ section.settings.image | img_url: '1024x' }}{% endif %}" class="collection-image-lightbox">
+						<img src="{{ section.settings.image | img_url: '1024x' }}" alt="{% if section.settings.image.alt != '' %}{{ section.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}" class="row--split-feat-image">
+					</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<style>
+	.button.transparent { 
+		color: {{ section.settings.heading_color }}; 
+		border: 1px solid {{ section.settings.heading_color }}; 
+		background: transparent; 
+		font-weight: 600;
+		font-size: 1em;
+	}
+	{% if section.settings.accent-image-1 != blank %}
+		#shopify-section-page-holiday-2021-split-row-1 .rich-content {
+			position: relative;
+		}
+		#shopify-section-page-holiday-2021-split-row-1 .accent-image-1 {
+			max-width: 100px;
+			z-index: 99;
+			bottom: -35%;
+			left: 7%;
+	    position: absolute;
+		}
+	{% endif %}
+	{% if section.settings.accent-image-2 != blank %}
+		#shopify-section-page-holiday-2021-split-row-1 .accent-image-2 {
+			max-width: 200px;
+			z-index: 99;
+			bottom: -35%;
+			right: 7%;
+	    position: absolute;
+		}
+	{% endif %}
+</style>
+
+
+{% schema %}
+{
+  "name": "Split Row 1",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text"
+    },
+		{
+		   "type": "text",
+		   "id": "button_text",
+		   "label": "Button text"
+		},
+		{
+		   "type": "url",
+		   "id": "button_link",
+		   "label": "Button link"
+		},
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Main Image"
+    },
+		{
+		   "type": "text",
+		   "id": "video_url",
+		   "label": "Wistia video ID",
+			 "info": "If URL entered video will play in modal."
+		},
+		{
+		   "type": "html",
+		   "id": "video_embed",
+		   "label": "Video Embed",
+			 "info": "If entered video will be embedded in page"
+		},
+		{
+		   "type": "header",
+		   "content": "Colors"
+		},
+		{
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+		{
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+		{
+		   "type": "header",
+		   "content": "Accent images"
+		},
+		{
+	    "type": "image_picker",
+	    "id": "accent-image-1",
+	    "label": "Accent image 1"
+	  },
+		{
+	    "type": "image_picker",
+	    "id": "accent-image-2",
+	    "label": "Accent image 2"
+	  }
+  ]
+}
+{% endschema %}

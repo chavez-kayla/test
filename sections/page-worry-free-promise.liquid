@@ -1,0 +1,172 @@
+	{% if section.settings.show_promise and product.metafields.custom_fields["hide_promise_box"] != 1 %}
+		<div id="product_promise" class="row row-lg bg-secondary jumbo-section extra-padding">
+			{% if section.settings.promise_title != blank or section.settings.promise_description != blank %}
+				<div class="block s1 med_s12 extra-padding">
+					{% if section.settings.promise_title != blank %}
+						<h2 class="size--xlarge">{{ section.settings.promise_title }}</h2>
+					{% endif %}
+					{% if section.settings.promise_description != blank %}
+						<div class="rich-content">
+							{{ section.settings.promise_description }}
+						</div>
+					{% endif %}
+				</div>
+			{% endif %}
+			<div class="block s1 med_s12 border-left dark jumbo-padding-left">
+				{% for i in (1..6) %}
+					{% assign icon_setting = 'promise_icon_' | append: i %}
+					{% assign icon_title_setting = 'promise_icon_' | append: i | append: '_title' %}
+					{% assign icon_hidden_setting = 'promise_icon_' | append: i | append: '_hidden_on' %}
+					{% assign icon_hidden_on = section.settings[icon_hidden_setting] | replace: ' ', '' | split: ',' %}
+					{% if section.settings[icon_setting] %}
+						{% unless icon_hidden_on contains product.handle %}
+							<div class="icon_wrapper flex-vertical-align-middle">
+								<div class="icon_image margin-right">
+									{{ section.settings[icon_setting] | img_url: '50x' | img_tag }}
+								</div>
+								{% if section.settings[icon_title_setting] %}
+									<div>{{ section.settings[icon_title_setting] }}</div>
+								{% endif %}
+							</div>
+						{% endunless %}
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	{% endif %}
+	
+<style>
+	#shopify-section-page-worry-free-promise {
+		background: #f2f2f3;
+	}
+</style>		
+	
+	{% schema %}
+	{
+		"name": "Promise Content",
+		"settings": [
+			{
+				"type": "checkbox",
+				"id": "show_featured_content",
+				"label": "Show Featured Content?",
+				"info": "If it has been added in custom fields for that product",
+				"default": true
+			},
+			{
+				"type": "header",
+				"content": "Promise"
+			},
+			{
+				"type": "checkbox",
+				"id": "show_promise",
+				"label": "Show Promise Box?"
+			},
+			{
+				"type": "text",
+				"id": "promise_title",
+				"label": "Promise Title"
+			},
+			{
+				"type": "richtext",
+				"id": "promise_description",
+				"label": "Promise Description"
+			},
+			{
+				"type": "image_picker",
+				"id": "promise_icon_1",
+				"label": "Promise Icon 1"
+			},
+			{
+				"type": "text",
+				"id": "promise_icon_1_title",
+				"label": "Promise Icon 1 Title"
+			},
+			{
+				"type": "text",
+				"id": "promise_icon_1_hidden_on",
+				"label": "Promise Icon 1 Hidden On",
+				"info": "Comma separated product handles"
+			},
+			{
+				"type": "image_picker",
+				"id": "promise_icon_2",
+				"label": "Promise Icon 2"
+			},
+			{
+				"type": "text",
+				"id": "promise_icon_2_title",
+				"label": "Promise Icon 2 Title"
+			},
+			{
+				"type": "text",
+				"id": "promise_icon_2_hidden_on",
+				"label": "Promise Icon 2 Hidden On",
+				"info": "Comma separated product handles"
+			},
+			{
+				"type": "image_picker",
+				"id": "promise_icon_3",
+				"label": "Promise Icon 3"
+			},
+			{
+				"type": "text",
+				"id": "promise_icon_3_title",
+				"label": "Promise Icon 3 Title"
+			},
+			{
+				"type": "text",
+				"id": "promise_icon_3_hidden_on",
+				"label": "Promise Icon 3 Hidden On",
+				"info": "Comma separated product handles"
+			},
+			{
+				"type": "image_picker",
+				"id": "promise_icon_4",
+				"label": "Promise Icon 4"
+			},
+			{
+				"type": "text",
+				"id": "promise_icon_4_title",
+				"label": "Promise Icon 4 Title"
+			},
+			{
+				"type": "text",
+				"id": "promise_icon_4_hidden_on",
+				"label": "Promise Icon 4 Hidden On",
+				"info": "Comma separated product handles"
+			},
+			{
+				"type": "image_picker",
+				"id": "promise_icon_5",
+				"label": "Promise Icon 5"
+			},
+			{
+				"type": "text",
+				"id": "promise_icon_5_title",
+				"label": "Promise Icon 5 Title"
+			},
+			{
+				"type": "text",
+				"id": "promise_icon_5_hidden_on",
+				"label": "Promise Icon 5 Hidden On",
+				"info": "Comma separated product handles"
+			},
+			{
+				"type": "image_picker",
+				"id": "promise_icon_6",
+				"label": "Promise Icon 6"
+			},
+			{
+				"type": "text",
+				"id": "promise_icon_6_title",
+				"label": "Promise Icon 6 Title"
+			},
+			{
+				"type": "text",
+				"id": "promise_icon_6_hidden_on",
+				"label": "Promise Icon 6 Hidden On",
+				"info": "Comma separated product handles"
+			}
+		]
+	}
+	{% endschema %}

@@ -1,0 +1,8 @@
+{% if product.metafields.custom_fields["featured_review_1"] != blank %}
+  <div class="custom-field custom-field__featured-review-1 custom-field__type--html">
+    <h3 class="custom-field--title">Featured Review 1</h3>
+    <div class="custom-field--value">
+      {{ product.metafields.custom_fields["featured_review_1"] }}
+    </div>
+  </div>
+{% endif %}

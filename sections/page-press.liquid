@@ -1,0 +1,97 @@
+<section class="page-title text-center container-wrap">
+  <div class="container">
+    <div class="row row-sm">
+      <h1>{% if section.settings.title != blank %}{{ section.settings.title }}{% else %}{{ page.title }}{% endif %}</h1>
+    </div>
+  </div>
+</section>
+
+{% if section.blocks.size > 0 %}
+	<div class="container-wrap margin-top">
+	  <div class="container">
+	    <div class="row row-lg">
+	
+				{% for block in section.blocks %}
+
+					<div class="press_item block lg_s14 med_s12 sm_s1 extra-margin-bottom">
+						<div class="press_item_inner" style="background-color: {{ block.settings.color }};">
+                  {% if block.settings.text %}
+                    <p class="text-center">{{ block.settings.text }}</p>
+                    {% endif %}
+						{% if block.settings.image %}
+							<div class="featured_image padding text-center margin-bottom flex-vertical-align-middle">
+								{% if block.settings.image.aspect_ratio > 2 %}
+									{{ block.settings.image | img_url: 'x50' | img_tag }}
+								{% else %}
+									{{ block.settings.image | img_url: 'x150' | img_tag }}
+								{% endif %}
+							</div>
+						{% endif %}
+						{% comment %}
+						{% if block.settings.title %}
+							<h4 class="text-center">{{ block.settings.title }}</h4>
+						{% endif %}
+                        {% endcomment %}
+						{% if block.settings.source_name %}
+							<p class="text-center">{% if block.settings.source_url %}<a aria-label="{{ block.settings.source_name }}" href="{{ block.settings.source_url }}" target="_blank" title="Opens in a new window">{% endif %}Read More</a></p>
+						{% endif %}
+					</div>
+					</div>
+			
+				{% endfor %}
+						
+	    </div>
+	  </div>
+	</div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Press page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "press",
+      "name": "Press",
+      "settings": [
+				{
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "source_name",
+          "label": "Source Name"
+        },
+        {
+          "type": "text",
+          "id": "source_url",
+          "label": "Source URL"
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Block color"
+        }
+      ]
+    } 
+  ]
+}
+{% endschema %}

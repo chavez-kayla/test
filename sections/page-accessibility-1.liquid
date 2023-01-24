@@ -1,0 +1,28 @@
+{% if section.settings.title != '' or section.settings.intro != '' %}
+	  		<h2 class="size--xlarge text-bold" class="page-title__heading size--small" style="color: {{ section.settings.color }};">{{ section.settings.title }}</h2>
+<div class="row row-lg">
+		  	<div class="page-title__text rte size--normal margin-bottom">
+					<p>{{ section.settings.intro }}</p>
+				</div>
+			</div>
+{% endif %}
+{% schema %}
+
+{
+  "name": "Section 1",
+	"class": "custom-page-intro",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro text"
+    }
+ ]
+}
+
+{% endschema %}

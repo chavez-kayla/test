@@ -1,0 +1,81 @@
+{% include 'privacy-check-start' %}
+<div class="custom-landing-page">
+{% section 'page-sun-sets-intro' %}
+{% section 'page-sun-sets-row-1' %}
+{% comment %}{% section 'page-sun-sets-row-2' %}{% endcomment %}
+</div>
+{% include 'privacy-check-end' %}
+
+<style>
+#sun-sets .bodyWrap-spacer {
+  padding-top: 120px;
+}
+@media only screen and (min-width: 1800px) {
+	#shopify-section-page-sun-sets-body-2 .featured-product:before {
+		background-size: contain;
+	  background-repeat: no-repeat;	
+		top: -55vh;
+	}
+	#shopify-section-page-sun-sets-body:before {
+		top: 100px;
+	}
+	#shopify-section-page-sun-sets-intro .featured-product:after {
+		top: -75px;
+	}
+}
+@media only screen and (max-width: 1025px) {
+	#shopify-section-page-sun-sets-intro .simple-image-text-module .container:before {
+		top: -20vh;
+		height: 20vh;
+		width: 50%;
+	}
+	#shopify-section-page-sun-sets-intro .simple-image-text-module .container:after {
+		top: -3vh;   
+	}
+	#shopify-section-page-sun-sets-body-2 .featured-product:before {
+		height: 22vh;
+		top: -22vh;
+	}
+	#shopify-section-page-sun-sets-body-2 {
+	  margin-top: 25vh;
+	}
+	#shopify-section-page-sun-sets-product-row-2:after {
+		height: 40vh;
+		margin-top: -25vh;
+	}
+}
+@media screen and (max-width: 1023px) {
+	#sun-sets .contain-width, #sun-sets .contain-width-70, #sun-sets .contain-width-60, #sun-sets .contain-width-50 {
+		width: 80%;
+	}	
+}
+@media only screen and (max-width: 769px) {
+	#sun-sets #shopify-section-page-sun-sets-intro .simple-image-text-module img.row--split-feat-image {
+		margin-top: -30vh;
+	}
+	#shopify-section-page-sun-sets-body:before {
+		top: -119px;
+	}
+}
+@media only screen and (max-width: 600px) {
+	#sun-sets #shopify-section-page-sun-sets-intro .simple-image-text-module img.row--split-feat-image {
+		margin-top: -10vh;
+	}
+	#shopify-section-page-sun-sets-product-row-3:before {
+		width: 60px;
+		height: 190px;
+		top: 220px;
+	}
+	#shopify-section-page-sun-sets-outro:after {
+		bottom: 10%;
+	}
+	#shopify-section-page-hsun-sets-body:before, #shopify-section-page-sun-sets-intro .featured-product:after {
+		width: 120px;
+		height: 120px;
+	}
+	#shopify-section-page-sun-sets-intro .featured-product:after {
+		right: 0px;
+		top: -115px;
+	}
+}
+</style>

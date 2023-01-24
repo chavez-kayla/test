@@ -1,0 +1,18 @@
+<div class="page-title extra-padding-top extra-margin-bottom">     
+	<div class="container contain-width-80">
+		<div class="row row-lg padding-top text-center">    
+			{% if section.settings.icon != blank %}
+				<img src="{{ section.settings.icon | img_url: '300x' }}" alt="{% if section.settings.icon.alt != '' %}{{ section.settings.icon.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+			{% endif %}  
+			{% if section.settings.subtitle != '' %}
+				<p class="text-extra-large no-margin-bottom">{{ section.settings.subtitle }}</p>
+			{% endif %}
+			{% if section.settings.title != '' %}
+	  		<h2 class="size--xlarge text-bold" class="page-title__heading size--small" style="color: {{ section.settings.color }};">{{ section.settings.title }}</h2>
+			{% endif %}
+			{% if section.settings.divider != blank %}
+				<img src="{{ section.settings.divider | img_url: '300x' }}" alt="{% if section.settings.divider.alt != '' %}{{ section.settings.divider.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}" class="mini-margin-top mini-margin-bottom">
+			{% endif %}
+		</div>
+	</div>
+</div>	

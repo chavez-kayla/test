@@ -1,0 +1,31 @@
+{% assign counter = 0 %}
+{% for block in section.blocks %}
+	{% assign counter = counter | plus: 1 %}
+{% endfor %}
+
+<div class="js-collectionGrid product-grid collectionGrid-row row inline EndlessClick contain-width-90 margin-auto{% if counter == 1 %} solo-item{% endif %}">
+	{% for block in section.blocks %}
+		<div class="collectionBlock js-collectionBlock block s12 sm_s12 lg_s14 is-visible text-center">
+			<a href="{{ block.settings.link }}" title="{{ block.settings.title }}"> 
+			<img src="{{ block.settings.image | img_url: '500x' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+			<h3>{{ block.settings.title }}</h3>
+			<div class="bold">{{ block.settings.text }}</div>
+			</a>
+		</div>
+	{% endfor %}
+</div>
+
+<style>
+#gift-guide .row.inline .block.solo-grid {
+	display:block;
+}
+#gift-guide .product-grid img {
+	max-width: 100%;
+}
+#gift-guide .product-grid div p {
+	color: #000;
+}
+#gift-guide .product-grid h3 {
+	margin-top:15px;
+}
+</style>

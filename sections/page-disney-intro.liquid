@@ -1,0 +1,157 @@
+{% if section.settings.title != '' %}
+	<div class="page-title extra-margin-bottom">     
+		<div class="container contain-width-80">
+			<div class="row row-lg padding-top">      
+		  	<h1 class="page-title__heading size--large" style="color: {{ section.settings.color }};">{{ section.settings.title }}</h1>
+			</div>
+		</div> 
+	</div>
+{% endif %}
+
+{% if section.settings.banner != blank %}
+	<div id="header_banner" class="margin-bottom featured_image_banner row{% if section.settings.mobile_banner != blank %} desktop-only{% endif %}">							
+		<div>
+			<img src="{{ section.settings.banner | img_url: '2048x' }}" alt="{% if section.settings.banner.alt != '' %}{{ section.settings.banner.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+		</div>
+	</div>
+{% endif %}
+
+{% if section.settings.mobile_banner != blank %}
+	<div id="header_banner" class="margin-bottom featured_image_banner row mobile-only">							
+		<div>
+			<img src="{{ section.settings.mobile_banner | img_url: '2048x' }}" alt="{% if section.settings.mobile_banner.alt != '' %}{{ section.settings.mobile_banner.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+		</div>
+	</div>
+{% endif %}
+
+{% if section.settings.image_divider != blank %}
+	<div class="text-center margin-top padding-top margin-auto image-divider">
+		<img src="{{ section.settings.image_divider | img_url: '500x' }}">
+	</div>
+{% endif %}
+
+{% if section.settings.banner_text != '' %}
+	<div class="page-title extra-padding-top extra-margin-bottom">
+			<div>
+				<div>
+			  	<div class="page-title__text rte text-extra-large extra-margin-bottom">
+						<div class="banner-text text-extra-large text-bold padding-top padding-bottom" style="color: {{ section.settings.banner_text_color }};">{{ section.settings.banner_text | newline_to_br }}</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+{% endif %}	
+
+{% if section.settings.subtitle != '' %}
+	<div class="container text-center margin-top contain-width-80">
+		<h2 class="text-jumbo text-bold margin-top extra-padding-top padding-bottom">{{ section.settings.subtitle | newline_to_br }}</h2>
+	</div>
+{% endif %}
+
+{% if section.settings.intro != '' %}
+	<div class="page-title ribbon-title extra-padding-top extra-margin-bottom">
+		<div class="container contain-width-90">
+			<div class="row row-lg">
+		  	<div class="page-title__text rte text-extra-large extra-margin-bottom">
+					<div class="ribbon text-large text-bold padding-top padding-bottom">{{ section.settings.intro | newline_to_br }}</div>
+				</div>
+			</div>
+		</div>        
+	</div>
+{% endif %}	
+
+<style>
+	.custom-landing-page .ribbon {
+		background: {{ section.settings.ribbon_color }};
+		color: #ffffff;
+	}
+	.custom-landing-page .banner-text {
+		background: {{ section.settings.banner_color }};
+		color: {{ section.settings.color }};
+	}
+	textPath {
+		font-weight: bold;
+	}
+	
+	@media only screen and (max-width: 500px) {
+		.image-divider, .image-divider img {
+			max-width: 300px;
+			margin: auto;
+		}
+	}
+</style>	
+
+{% schema %}
+{
+  "name": "Intro Content",
+  "settings": [
+	  {
+	    "type": "text",
+	    "id": "title",
+	    "label": "Heading"
+	  },
+		{
+	    "type": "image_picker",
+	    "id": "banner",
+	    "label": "Banner image"
+	  },
+		{
+	    "type": "image_picker",
+	    "id": "mobile_banner",
+	    "label": "Mobile banner image",
+			"info": "Optional"
+	  },
+    {
+      "type": "textarea",
+      "id": "banner_text",
+      "label": "Banner text",
+			"info": "Text with fullwidth background color"
+    },
+		{
+	    "type": "image_picker",
+	    "id": "image_divider",
+	    "label": "Optional image divider"
+	  },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subheading",
+			"info": "Displays underneath banner text"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro text",
+			"info": "Styled as a ribbon"
+    },
+		{
+		   "type": "header",
+		   "content": "Colors"
+		},
+		{
+      "type": "color",
+      "id": "color",
+      "label": "Heading color",
+      "default": "#000"
+    },
+		{
+      "type": "color",
+      "id": "banner_text_color",
+      "label": "Banner text color",
+      "default": "#000"
+    },
+		{
+      "type": "color",
+      "id": "banner_color",
+      "label": "Banner text background color",
+      "default": "#81c2d4"
+    },
+		{
+      "type": "color",
+      "id": "ribbon_color",
+      "label": "Ribbon background color",
+      "default": "#faa177"
+    }
+  ]
+}
+{% endschema %}

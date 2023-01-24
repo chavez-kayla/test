@@ -1,0 +1,132 @@
+<section class="page-title text-left container-wrap">
+  <div class="container">
+    <div class="row row-sm inline">
+			<h1>{% if section.settings.title != blank %}{{ section.settings.title }}{% else %}{{ page.title }}{% endif %}</h1>
+			{% if section.settings.intro != blank %}
+				<p>{{ section.settings.intro }}</p>
+			{% endif %}
+    </div>
+  </div>
+</section>
+
+{% if shop.metafields.custom_fields["ingredients"] != blank %}
+	<div class="container-wrap">
+	  <div class="container">
+			<div class="ingredients row row-sm" aria-label="Ingredients Information" role="grid" aria-readonly="true">
+              <div role="rowgroup">
+				<div class="ingredient ingredient-header" role="row">
+					<div class="block s1 lg_s13 bold border-right" role="columnheader"><div class="padding">Ingredient</div></div>
+					<div class="block s1 lg_s13 bold border-right" role="columnheader"><div class="padding">Historical Purpose</div></div>
+					<div class="block s1 lg_s13 bold" role="columnheader"><div class="padding">Products</div></div>
+				</div>
+              </div>
+	      {% assign separator = "|###|" %}
+	      {% assign ingredient_name_array = shop.metafields.custom_fields["ingredient_name"] | split: separator %}
+	      {% assign ingredient_description_array = shop.metafields.custom_fields["ingredient_description"] | split: separator %}
+	      {% assign ingredient_products_array = shop.metafields.custom_fields["ingredient_products"] | split: separator %}
+	      {% assign fc_keys = shop.metafields.custom_fields["ingredients"] | split: "," %}
+	      {% for i in fc_keys %}
+	        {% assign index = i | plus: 0 %}
+					{% if ingredient_name_array[index] != blank %}
+		        <div id="{{ ingredient_name_array[index] | handle }}" class="ingredient" role="row">
+							<div class="ingredient-name block s1 lg_s13 border-right" role="gridcell">
+								<div class="padding">
+									<p>{{ ingredient_name_array[index] }}</p>
+								</div>
+							</div>
+							<div class="ingredient-description block s1 lg_s13 border-right" role="gridcell">
+								<div class="padding">
+									<p class="mobile-only semi-bold">Historical Purpose</p>
+			          	<p>{{ ingredient_description_array[index] }}</p>
+								</div>
+							</div>
+							<div class="ingredient-products block s1 lg_s13" role="gridcell">
+								<div class="padding">
+									<p class="mobile-only semi-bold">Products</p>
+									{% if ingredient_products_array[index] != blank %}
+										<ul>
+											{%- assign product_handles = ingredient_products_array[index] | split: '|' -%}
+											{%- for product_handle in product_handles -%}
+												{% assign product_title_clean = product_handle | replace: '-1', '' | replace: '-2-pack', '' | replace: 'sweet-peach-green-tea', '' | replace: 'copy-of-', '' %}
+												{% assign product_title_clean = product_title_clean  | replace: '-', ' ' %}
+												{% assign product_title_array = product_title_clean | split: ' ' %}
+												{% capture product_title %}
+												  {% for word in product_title_array %}
+												    {{ word | capitalize }}
+												  {% endfor %}
+												{% endcapture %}
+												<li class="product--{{ product_handle }}"><a href="/products/{{ product_handle }}">{{ product_title }}</a></li>
+											{%- endfor -%}
+					          </ul>
+									{% endif %}
+								</div>
+							</div>
+		        </div>
+					{% endif %}
+	      {% endfor %}
+	    </div>
+	  </div>
+	</div>
+	
+	{% if section.settings.colorize_products and section.blocks.size > 0 %}
+		<style>
+		{% for block in section.blocks %}
+			.product--{{ block.settings.product }} a { color: {{ block.settings.color }}; }
+		{% endfor %}
+		</style>
+	{% endif %}
+	
+{% endif %}
+
+{% comment %}
+<!--replace: 'spf-', '' |-->
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "Ingredients page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro"
+    },
+    {
+      "type": "checkbox",
+      "id": "colorize_products",
+      "label": "Colorize products"
+    },
+    {
+      "type": "paragraph",
+      "content": "Ingredients displayed are set in the Global section of the shop's Custom Fields."
+    },
+    {
+      "type": "paragraph",
+      "content": "Colors can be set for individual product associations using the blocks below."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "color",
+      "name": "Color",
+      "settings": [
+				{
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Color"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

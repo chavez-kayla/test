@@ -1,0 +1,35 @@
+{% if shop.metafields.custom_fields["fragrance_swatches"] != blank %}
+  <div class="custom-field custom-field__fragrance-swatches custom-field__type--field-collection-json">
+    <h3 class="custom-field--title">Swatches - Fragrances</h3>
+    <div class="custom-field--value">
+      {% for item in shop.metafields.custom_fields["fragrance_swatches"] %}
+        <div class="fc-item fc-index--{{ forloop.index0 }}">
+           {% if item["swatch_title"] != blank %}
+             <div class="fc-field field__swatch-title field-type--text">
+               <h4 class="custom-field--title">Fragrance Name</h4>
+               <div class="custom-field--value">
+                 {{ item["swatch_title"] }}
+               </div>
+             </div>
+           {% endif %}
+           {% if item["swatch_hex"] != blank %}
+             <div class="fc-field field__swatch-hex field-type--text">
+               <h4 class="custom-field--title">Swatch Color</h4>
+               <div class="custom-field--value">
+                 {{ item["swatch_hex"] }}
+               </div>
+             </div>
+           {% endif %}
+           {% if item["swatch_image"] != blank %}
+             <div class="fc-field field__swatch-image field-type--image">
+               <h4 class="custom-field--title">Swatch Image</h4>
+               <div class="custom-field--value">
+                 {{ item["swatch_image"] }}
+               </div>
+             </div>
+           {% endif %}
+         </div>
+       {% endfor %}
+    </div>
+  </div>
+{% endif %}

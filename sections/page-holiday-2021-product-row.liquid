@@ -1,0 +1,149 @@
+<div class="no-margin extra-padding-top">
+	{% if section.settings.title != '' or section.settings.intro != '' %}
+		{% if section.settings.accent-image != blank %}
+			<div class="bow padding-top">
+				<img class="text-center" src="{{ section.settings.accent-image | img_url: '300x' }}" alt="{% if section.settings.accent-image.alt != '' %}{{ section.settings.accent-image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+			</div>
+		{% endif %}
+		<div class="page-title padding-top extra-margin-bottom">     
+			<div class=" container contain-width-80">
+				<div class="row row-lg padding-top">      
+			  	<h1 class="page-title__heading size--small" style="color: {{ section.settings.color }};">{{ section.settings.title }}</h1>
+				</div>
+			</div>
+			<div class="container contain-width-80">
+				<div class="row row-lg">
+			  	<div class="page-title__text rte size--normal extra-margin-bottom">
+						<p>{{ section.settings.intro }}</p>
+					</div>
+				</div>
+			</div>        
+		</div>
+	{% endif %}
+	
+	<div class="js-collectionGrid collectionGrid-row row inline EndlessClick contain-width-80 margin-auto">
+		{% for block in section.blocks %}
+			<div class="collectionBlock js-collectionBlock block s12 sm_s12 lg_s13  is-visible text-center">
+				<a href="{{ block.settings.link }}" title="{{ block.settings.title }}"> 
+				<img src="{{ block.settings.image | img_url: '500x' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+				<div class="contain-width-80 margin-auto">
+					<h3>{{ block.settings.title }}</h3>
+					<div class="bold price">{{ block.settings.text }}</div>
+				</div>
+				</a>
+			</div>
+		{% endfor %}
+	</div>
+
+</div>
+
+<style>
+	#shopify-section-page-holiday-2021-product-row { position: relative; }
+	#shopify-section-page-holiday-2021-product-row:before {
+		content: '';
+    width: 100%;
+    height: 30vh;
+		left: 0;
+		top: 0;
+		background-size: cover;
+		background-position: center right;
+		background-repeat: no-repeat;
+    display: block;
+    position: absolute;
+		background: {{ section.settings.bg_color }};
+	}
+	#shopify-section-page-holiday-2021-product-row .collectionGrid-row img {
+		max-width: 100%;
+	}
+	#shopify-section-page-holiday-2021-product-row .collectionGrid-row div p {
+		color: #000;
+	}
+	#shopify-section-page-holiday-2021-product-row .collectionGrid-row h3 {
+		margin-top:15px;
+	}
+	{% if section.settings.border-image != blank %}
+		#shopify-section-page-holiday-2021-product-row:after {
+			content: '';
+	    width: 100%;
+	    height: 20vh;
+			left: 0;
+			bottom: 30vh;
+			background-size: cover;
+	    display: block;
+	    position: absolute;
+			background-image: url('{{ section.settings.border-image | img_url: '2400x' }}');
+		}
+	{% endif %}
+	@media only screen and (min-width: 1800px) {
+		#shopify-section-page-holiday-2021-product-row:after {
+			bottom: 6vh;
+		}
+	}
+</style>
+
+{% schema %}
+{
+  "name": "Product Row",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro text"
+    },
+		{
+		   "type": "header",
+		   "content": "Design"
+		},
+		{
+      "type": "color",
+      "id": "color",
+      "label": "Heading color",
+      "default": "#000"
+    },
+		{
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#fff"
+    },
+		{
+	    "type": "image_picker",
+	    "id": "border-image",
+	    "label": "Border image"
+	  }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Product",
+      "settings": [
+				{
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+				{
+        	"type": "text",
+        	"id": "title",
+        	"label": "Title"
+       	},
+				{
+				   "type": "richtext",
+				   "id": "text",
+				   "label": "Text"
+				},
+				{
+        	"type": "url",
+        	"id": "link",
+        	"label": "Link"
+       	}
+      ]
+    }
+  ]
+}
+{% endschema %}

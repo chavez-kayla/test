@@ -1,0 +1,33 @@
+{% if section.settings.banner != blank %}
+	<div id="header_banner" class="featured_image_banner row">							
+		<div>
+			<img src="{{ section.settings.banner | img_url: '2048x' }}" alt="{% if section.settings.banner.alt != '' %}{{ section.settings.banner.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+		</div>
+	</div>
+{% endif %}
+
+{% if section.settings.image_mobile %}
+<div class="image-mobile">
+  <img src = "{{ section.settings.image_mobile | img_url: '500x'}}" alt="{% if section.settings.image.alt != '' %}{{ section.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+</div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Banner",
+	"settings": [
+    {
+	    "type": "image_picker",
+	    "id": "banner",
+	    "label": "Banner image"
+	  },
+	{
+ 		"type": "image_picker",
+		"id": "image_mobile",
+		"label": "Image mobile",
+		"info": "Desktop image will be used if not set"
+     }
+  ]
+}
+
+{% endschema %}

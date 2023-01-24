@@ -1,0 +1,19 @@
+{% section 'blog-navigation' %}
+{% if current_tags == blank %}
+	{% section 'blog-featured-post' %}
+	{% section 'blog-featured-split-row-1' %}
+	{% section 'blog-featured-quote' %}
+	{% section 'blog-affirmations' %}
+	{% section 'blog-featured-category' %}
+	{% section 'blog-product-slider' %}
+	{% section 'blog-newsletter' %}
+	{% section 'blog-featured-split-row-2' %}
+	{% section 'blog-tubby-tip' %}
+	{% section 'blog-calendar' %}
+{% endif %}
+{% section 'blog-grid' %}
+<div class="scroll-to-top">
+	<img src="{{ 'scroll-icon.png' | file_url }}" alt="Scroll to top" class="top-scroll">
+</div>
+{% section 'blog-footer' %}
+{% include 'blog-scripts' %}

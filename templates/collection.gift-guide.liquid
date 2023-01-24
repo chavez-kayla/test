@@ -1,0 +1,121 @@
+{% section 'collection-gift-guide-intro' %}
+{% section 'custom-fields-collections' %}
+{% section 'collection-gift-guide-product-row-1' %}
+{% section 'collection-gift-guide-product-row-2' %}
+{% section 'collection-gift-guide-product-row-3' %}
+{% section 'collection-gift-guide-product-row-4' %}
+{% section 'collection-gift-guide-product-row-5' %}
+{% section 'collection-gift-guide-product-row-6' %}
+
+<style>
+	body#gift-guide .bodyWrap-spacer {
+	    padding-top: 120px;
+	}
+	body#gift-guide .container {
+		max-width: 2500px;
+	}
+	body#gift-guide a:hover img {
+		opacity: 1;
+	}
+	@media screen and (min-width: 1024px) {
+		#gift-guide .product-grid.row.inline {
+			text-align: center;
+		}
+		#gift-guide .row.inline .lg_s14 {
+		  padding: 10px;
+		}
+	}
+	@media only screen and (max-width: 551px) {
+		#shopify-section-collection-gift-guide-intro .page-title {
+			padding-top: 0;
+		}
+		body#gift-guide .row.row-lg {
+			width: 100%;
+		}
+		body#gift-guide .bodyWrap-spacer {
+		    padding-top: 90px;
+		}
+		#gift-guide .product-grid.row.inline.solo-item {
+			text-align: center;
+		}
+		#shopify-section-collection-gift-guide-product-row-2:after {
+			display: none;
+		}
+		#header_banner .page-title.extra-padding-top {
+			padding-top: 10px !important;
+		}
+		body#gift-guide .contain-width-80 {
+			width: 90%;
+		}
+		#shopify-section-collection-gift-guide-product-row-1 .bg-block, #shopify-section-collection-gift-guide-product-row-3 .bg-block {
+			height: 95%;
+		}
+		#shopify-section-collection-gift-guide-product-row-5 .bg-block {
+			
+		}
+		#shopify-section-collection-gift-guide-product-row-1 .bg-block, #shopify-section-collection-gift-guide-product-row-3 .bg-block, #shopify-section-collection-gift-guide-product-row-5 .bg-block {
+			background-image: url('{{ 'green-color-block.jpg' | file_url }}');
+		}
+		#shopify-section-collection-gift-guide-product-row-3:before {
+			content: '';
+			top: -31%;
+			right: 10%;
+			width: 80px;
+	    height: 80px;
+			background-image: url('{{ '3_stars.png' | file_url }}');
+			display: block;
+			position: absolute;
+			background-size: contain;
+	    background-repeat: no-repeat;
+		}
+		#shopify-section-collection-gift-guide-product-row-6:after {
+			width: 100px;
+	    height: 100px;
+			top: -55%;
+	    left: 10px;
+		}
+		#shopify-section-collection-gift-guide-product-row-5:before {
+			bottom: -10px;
+			right: 5px;
+			top: auto;
+		}
+		#shopify-section-collection-gift-guide-product-row-5:after {
+			width: 50px;
+	    height: 50px;
+	    top: -24%;
+	    right: 5%;
+	    left: auto;
+		}
+		#shopify-section-collection-gift-guide-intro .page-title:after {
+			width: 100px;
+	    height: 100px;
+	    z-index: 99;
+	    bottom: -60%;
+	    right: -20px;
+		}
+		#shopify-section-collection-gift-guide-product-row-1:after {
+			bottom: -105%;
+		}
+		#shopify-section-collection-gift-guide-product-row-2:before {
+	    top: -30px;
+	    left: 10px;
+		}
+		#shopify-section-collection-gift-guide-product-row-4:before {
+	    bottom: 12%;
+	    right: 20%;
+			left: auto;
+		}
+		#shopify-section-collection-gift-guide-product-row-5 .bg-block:after {
+			display: block;
+	    content: '';
+	    width: 100%;
+	    bottom: 0px;
+	    height: 90px;
+	    top: 99%;
+	    position: absolute;
+	    background-size: 105%;
+	    background-position: bottom left;
+	    background-image: url('{{ 'green-color-block.jpg' | file_url }}');
+		}
+	}
+</style>

@@ -1,0 +1,73 @@
+<section class="page-title container-wrap">
+  <div class="container">
+    <div class="row row-lg inline u-center">
+      <h1>{{ page.title }}</h1>
+    </div>
+  </div>
+</section>
+
+<div class="container-wrap">
+  <div class="container text-content rich-content paragraph--xlarge rte">
+    <div class="row row-sm">
+      {{ page.content }}
+    </div>
+		{% if page.metafields.custom_fields["page_rows"] != blank %}
+			<section class="gallery-wrap container-wrap style-default style-nav-text" id="gallery-module-{{ section.id }}" data-section-type="gallery">
+				<div class="gallery gallery--margins">
+		      {% assign separator = "|###|" %}
+		      {% assign image_alignment_array = page.metafields.custom_fields["image_alignment"] | split: separator %}
+		      {% assign image_array = page.metafields.custom_fields["image"] | split: separator %}
+					{% assign title_array = page.metafields.custom_fields["title"] | split: separator %}
+					{% assign subtitle_array = page.metafields.custom_fields["subtitle"] | split: separator %}
+		      {% assign text_array = page.metafields.custom_fields["text"] | split: separator %}
+		      {% assign fc_keys = page.metafields.custom_fields["page_rows"] | split: "," %}
+		      {% for i in fc_keys %}
+		        {% assign index = i | plus: 0 %}
+						{%- assign customTitle = title_array[index] -%}
+						{%- assign customSubheading = subtitle_array[index] -%}
+						{%- assign customContent = text_array[index] -%}
+						{%- assign image_url = image_array[index] -%}
+						{%- assign imagePosition = image_alignment_array[index] | downcase -%}
+						{%- assign imageWidth = 'med_s12' -%}
+						{%- assign contentWidth = 'med_s12' -%}
+						
+						<div class="row row-med">
+								{%- capture image -%}
+									<div class="gallery-image block s1 {{ imageWidth }}">
+										<img src="{{ image_url }}" alt="{{ customTitle }}">
+									</div>
+								{%- endcapture -%}
+
+								{%- if imagePosition == 'left' -%}
+									{{ image }}
+								{%- endif -%}
+
+								{% if customTitle != blank or customSubheading != blank or customContent != blank %}
+								<div class="gallery-content block s1 {{ contentWidth }}">
+									<div class="gallery-content-inner">
+										{% if customSubheading != blank %}
+											<h4 class="subheading-text">{{ customSubheading }}</h4>
+										{% endif %}
+										{% if customTitle != blank %}
+											<h2>{{ customTitle }}</h2>
+										{% endif %}
+										{% if customContent != blank %}
+											<div class="text-left">
+												{{ customContent }}
+											</div>
+										{% endif %}
+									</div>
+								</div>
+								{% endif %}
+
+								{%- if imagePosition == 'right' -%}
+									{{ image }}
+								{%- endif -%}
+						</div>
+						
+		      {% endfor %}
+		    </div>
+			</section>
+		{% endif %}
+  </div>
+</div>

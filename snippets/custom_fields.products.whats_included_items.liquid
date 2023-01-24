@@ -1,0 +1,26 @@
+{% if product.metafields.custom_fields["whats_included_items"] != blank %}
+  <div class="custom-field custom-field__whats-included-items custom-field__type--field-collection">
+    <h3 class="custom-field--title">What's Included Items</h3>
+    <div class="custom-field--value">
+      {% assign separator = "|###|" %}
+      {% assign item_title_array = product.metafields.custom_fields["item_title"] | split: separator %}
+      {% assign item_image_array = product.metafields.custom_fields["item_image"] | split: separator %}
+      {% assign item_url_array = product.metafields.custom_fields["item_url"] | split: separator %}
+      {% assign fc_keys = product.metafields.custom_fields["whats_included_items"] | split: "," %}
+      {% for i in fc_keys %}
+        {% assign index = i | plus: 0 %}
+        <div class="fc-item fc-item--item fc-index--{{ index }}">
+          <div class="fc-field field__item-title">
+            {{ item_title_array[index] }}
+          </div>
+          <div class="fc-field field__item-image">
+            {{ item_image_array[index] }}
+          </div>
+          <div class="fc-field field__item-url">
+            {{ item_url_array[index] }}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}

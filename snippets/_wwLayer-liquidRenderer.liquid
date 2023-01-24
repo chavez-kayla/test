@@ -1,0 +1,163 @@
+{% capture assetType %}{% if assetType %}{{ assetType }}{% elsif order %}order-summary{% elsif checkout %}checkout{% else %}{{ request.page_type }}{% endif %}{% endcapture %}
+
+{% comment %}Liquid Globals{% endcomment %}
+{% unless isSubloop %}
+"shop_url": "{{shop.url}}"
+,"myshopify_url": "{{shop.permanent_domain}}"
+,"template_name": "{{ request.page_type }}"
+,"template_suffix": "{{template.suffix}}"
+,"customer_id": "{% if order %}{{ order.customer.id }}{% else %}{{checkout.customer.id | default: customer.id}}{% endif %}"
+,"customer_phone": "{% if order.phone %}{{ order.phone }}{% elsif checkout.email %}{{ checkout.phone }}{% else %}{{customer.phone}}{% endif %}"
+,"customer_email": "{% if order.email %}{{ order.email }}{% elsif checkout.email %}{{ checkout.email }}{% elsif customer.email %}{{customer.email}}{% endif %}"
+,"customer_accepts_marketing": "{% if order %}{{ order.customer.accepts_marketing }}{% elsif checkout.customer %}{{ checkout.customer.accepts_marketing }}{% else %}{{ customer.accepts_marketing }}{% endif %}"
+,"currency_code": "{{ checkout.currency | default: cart.currency.iso_code }}"
+,"currency_rate": Number(window.Shopify.currency.rate)
+,"locale": "{{ request.locale.iso_code }}" || window.Shopify.locale
+,"request_country_code": "{{ localization.country.iso_code }}" || window.Shopify.country
+,"url": "{{ request.path }}"
+,"isShopifyPlus": true
+,"pageType": {% if order %}"order-summary"{% elsif checkout %}"checkout"{% else %}"{{request.page_type}}"{% endif %},
+{% endunless %}
+{% comment %}Customer Account{% endcomment %}
+{% if assetType == "customers/account" %}
+"full_name": "{{ customer.name | escape }}"
+,"first_name": "{{ customer.first_name | escape }}"
+,"last_name": "{{ customer.last_name | escape }}"
+,"customer_tags": "{% for tag in customer.tags %}{{ tag }}{% unless forloop.last %},{% endunless %}{% endfor %}"
+,"orders_count": "{{ customer.orders_count }}"
+,"total_spent": "{{ customer.total_spent }}"
+,"has_account": "{{ customer.has_account | json }}"
+{% endif %}
+{% comment %}Collection{% endcomment %}
+{% if assetType == "collection" %}
+"collection_title":"{{collection.title}}"
+{% endif %}
+{% comment %}Product{% endcomment %}
+{% if assetType == "product" %}
+"available": "{{ product.available | json }}"
+,"product_title": "{{ product.title }}"
+,"product_id": "{{ product.id }}"
+,"product_handle": "{{ product.handle }}"
+,"product_type": "{{ product.type }}"
+,"product_tags": "{% for tag in product.tags %}{{tag }}{% unless forloop.last %},{% endunless %}{% endfor %}"
+,"product_image": "{{ product.images[0] | img_url: 'master' }}"
+,"images": {{ product.images | json }}
+,"url": "{{ product.url }}"
+,"requires_selling_plan": {% if product.requires_selling_plan %}true{% else %}false{% endif %}
+,"selected_variant_id": "{{ product.selected_or_first_available_variant.id }}"
+,"selected_selling_plan": "{{ product.selected_or_first_available_selling_plan_allocation.id }}"
+,"selected_purchase_type": "{% if product.selected_selling_plan %}subscription{% else %}onetime{% endif %}"
+,"subscription_provider": "bold-v1"
+,"product_options": [ {% for product_option in product.options_with_values %}{ {% render "_wwLayer-liquidRenderer", isSubloop: true, assetType: "product-option", product_option: product_option %} }{% unless forloop.last %},{% endunless %}{% endfor %}]
+,"variants": [{% for variant in product.variants %}{ {% render "_wwLayer-liquidRenderer", isSubloop: true, assetType: "variant", variant: variant %} }{% unless forloop.last %},{% endunless %}{% endfor %}]
+{% endif %}
+{% comment %}Variant{% endcomment %}
+{% if assetType == "variant" %}
+"available": "{{ variant.available }}"
+,"price": "{{ variant.price | money_without_currency }}"
+,"compare": "{{ variant.compare_at_price | money_without_currency }}"
+,"variant_title": "{{ variant.title }}"
+,"variant_id": "{{ variant.id }}"
+,"id": "{{ variant.id }}"
+,"sku": "{{ variant.sku }}"
+,"image": {% if variant.image %}"{{ variant.image | img_url: 'master' }}"{% else %}null{% endif %}
+,"requires_selling_plan": "{% if variant.requires_selling_plan %}true{% else %}false{% endif %}"
+,"requires_shipping": "{{ variant.requires_shipping }}"
+,"variant_options": [{% for option in variant.options %}"{{ option }}"{% unless forloop.last %},{% endunless %}{% endfor %}]
+,"selling_plan_allocations": [{% for allocation in variant.selling_plan_allocations %}{% render "_wwLayer-liquidRenderer", isSubloop: true, assetType: "allocation", allocation: allocation %}{% unless forloop.last %},{% endunless %}{% endfor %}]
+
+    
+        {% if product.metafields.subscription and product.metafields.subscription.shipping_interval_frequency %}
+        ,"bold_subscription_fields":[{% for term in (1..6) %}
+        {
+            "group_id":"{{ variant.metafields.bold_rp.rp_group_id }}"
+            ,"term": "{{ term }}"
+            ,"term_unit": ""
+            ,"discount_percentage": ""
+            ,"price": ""
+            ,"compare": "{{ variant.price | money_without_currency }}"
+            ,"discount_variant_id": ""
+            ,"requires_selling_plan": ""
+        }{% unless forloop.last %},{% endunless %}
+        {% endfor %}]
+        {% endif %}
+    
+
+{% endif %}
+{% comment %}Product Option{% endcomment %}
+{% if assetType == "product-option" %}
+"name": "{{ product_option.name }}"
+,"values": [{% for value in product_option.values %}"{{ value }}"{% unless forloop.last %},{% endunless %}{% endfor %}]
+{% endif %}
+{% comment %}Selling Plan{% endcomment %}
+{% if assetType == "allocation" %}
+,"id": "{{ allocation.selling_plan.id }}"
+"name": "{{ allocation.selling_plan.name }}"
+,"price": "{{ allocation.price_adjustments[0].price | money_without_currency }}"
+,"compare": "{{ variant.price | money_without_currency }}"
+,"discount": "{% if allocation.price_adjustments[0].value_type == "percentage" %}{{ allocation.price_adjustments[0].value }}{% else %}{{ allocation.price_adjustments[0].value | money_without_currency }}{% endif %}"
+,"discount_type": "{{ allocation.price_adjustments[0].value_type }}
+{% endif %}
+{% comment %}Blog{% endcomment %}
+{% if assetType == "blog" %}
+"blog_title":"{{ blog.title}}"
+{% endif %}
+{% comment %}Article{% endcomment %}
+{% if assetType == "article" %}
+"article_title":"{{ blog.title}}"
+{% endif %}
+{% comment %}Checkout{% endcomment %}
+{% if assetType == "checkout" %}
+"checkout_id":"{{checkout.id}}"
+,"checkout_current_step":Shopify.Checkout.step
+{% endif %}
+{% comment %}Order{% endcomment %}
+{% if assetType == "order-summary" %}
+"order_id":"{{order.id}}"
+,"summary_url": "{{ order.order_status_url }}"
+,"order_name": "{{ order.name }}"
+,"order_number": "{{ order.order_number }}"
+,"financial_status": "{{ order.financial_status }}"
+,"isCustomersFirstOrder": "{% if order.customer.orders_count == 0 %}true{% else %}false{% endif %}"
+,"customer_tags": "{% for tag in order.customer.tags %}{{ tag }}{% unless forloop.last %},{% endunless %}{% endfor %}"
+,"order_tags": "{% for tag in order.tags %}{{ tag }}{% unless forloop.last %},{% endunless %}{% endfor %}"
+,"discounts_used": "{% for discount_application in order.discount_applications %}{{ discount_application.title }}{% unless forloop.last %},{% endunless %}{% endfor %}"
+,"items": [{% for item in order.line_items %}{ {% render "_wwLayer-liquidRenderer", isSubloop: true, assetType: "line-item", item: item %} }{% unless forloop.last %},{% endunless %}{% endfor %}]
+,"shippingAddress_address1": "{{ order.shipping_address.address1 }}"
+,"shippingAddress_address2": "{{ order.shipping_address.address2 }}"
+,"shippingAddress_city": "{{ order.shipping_address.city }}"
+,"shippingAddress_province_code": "{{ order.shipping_address.province_code }}"
+,"shippingAddress_zip": "{{ order.shipping_address.zip }}"
+,"shippingAddress_country_code": "{{ order.shipping_address.country_code }}"
+,"billingAddress_address1": "{{ order.billing_address.address1 }}"
+,"billingAddress_address2": "{{ order.billing_address.address2 }}"
+,"billingAddress_city": "{{ order.billing_address.city }}"
+,"billingAddress_province_code": "{{ order.billing_address.province_code }}"
+,"billingAddress_zip": "{{ order.billing_address.zip }}"
+,"billingAddress_country_code": "{{ order.billing_address.country_code }}"
+,"full_name": "{{ order.customer.name | escape }}"
+,"first_name": "{{ order.customer.first_name | escape }}"
+,"last_name": "{{ order.customer.last_name | escape }}"
+,"customer_tags": "{% for tag in order.customer.tags %}{{ tag }}{% unless forloop.last %},{% endunless %}{% endfor %}"
+,"orders_count": "{{ order.customer.orders_count }}"
+,"total_spent": "{{ order.customer.total_spent | money_without_currency }}"
+,"has_account": "{{ order.customer.has_account | json }}"
+{% endif %}
+{% if assetType == "line-item" %}
+"variant_id": "{{ item.variant_id }}"
+,"product_id": "{{ item.product_id }}"
+,"product_title": "{{ item.product.title }}"
+,"product_handle": "{{ item.product.handle}}"
+,"product_type": "{{ item.product.type }}"
+,"sku": "{{ item.sku }}"
+,"properties": {{ item.properties | json | escape }}
+,"quantity": "{{ item.quantity }}"
+,"selling_plan": {% if item.selling_plan_allocation %}{ {% render "_wwLayer-liquidRenderer", isSubloop: true, assetType: "allocation", allocation: item.selling_plan_allocation %} }{% else %}null{% endif %}
+,"image": "{{ item.image | img_url: 'master' }}"
+,"key": "{{ item.key }}"
+,"final_line_price": "{{ item.final_line_price | money_without_currency }}"
+,"original_line_price": "{{ item.original_line_price | money_without_currency }}"
+,"final_price": "{{ item.final_price | money_without_currency }}"
+,"original_price": "{{ item.original_price | money_without_currency }}"
+,"original_compare_price": "{{ item.variant.compare_at_price | money_without_currency }}"
+{% endif %}

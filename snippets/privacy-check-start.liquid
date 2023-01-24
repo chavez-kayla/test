@@ -1,0 +1,41 @@
+{% if product %}
+	{% for col in product.collections %}
+		{% if col.metafields.custom_fields.private == 1 %}
+			{% assign collection = col %}
+		{% endif %}
+	{% endfor %}
+{% endif %}
+{% if collection %}
+	{% assign private = collection.metafields.custom_fields.private %}
+	{% assign privacy_password = collection.metafields.custom_fields.password %}
+	{% assign privacy_description = collection.metafields.custom_fields.privacy_description %}
+{% elsif template contains "page" %}
+	{% assign private = page.metafields.custom_fields.private %}
+	{% assign privacy_password = page.metafields.custom_fields.password %}
+	{% assign privacy_description = page.metafields.custom_fields.privacy_description %}
+{% endif %}
+{% if private and privacy_password != blank %}
+	<div id="privacy_password_form">
+		{% if privacy_description %}<p>{{ privacy_description }}</p>{% endif %}
+		<form id="privacy_form">
+			<label for="privacy_password" class="hidden">Password required to enter</label>
+			<input autofocus type="text" name="privacy_password" id="privacy_password" placeholder="Password required to enter..." />
+			<button type="submit" id="privacy_password_submit" class="btn">Continue</button>
+		</form>
+	</div>
+	<script>
+		$('#privacy_form').on('submit', function(e) {
+			e.preventDefault();
+			var pw_entered = $('#privacy_password').val();
+			var pw_required = '{{ privacy_password }}';
+			if(pw_entered.toLowerCase() === pw_required.toLowerCase()) {
+				$('#privacy_password_form').fadeOut(400, function() {
+					$('#privacy_protected_content').fadeIn();
+				});
+			} else {
+				$('#privacy_password_submit').html('Oops, try again');
+			}
+		});
+	</script>
+	<div id="privacy_protected_content" style="display:none;">
+{% endif %}

@@ -1,0 +1,107 @@
+{% for block in section.blocks %}
+<div class="simple-image-text-module container-wrap featured-product" data-section-type="rich-text">
+	<div class="container pad-sm">
+		<div class="row row--split row-lg">
+			{% if block.settings.image_location == 'left' %}
+				<div class="image no-padding-right">
+					<a href="{{ block.settings.image | img_url: '1024x' }}" class="collection-image-lightbox">
+						<img src="{{ block.settings.image | img_url: '1024x' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+					</a>
+				</div>
+			{% endif %}
+			<div class="rich-content no-button align--left lg_align--left extra-padding" style="background-color: {{ block.settings.bg_color }}; color: {{ block.settings.color }};">
+				<div class="max-width">	
+					<h2 class="size--xlarge text-bold">{{ block.settings.title}}</h2>
+					<div class="extra-large">
+						<p>{{ block.settings.text | newline_to_br }}</p>
+					</div>
+				</div>
+			</div>
+			{% if block.settings.image_location == 'right' %}
+				<div class="image no-padding-left">
+					<a href="{{ block.settings.image | img_url: '1024x' }}" class="collection-image-lightbox">
+						<img src="{{ block.settings.image | img_url: '1024x' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt | escape }}{% else %}Tubby Todd Bath Co.{% endif %}">
+					</a>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endfor %}
+
+<style>
+	#worry-free .container {
+		max-width: 2500px;
+	}
+	#worry-free .row--split img {
+		width: 100%;
+	}
+	.no-padding-left {
+		padding-left: 0px !important;
+	}
+	.no-padding-right {
+		padding-right: 0px !important;
+	}
+	a.button.button--primary {
+		font-size: 1.8em;
+	}
+</style>
+
+
+{% schema %}
+{
+  "name": "Worry Free Content Blocks",
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Content Block",
+      "settings": [
+				{
+        	"type": "text",
+        	"id": "title",
+        	"label": "Title"
+       	},
+				{
+				   "type": "richtext",
+				   "id": "text",
+				   "label": "Text"
+				},
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+				{
+				   "type":      "color",
+				   "id":        "color",
+				   "label":     "Text color",
+				   "default":   "#000000"
+				},
+				{
+				   "type":      "color",
+				   "id":        "bg_color",
+				   "label":     "Background color",
+				   "default":   "#f4d2b9"
+				},
+				{
+				   "type": "select",
+				   "id": "image_location",
+				   "label": "Image location",
+				   "options": [
+				     {
+				       "value": "left",
+				       "label": "Left"
+				     },
+				     {
+				       "value": "right",
+				       "label": "Right"
+				     }
+				   ],
+				   "default": "left",
+				   "info": "Default location is left"
+				}
+      ]
+    }
+  ]
+}
+{% endschema %}

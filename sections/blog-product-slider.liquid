@@ -1,0 +1,162 @@
+{% if section.settings.show_product_slider %}
+	<div class="row extra-margin-top extra-padding-top" style="{% if section.settings.bg_image != blank %}background-image: url('{{ section.settings.bg_image | img_url: '1000x' }}'); background-size: cover;{% else %}background-color: {{ section.settings.bg_color }};{% endif %}">
+		{% if section.settings.accent_image != blank %}
+			<img class="accent-image" src="{{ section.settings.accent_image | img_url: '500x' }}" alt="{% if section.settings.accent_image.alt != '' %}{{ section.settings.accent_image.alt }}{% else %}Tubby Todd Bath Co.{% endif %}">
+		{% endif %}
+		<div class="slider">
+			{% for block in section.blocks %}
+				{% assign product_1 = all_products[block.settings.product_1] %}
+				{% assign product_2 = block.settings.product_2 %}
+				{% assign product_3 = block.settings.product_3 %}
+				{% assign product_4 = block.settings.product_4 %}
+				<div class="slide">
+					<div class="row contain-width-80 inline">
+						{% if block.settings.title != '' %}
+							<h2 class="text-extra-large text-brown normal upcase VAGRoundedNext-Medium text-half-spaced underlined margin-bottom"><span>{{ block.settings.title }}</span></h2>
+						{% endif %}
+						<div class="s1 med_s12 lg_s12 slide-item padding-right main-feature">
+							{% if block.settings.wistia_video_id != blank %}
+								<a href="//fast.wistia.net/embed/iframe/{{block.settings.wistia_video_id}}?autoPlay=true" data-fancybox data-type="iframe" data-width=730 data-height=411 >
+									<span class="icon-play"></span>
+							{% endif %}
+								<img src="{{ block.settings.image | img_url: '1000x' }}" alt="{% if block.settings.image.alt != '' %}{{ block.settings.image.alt }}{% else %}Tubby Todd Bath Co.{% endif %}">
+							{% if block.settings.wistia_video_id != blank %}
+								</a>
+							{% endif %}
+						</div>
+						<div class="s12 med_s12 lg_s14 slide-item">	
+							<a href="{{ product_1.url }}">
+								<div class="slide-product-content">
+									<img src="{{ product_1.featured_image | img_url: '1000x' }}" alt="{{ product_1.title }}">
+									<div class="text-center">
+										<p class="title">{{ product_1.title }}</p>
+										<p class="price">{{ product_1.price | money_without_trailing_zeros }}</p>
+									</div>
+								</div>
+							</a>
+						</div>	
+						<div class="s12 med_s12 lg_s14 slide-item">
+							<a href="{{ product_2.url }}">
+								<div class="slide-product-content">
+									<img src="{{ product_2.featured_image | img_url: '1000x' }}" alt="{{ product_2.title }}">
+									<div class="text-center">
+										<p class="title">{{ product_2.title }}</p>
+										<p class="price">{{ product_2.price | money_without_trailing_zeros }}</p>
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="s12 med_s12 lg_s14 slide-item">
+							<a href="{{ product_3.url }}">
+								<div class="slide-product-content">
+									<img src="{{ product_3.featured_image | img_url: '1000x' }}" alt="{{ product_3.title }}">
+									<div class="text-center">
+									<p class="title">{{ product_3.title }}</p>
+									<p class="price">{{ product_3.price | money_without_trailing_zeros }}</p>
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="s12 med_s12 lg_s14 slide-item">
+							<a href="{{ product_4.url }}">
+								<div class="slide-product-content">
+									<img src="{{ product_4.featured_image | img_url: '1000x' }}" alt="{{ product_4.title }}">
+									<div class="text-center">
+										<p class="title">{{ product_4.title }}</p>
+										<p class="price">{{ product_4.price | money_without_trailing_zeros }}</p>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>		
+			{% endfor %}
+		</div><!-- end slider -->	
+	</div>	
+{% endif %}
+
+{% if section.blocks.size > 1  %}
+	<script>
+		$(document).ready(function(){
+		  $('.slider').slick({
+		    dots: true
+		  });
+		});
+	</script>	
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Product slider",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_product_slider",
+        "label": "Show product slider?",
+        "default": false
+      },
+			{
+			  "type": "image_picker",
+			  "id": "bg_image",
+			  "label": "Background image"
+			},
+			{
+			  "type": "color",
+			  "id": "bg_color",
+			  "label": "Background color",
+			  "default": "#E5D3BA",
+				"info": "Default if no image is specified"
+			},
+			{
+			  "type": "image_picker",
+			  "id": "accent_image",
+			  "label": "Accent image"
+			}	
+		],
+		"blocks": [
+	    {
+	      "type": "text",
+	      "name": "Slide",
+	      "settings": [
+					{
+					  "type": "text",
+					  "id": "title",
+					  "label": "Title"
+					},
+					{
+	        	"type": "image_picker",
+	        	"id": "image",
+	        	"label": "Main image",
+						"info": "Upload a square image"
+	       	},
+					{
+					  "type": "text",
+					  "id": "wistia_video_id",
+					  "label": "Wistia video ID",
+						"info": "Optional video"
+					},
+					{
+					  "type": "product",
+					  "id": "product_1",
+					  "label": "Product 1"
+					},
+					{
+					  "type": "product",
+					  "id": "product_2",
+					  "label": "Product 2"
+					},
+					{
+					  "type": "product",
+					  "id": "product_3",
+					  "label": "Product 3"
+					},
+					{
+					  "type": "product",
+					  "id": "product_4",
+					  "label": "Product 4"
+					}
+	      ]
+	    }
+		]
+	}	
+{% endschema %}

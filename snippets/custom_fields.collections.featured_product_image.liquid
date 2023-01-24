@@ -1,0 +1,8 @@
+{% if collection.metafields.custom_fields["featured_product_image"] != blank %}
+  <div class="custom-field custom-field__featured-product-image custom-field__type--image">
+    <h3 class="custom-field--title">Featured Product Image</h3>
+    <div class="custom-field--value">  
+      {% render 'cf-image' with image: collection.metafields.custom_fields["featured_product_image"], print: 'url' %}
+    </div>
+  </div>
+{% endif %}

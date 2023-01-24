@@ -1,0 +1,278 @@
+{% if section.settings.banner != blank %}
+	<div id="header_banner" class="featured_image_banner row margin-bottom">				
+		<div>
+			<img src="{{ section.settings.banner | img_url: '2400x' }}" alt="{% if section.settings.banner.alt != '' %}{{ section.settings.banner.alt }}{% else %}Tubby Todd Bath Co.{% endif %}"{% if section.settings.mobile_banner != blank %} class="desktop-only"{% endif %}>
+			{% if section.settings.mobile_banner != blank %}
+				<img src="{{ section.settings.mobile_banner | img_url: '2400x' }}" alt="{% if section.settings.mobile_banner.alt != '' %}{{ section.settings.mobile_banner.alt }}{% else %}Tubby Todd Bath Co.{% endif %}" class="mobile-only">
+			{% endif %}
+		</div>	
+	</div>
+{% endif %}
+
+<div data-section-id="{{ section.id }}" data-section-type="faq-template">
+  {% unless section.settings.hide_title %}
+	  <section class="page-title container-wrap text-left">
+	    <div class="container">
+	      <div class="row row-sm inline">
+	        <h1>{{ page.title }}</h1>
+	      </div>
+	    </div>
+	  </section>
+  {% endunless %}
+  
+  {% unless page.content == blank %}
+	  <div class="container-wrap">
+	    <div class="container text-content rte">
+	      <div class="row row-sm u-center">
+	        {{ page.content }}
+	      </div>
+	    </div>
+	  </div>
+  {% endunless %}
+
+	{% if section.blocks.size > 0 %}
+	
+		<div class="container-wrap">
+		  <div class="container">
+		    <div class="sun_school row row-sm">
+					
+					{% assign categories = '' | split: ''  %}
+					<ul class="faq-nav">
+						{% for block in section.blocks %}
+							{% case block.type %}
+							{% when 'category' %}
+						    <li><a href="#{{ block.settings.title }}" title="{{ block.settings.title }}">{{ block.settings.title }}</a></li>
+							{% endcase %}
+						{% endfor %}
+					</ul>	
+	
+					{% assign num_categories = 0 %}
+					{% for block in section.blocks %}
+						{% case block.type %}
+						{% when 'category' %}
+							{% if num_categories != 0 %}
+								{% comment %}Close previous .faq_category before starting new one{% endcomment %}
+								</div>
+							</div>
+							{% endif %}
+							<div class="accordion faq_category section-margin-bottom">
+								<h2 class="size--large text-light margin-bottom faq_category_head" id="{{ block.settings.title }}">{{ block.settings.title }} <span class="icon-toggle"></span></h2>
+								<div class="faq_section columns-1">
+							{% assign num_categories = num_categories | plus: 1 %}
+						{% when 'faq' %}
+							<div class="accordion faq display-block margin-bottom padding-right">
+								<h3>{{ block.settings.title }} <span class="icon-toggle"></span></h3>
+								<div class="rich-content">{{ block.settings.answer }}</div>
+							</div>
+						{% endcase %}
+					{% endfor %}
+								</div>
+							</div>
+				{% endif %}				
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$(document).ready(function() {
+	  $(".accordion").accordion({
+	    collapsible: true,
+	    active: false,
+	    heightStyle: "content"
+	  });
+	});
+</script>	
+
+<style>
+	.template-full-page-faq .bodyWrap-spacer {
+    padding-top: 130px;
+	}
+	.template-full-page-faq span.icon-toggle {
+    position: absolute;
+    top: 70%;
+    right: 10px;
+    width: 15px;
+    height: 1px;
+	}
+	.template-full-page-faq span.icon-toggle:before {
+		content: '';
+    position: absolute;
+    left: 50%;
+    top: 70%;
+    width: 100%;
+    height: 100%;
+    background: #666;
+    -webkit-transition: transform .5s ease;
+    -moz-transition: transform .5s ease;
+    -ms-transition: transform .5s ease;
+		-webkit-transform: translate(-50%, -50%) rotate(90deg);
+    -moz-transform: translate(-50%, -50%) rotate(90deg);
+    -ms-transform: translate(-50%, -50%) rotate(90deg);
+    transform: translate(-50%, -50%) rotate(90deg);
+	}
+	.template-full-page-faq span.icon-toggle:after {
+		content: '';
+    position: absolute;
+    left: 50%;
+    top: 70%;
+    width: 100%;
+    height: 100%;
+    background: #666;
+    -webkit-transition: transform .5s ease;
+    -moz-transition: transform .5s ease;
+    -ms-transition: transform .5s ease;
+    transition: transform .5s ease;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+	}
+	.template-full-page-faq .accordion.faq span.icon-toggle, .template-full-page-faq .accordion.faq span.icon-toggle:before, .template-full-page-faq .accordion.faq span.icon-toggle:after {
+		top: 60%;
+	}
+	.template-full-page-faq .accordion.faq_category {
+    width: 95%;
+    margin: auto;
+	}
+	.template-full-page-faq .accordion.faq_category h2.ui-state-active span.icon-toggle, .template-full-page-faq .accordion.faq h3.ui-state-active span.icon-toggle {
+		transform: rotate(45deg);
+		-webkit-transform: rotate(45deg);
+		-moz-transform: rotate(45deg);
+	}
+	.template-full-page-faq .accordion.faq_category h2.ui-state-default {
+		color: #82c3d5;
+		font-size: 30px;
+		border-bottom: 2px solid #f7ce40;
+	}
+	.template-full-page-faq .accordion.faq_category.ui-accordion .ui-accordion-header {
+		padding: 1em 0 .5em 0;
+	}
+	.template-full-page-faq .accordion.faq_category h2.ui-state-default, .template-full-page-faq .accordion.faq h3.ui-state-default {
+		border-top: 0;
+		border-left: 0;
+		border-right: 0;
+		border-radius: 0px;
+		background: #ffffff;
+		font-weight: bold;
+	}
+	.template-full-page-faq .accordion.faq_category h2:before {
+	  display: block; 
+	  content: " "; 
+    margin-top: -60px;
+    height: 90px;
+	  visibility: hidden; 
+	  pointer-events: none;
+	}
+	.template-full-page-faq .faq_section.ui-widget-content, .template-full-page-faq .faq .ui-widget-content {
+		border: 0px;
+		padding: 1em 0;
+	}
+	.template-full-page-faq .accordion.faq h3.ui-state-default {
+		padding: .5em 0 .5em 0;
+	}
+	.template-full-page-faq .accordion.faq h3.ui-state-active, .template-full-page-faq .accordion.faq .ui-widget-content .ui-state-active {
+		border-bottom: 1px solid #c5c5c5;
+	}
+	.template-full-page-faq .ui-icon, .template-full-page-faq .ui-widget-content .ui-icon {
+		display:none;
+	}
+	.template-full-page-faq .accordion.faq h3.ui-state-active {
+		color: #000000;
+	}
+	.template-full-page-faq ul.faq-nav {
+		justify-content: space-between;
+		display: none;
+		margin: 2em 0;
+	}
+	.template-full-page-faq ul.faq-nav li {
+		display: inline-block;
+		font-size: 20px;
+	}
+	.template-full-page-faq ul.faq-nav li a {
+		color: #000000;
+	}
+	.accordion.faq p, .template-full-page-faq .accordion.faq h3 {
+		font-size: 20px;
+	}
+	.template-full-page-faq .accordion.faq h3.ui-state-default {
+		font-weight: normal;
+	}
+	.template-full-page-faq .accordion.faq p {
+		font-weight: lighter;
+	}
+	html {
+	  scroll-behavior: smooth;
+	}
+	#shopify-section-faq-template {
+		margin-bottom: 80px;
+	}
+	
+	@media only screen and (max-width: 550px) {
+		.template-full-page-faq ul.faq-nav {
+			display:none;
+		}
+		.template-full-page-faq .accordion.faq_category {
+			width: 100%;
+		}
+		.template-full-page-faq .accordion.faq h3 {
+			padding-right: 40px !important;
+		}
+	}
+</style>	
+
+{% schema %}
+{
+  "name": "FAQ",
+	"settings": [
+    {
+      "type": "image_picker",
+      "id": "banner",
+      "label": "Banner image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_banner",
+      "label": "Mobile banner image"
+    },
+		{
+		   "type": "checkbox",
+		   "id": "hide_title",
+		   "label": "Show page title?",
+		   "default": true
+		}
+	],
+  "blocks": [
+    {
+      "name": "FAQ",
+      "type": "faq",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Question",
+          "default": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero nihil at impedit nam commodi magni quas fuga, porro asperiores repellendus.</p>"
+        }
+      ]
+    },
+    {
+      "name": "Category",
+      "type": "category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Title"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
